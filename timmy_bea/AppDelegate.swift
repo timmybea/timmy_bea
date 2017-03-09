@@ -19,8 +19,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let rootController = UINavigationController(rootViewController: ViewController())
+        let layout = UICollectionViewFlowLayout()
+        let rootController = UINavigationController(rootViewController: HomeViewController(collectionViewLayout: layout))
         window?.rootViewController = rootController
+        
+        //MARK: get rid of navigation bar shadow
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        
+        //MARK: Custom status bar
+        UINavigationBar.appearance().barTintColor = ColorManager.customMaroon()
+        application.statusBarStyle = .lightContent
+        
+        let statusBarBackgroundView = UIView()
+        statusBarBackgroundView.backgroundColor = ColorManager.customGrape()
+        window?.addSubview(statusBarBackgroundView)
+        window?.addConstraintsWithFormat(format: "H:|[v0]|", views: statusBarBackgroundView)
+        window?.addConstraintsWithFormat(format: "V:|[v0(20)]", views: statusBarBackgroundView)
+        
+        
+        
+        
         
         return true
     }
