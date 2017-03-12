@@ -46,11 +46,10 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
 
     func setupBackgroundView() {
-        //backgroundImage.frame = UIScreen.main.bounds
         view.addSubview(backgroundImage)
-        
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImage)
         view.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImage)
+        view.sendSubview(toBack: backgroundImage)
     }
     
     func setupCollectionView() {
@@ -60,11 +59,13 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             flowLayout.minimumLineSpacing = 0
         }
         
+        collectionView?.isScrollEnabled = false
         collectionView?.isPagingEnabled = true
         collectionView?.backgroundColor = UIColor.clear
         collectionView?.register(TemporaryCell.self, forCellWithReuseIdentifier: tempID)
         
         //make collectionview begin beneath the menu bar
+        
         collectionView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
     }
@@ -133,13 +134,16 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
+        let colors = [UIColor.red, UIColor.green, UIColor.cyan, UIColor.blue]
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tempID, for: indexPath) as! TemporaryCell
         cell.backgroundColor = UIColor.clear
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height - 50)
+        let navHeight = (navigationController?.navigationBar.frame.height)! + CGFloat(20.0)
+        return CGSize(width: view.frame.width, height: view.frame.height - navHeight - 50)
     }
 }
 
