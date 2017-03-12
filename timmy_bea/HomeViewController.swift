@@ -10,6 +10,13 @@ import UIKit
 
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
+    var backgroundImage: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "background_gradient")
+        view.contentMode = .scaleAspectFill
+        return view
+    }()
+    
     let tempID = "tempID"
     
     lazy var menuBar: MenuBar = {
@@ -18,26 +25,34 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         return mb
     }()
     
-    let headings: [String] = ["Home", "Trending", "Subscriptions", "Account"]
+    let headings: [String] = ["Skills", "Projects", "Education & Work", "About"]
     var titleLabel: UILabel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.isTranslucent = false
-        view.backgroundColor = UIColor.white
+        self.navigationController?.navigationBar.backgroundColor = ColorManager.whiteNavBar()
         
         titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         titleLabel?.textColor = UIColor.white
-        titleLabel?.text = "  Home"
+        titleLabel?.text = "  Skills"
         titleLabel?.font = UIFont.systemFont(ofSize: 20)
         navigationItem.titleView = titleLabel
         
+        setupBackgroundView()
         setupCollectionView()
         setupMenuBar()
         setupNavBarButtons()
     }
 
+    func setupBackgroundView() {
+        //backgroundImage.frame = UIScreen.main.bounds
+        view.addSubview(backgroundImage)
+        
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImage)
+        view.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImage)
+    }
+    
     func setupCollectionView() {
         
         if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -46,7 +61,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
         
         collectionView?.isPagingEnabled = true
-        collectionView?.backgroundColor = UIColor.white
+        collectionView?.backgroundColor = UIColor.clear
         collectionView?.register(TemporaryCell.self, forCellWithReuseIdentifier: tempID)
         
         //make collectionview begin beneath the menu bar
@@ -78,26 +93,14 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
 
     
     private func setupMenuBar() {
-        let redView = UIView()
-        redView.backgroundColor = ColorManager.customMaroon()
-        view.addSubview(redView)
-        view.addConstraintsWithFormat(format: "H:|[v0]|", views: redView)
-        view.addConstraintsWithFormat(format: "V:[v0(50)]", views: redView)
-        
         view.addSubview(menuBar)
-        view.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
-        view.addConstraintsWithFormat(format: "V:[v0(50)]", views: menuBar)
-        
-        //Create disappearing nav bar effect with vertical scrolling
-        navigationController?.hidesBarsOnSwipe = true
-        menuBar.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
-        
+        let navHeight = (navigationController?.navigationBar.frame.height)! + CGFloat(20.0)
+        menuBar.frame = CGRect(x: 0, y: navHeight, width: view.frame.width, height: 50)
     }
 
-
     func scrollToItemAt(index: Int) {
-        //let indexPath: NSIndexPath = NSIndexPath(item: index, section: 0)
-        //        collectionView?.scrollToItem(at: indexPath as IndexPath, at: [], animated: true)
+        let indexPath: NSIndexPath = NSIndexPath(item: index, section: 0)
+        collectionView?.scrollToItem(at: indexPath as IndexPath, at: [], animated: true)
         setTitleFor(index: index)
     }
     
@@ -130,15 +133,13 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tempID, for: indexPath)
-        cell.backgroundColor = UIColor.darkGray
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tempID, for: indexPath) as! TemporaryCell
+        cell.backgroundColor = UIColor.clear
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.height - 50)
     }
-
-
 }
 

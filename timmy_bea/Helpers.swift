@@ -10,25 +10,14 @@ import UIKit
 
 struct ColorManager {
     
-    static func customMaroon() -> UIColor {
-        return UIColor(red: 139/255, green: 30/255, blue: 63/255, alpha: 1)
+    static func whiteNavBar() -> UIColor {
+        return UIColor(white: 200/255, alpha: 0.24)
     }
     
-    static func customGrape() -> UIColor {
-        return UIColor(red: 60/255, green: 21/255, blue: 59/255, alpha: 1)
+    static func customDarkBlue() -> UIColor {
+        return UIColor(red: 2/255, green: 119/255, blue: 134/255, alpha: 1)
     }
     
-    static func customMint() -> UIColor {
-        return UIColor(red: 137/255, green: 189/255, blue: 158/255, alpha: 1)
-    }
-    
-    static func customCreme() -> UIColor {
-        return UIColor(red: 240/255, green: 201/255, blue: 135/255, alpha: 1)
-    }
-    
-    static func customRust() -> UIColor {
-        return UIColor(red: 219/255, green: 76/255, blue: 64/255, alpha: 1)
-    }
 }
 
 extension UIView {

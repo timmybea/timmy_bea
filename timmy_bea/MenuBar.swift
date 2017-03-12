@@ -10,24 +10,33 @@ import UIKit
 
 class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    let iconNames = ["Home", "Trending", "Subscriptions", "Account"]
+    let iconNames = ["skills", "projects", "education", "about"]
     
     var homeViewController: HomeViewController?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = ColorManager.customMaroon()
+        cv.backgroundColor = UIColor.clear
         cv.delegate = self
         cv.dataSource = self
         return cv
     }()
     
+    let whiteView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ColorManager.whiteNavBar()
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        addSubview(whiteView)
+        addConstraintsWithFormat(format: "H:|[v0]|", views: whiteView)
+        addConstraintsWithFormat(format: "V:|[v0]|", views: whiteView)
+    
         
         addSubview(collectionView)
-        
         addConstraintsWithFormat(format: "H:|[v0]|", views: collectionView)
         addConstraintsWithFormat(format: "V:|[v0]|", views: collectionView)
         
@@ -52,7 +61,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         horizontalViewLeftAnchor?.isActive = true
         horizontalView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         horizontalView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/4).isActive = true
-        horizontalView.heightAnchor.constraint(equalToConstant: 6).isActive = true
+        horizontalView.heightAnchor.constraint(equalToConstant: 4).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -70,7 +79,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         //withRenderingMode sets the image to its dark red tint color
         let name = self.iconNames[indexPath.item]
         cell.imageView.image = UIImage(named: name)?.withRenderingMode(.alwaysTemplate)
-        cell.tintColor = ColorManager.customMaroon()
+        cell.tintColor = ColorManager.customDarkBlue()
         return cell
     }
     
