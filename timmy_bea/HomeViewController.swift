@@ -17,7 +17,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         return view
     }()
     
-    let tempID = "tempID"
+    let skillsID = "skillsID"
     
     lazy var menuBar: MenuBar = {
         let mb = MenuBar()
@@ -62,12 +62,12 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.isScrollEnabled = false
         collectionView?.isPagingEnabled = true
         collectionView?.backgroundColor = UIColor.clear
-        collectionView?.register(TemporaryCell.self, forCellWithReuseIdentifier: tempID)
+        collectionView?.register(SkillsCell.self, forCellWithReuseIdentifier: skillsID)
         
         //make collectionview begin beneath the menu bar
         
-        collectionView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
-        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        collectionView?.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
+        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
     }
     
     private func setupNavBarButtons() {
@@ -134,16 +134,17 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let colors = [UIColor.red, UIColor.green, UIColor.cyan, UIColor.blue]
+       // let colors = [UIColor.red, UIColor.green, UIColor.cyan, UIColor.blue]
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tempID, for: indexPath) as! TemporaryCell
-        cell.backgroundColor = UIColor.clear
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: skillsID, for: indexPath) as! SkillsCell
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let navHeight = (navigationController?.navigationBar.frame.height)! + CGFloat(20.0)
-        return CGSize(width: view.frame.width, height: view.frame.height - navHeight - 50)
+        let menuBarHeight: CGFloat = menuBar.frame.height
+        let footer: CGFloat = 40.0
+        return CGSize(width: view.frame.width, height: view.frame.height - navHeight - menuBarHeight - footer)
     }
 }
 
