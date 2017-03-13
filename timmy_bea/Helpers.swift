@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Helpers.swift
 //  timmy_bea
 //
 //  Created by Tim Beals on 2017-03-08.
@@ -18,6 +18,33 @@ struct ColorManager {
         return UIColor(red: 2/255, green: 119/255, blue: 134/255, alpha: 1)
     }
     
+    static func customPeach() -> UIColor {
+        return UIColor(red: 226/255, green: 114/255, blue: 103/255, alpha: 1)
+    }
+    
+    static func customSand() -> UIColor {
+        return UIColor(red: 251/255, green: 221/255, blue: 189/255, alpha: 1)
+    }
+    
+}
+
+struct FontManager {
+    
+    static func AvenirNextULight(size: CGFloat) -> UIFont {
+        return UIFont(name: "AvenirNext-UltraLight", size: size)!
+    }
+
+    static func AvenirNextRegular(size: CGFloat) -> UIFont {
+        return UIFont(name: "AvenirNext-Regular", size: size)!
+    }
+
+    static func AvenirNextMedium(size: CGFloat) -> UIFont {
+        return UIFont(name: "AvenirNext-Medium", size: size)!
+    }
+
+    static func AvenirNextDBold(size: CGFloat) -> UIFont {
+        return UIFont(name: "AvenirNext-DemiBold", size: size)!
+    }
 }
 
 extension UIView {

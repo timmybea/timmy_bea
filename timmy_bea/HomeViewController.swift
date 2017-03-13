@@ -26,17 +26,32 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }()
     
     let headings: [String] = ["Skills", "Projects", "Education & Work", "About"]
-    var titleLabel: UILabel?
+    
+    var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.textColor = UIColor.white
+        //titleLabel.backgroundColor = UIColor.red
+        titleLabel.text = "    Skills"
+        titleLabel.font = FontManager.AvenirNextRegular(size: 23)
+        return titleLabel
+        
+    }()
+    
+    let footerLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Tim Beals • iOS Developer"
+        label.textColor = ColorManager.customPeach()
+        label.font = FontManager.AvenirNextRegular(size: 16)
+        label.textAlignment = .center
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.backgroundColor = ColorManager.whiteNavBar()
         
-        titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
-        titleLabel?.textColor = UIColor.white
-        titleLabel?.text = "  Skills"
-        titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        titleLabel.frame = CGRect(x: 0, y: 0, width: view.frame.width - 60, height: 100)
         navigationItem.titleView = titleLabel
         
         setupBackgroundView()
@@ -50,6 +65,10 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImage)
         view.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImage)
         view.sendSubview(toBack: backgroundImage)
+        
+        view.addSubview(footerLabel)
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: footerLabel)
+        view.addConstraintsWithFormat(format: "V:[v0]-12-|", views: footerLabel)
     }
     
     func setupCollectionView() {
@@ -72,24 +91,17 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     private func setupNavBarButtons() {
         
-        let searchImage = UIImage(named: "search")?.withRenderingMode(.alwaysTemplate)
-        let moreImage = UIImage(named: "more")?.withRenderingMode(.alwaysTemplate)
+        let contactImage = UIImage(named: "contact")?.withRenderingMode(.alwaysTemplate)
         
-        let moreBarButtonItem = UIBarButtonItem(image: moreImage, style: .plain, target: self, action: #selector(handleMore))
-        let searchBarButtonItem = UIBarButtonItem(image: searchImage, style: .plain, target: self, action: #selector(handleSearch))
+        let contactBarButton = UIBarButtonItem(image: contactImage, style: .plain, target: self, action: #selector(handleContact))
         
-        moreBarButtonItem.tintColor = UIColor.white
-        searchBarButtonItem.tintColor = UIColor.white
-        navigationItem.rightBarButtonItems = [moreBarButtonItem, searchBarButtonItem]
+        
+        contactBarButton.tintColor = ColorManager.customDarkBlue()
+        navigationItem.rightBarButtonItems = [contactBarButton]
     }
     
-    func handleSearch() {
+    func handleContact() {
         print(123)
-    }
-    
-    func handleMore() {
-        //show menu with options
-     //   settingsLauncher.launchSettings()
     }
 
     
@@ -123,8 +135,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     func setTitleFor(index: Int) {
-        let heading = "  \(headings[index])"
-        titleLabel?.text = heading
+        let heading = "    \(headings[index])"
+        titleLabel.text = heading
     }
 
     //MARK: Create cells to correspond with each button in the MenuBar
