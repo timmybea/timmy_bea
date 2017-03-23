@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum cellID: String {
+enum CellID: String {
     case skills, projects, education_work, about
 }
 
@@ -33,7 +33,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor.white
-        //titleLabel.backgroundColor = UIColor.red
         titleLabel.text = "    Skills"
         titleLabel.font = FontManager.AvenirNextRegular(size: 23)
         return titleLabel
@@ -84,8 +83,12 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.isScrollEnabled = false
         collectionView?.isPagingEnabled = true
         collectionView?.backgroundColor = UIColor.clear
-        collectionView?.register(SkillsCell.self, forCellWithReuseIdentifier: cellID.skills.rawValue)
         
+        collectionView?.register(SkillsCell.self, forCellWithReuseIdentifier: CellID.skills.rawValue)
+        collectionView?.register(ProjectsCell.self, forCellWithReuseIdentifier: CellID.projects.rawValue)
+        collectionView?.register(EducationCell.self, forCellWithReuseIdentifier: CellID.education_work.rawValue)
+        collectionView?.register(AboutCell.self, forCellWithReuseIdentifier: CellID.about.rawValue)
+
         //make collectionview begin beneath the menu bar
         
         collectionView?.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
@@ -149,9 +152,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-       // let colors = [UIColor.red, UIColor.green, UIColor.cyan, UIColor.blue]
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID.skills.rawValue, for: indexPath) as! SkillsCell
+        let cellIDs: [CellID] = [.skills, .projects, .education_work, .about]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIDs[indexPath.row].rawValue, for: indexPath)
         return cell
     }
     
