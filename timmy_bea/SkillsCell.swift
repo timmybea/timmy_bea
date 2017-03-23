@@ -18,7 +18,7 @@ class SkillsCell: UICollectionViewCell, UIScrollViewDelegate {
     }()
     
     let animationView: LOTAnimationView = {
-        let view = LOTAnimationView.animationNamed("tutorial")
+        let view = LOTAnimationView.animationNamed("skills_v29")
         view?.backgroundColor = UIColor.clear
         view?.loopAnimation = true
         view?.contentMode = .scaleAspectFill
@@ -61,7 +61,8 @@ class SkillsCell: UICollectionViewCell, UIScrollViewDelegate {
         
         activityView.addSubview(animationView)
         
-        let animationHeight = activityView.bounds.width * 0.66
+        //16:9 screen ratio
+        let animationHeight = activityView.bounds.width * 0.5625
         animationView.frame = CGRect(x: 0, y: 20, width: activityView.bounds.width, height: animationHeight)
     }
     

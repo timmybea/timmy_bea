@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum cellID: String {
+    case skills, projects, education_work, about
+}
+
+
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     var backgroundImage: UIImageView = {
@@ -16,8 +21,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         view.contentMode = .scaleAspectFill
         return view
     }()
-    
-    let skillsID = "skillsID"
     
     lazy var menuBar: MenuBar = {
         let mb = MenuBar()
@@ -81,7 +84,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.isScrollEnabled = false
         collectionView?.isPagingEnabled = true
         collectionView?.backgroundColor = UIColor.clear
-        collectionView?.register(SkillsCell.self, forCellWithReuseIdentifier: skillsID)
+        collectionView?.register(SkillsCell.self, forCellWithReuseIdentifier: cellID.skills.rawValue)
         
         //make collectionview begin beneath the menu bar
         
@@ -148,7 +151,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
 
        // let colors = [UIColor.red, UIColor.green, UIColor.cyan, UIColor.blue]
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: skillsID, for: indexPath) as! SkillsCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID.skills.rawValue, for: indexPath) as! SkillsCell
         return cell
     }
     
