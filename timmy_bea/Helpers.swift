@@ -61,3 +61,35 @@ extension UIView {
         
     }
 }
+
+class CustomCollectionViewCell: UICollectionViewCell {
+
+    let activityView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        return view
+    }()
+    
+    func setupBackgroundView() {
+        
+        addSubview(activityView)
+        activityView.frame = CGRect(x: 24, y: 24, width: self.bounds.width - 48, height: self.bounds.height - 24)
+        
+        let blueView = UIView(frame: activityView.bounds)
+        activityView.addSubview(blueView)
+        blueView.backgroundColor = ColorManager.customDarkBlue()
+        blueView.alpha = 0.4
+        blueView.layer.cornerRadius = 8
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupBackgroundView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+

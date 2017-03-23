@@ -8,6 +8,20 @@
 
 import UIKit
 
-class Project: NSObject {
+struct Project {
 
+    let title: String!
+    let decription: String!
+    let dateCompleted: String!
+    let videoThumbnailName: String!
+    let videoURL: String!
+    
+    static func getProjectArray() {
+    
+
+        
+        
+    }
 }
+
+

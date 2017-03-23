@@ -9,13 +9,7 @@
 import UIKit
 import Lottie
 
-class SkillsCell: UICollectionViewCell, UIScrollViewDelegate {
-    
-    let activityView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.clear
-        return view
-    }()
+class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
     
     let animationView: LOTAnimationView = {
         let view = LOTAnimationView.animationNamed("skills_v29")
@@ -36,30 +30,14 @@ class SkillsCell: UICollectionViewCell, UIScrollViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = UIColor.clear
-        
-        setupBackgroundView()
         setupAnimationView()
         setupScrollView()
         
     }
 
-    func setupBackgroundView() {
-        
-        addSubview(activityView)
-        activityView.frame = CGRect(x: 24, y: 24, width: self.bounds.width - 48, height: self.bounds.height - 24)
-        
-        
-        let blueView = UIView(frame: activityView.bounds)
-        activityView.addSubview(blueView)
-        blueView.backgroundColor = ColorManager.customDarkBlue()
-        blueView.alpha = 0.4
-        blueView.layer.cornerRadius = 8
-    }
-
     func setupAnimationView() {
         
-        activityView.addSubview(animationView)
+        self.activityView.addSubview(animationView)
         
         //16:9 screen ratio
         let animationHeight = activityView.bounds.width * 0.5625
@@ -72,7 +50,7 @@ class SkillsCell: UICollectionViewCell, UIScrollViewDelegate {
         scrollView.delegate = self
         scrollView.contentSize = CGSize(width: scrollView.frame.width * 8, height: scrollView.frame.height)
         
-        let skillsArray = SkillData.skillDataArray()
+        let skillsArray = Skill.skillDataArray()
         
         for (i, skill) in skillsArray.enumerated() {
             
