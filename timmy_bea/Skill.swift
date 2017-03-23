@@ -26,9 +26,7 @@ struct Skill {
         let persistence = Skill(title: "Data Persistence", underline: 152, bodyText: "Powder pie bear claw jelly beans pudding chocolate cotton candy gingerbread. Topping cookie lemon drops sweet roll chocolate candy carrot cake sweet. Chupa chups jujubes chocolate fruitcake pastry. Jelly gingerbread apple pie bonbon halvah. Chocolate chupa chups cake pudding cheesecake.")
         let versioning = Skill(title: "Versioning", underline: 100, bodyText: "Powder pie bear claw jelly beans pudding chocolate cotton candy gingerbread. Topping cookie lemon drops sweet roll chocolate candy carrot cake sweet. Chupa chups jujubes chocolate fruitcake pastry. Jelly gingerbread apple pie bonbon halvah. Chocolate chupa chups cake pudding cheesecake.")
         
-        let skillsArray: [Skill] = [skills, UIDesign, Languages, mvc, networking, gcd, persistence, versioning]
-        
-        return skillsArray
+        return [skills, UIDesign, Languages, mvc, networking, gcd, persistence, versioning]
     }
 }
 
