@@ -10,6 +10,8 @@ import UIKit
 
 class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
  
+    var projectDataSource = [Project]()
+    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -26,16 +28,15 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         super.init(frame: frame)
 
         setupCollectionView()
-        
     }
     
 
     private func setupCollectionView() {
         activityView.addSubview(collectionView)
         collectionView.register(ProjectVideoCell.self, forCellWithReuseIdentifier: projectVideoCellID)
+        
+        projectDataSource = Project.getProjectArray()
     }
-    
-    
     
     //MARK: CollectionView
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -44,17 +45,25 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return projectDataSource.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: projectVideoCellID, for: indexPath) as! ProjectVideoCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: projectVideoCellID, for: indexPath) as! ProjectVideoCell
+        cell.project = projectDataSource[indexPath.item]
+        return cell
     }
 
     //MARK: FlowLayoutDelegate
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 250)
+        var screenSize = ScreenSize()
+        screenSize.width = Int(self.activityView.bounds.width) - 16
+        return CGSize(width: collectionView.frame.width, height: CGFloat(66 + screenSize.height))
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 8)
     }
     
     required init?(coder aDecoder: NSCoder) {

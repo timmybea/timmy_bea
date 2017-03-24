@@ -62,11 +62,28 @@ extension UIView {
     }
 }
 
+
+struct ScreenSize {
+    
+    var width: Int {
+        set {
+            height =  Int(Double(newValue) * 0.5625)
+        } get {
+            return Int(Double(height) * 1.7777)
+        }
+    }
+    
+    var height: Int = 100
+}
+
+
 class CustomCollectionViewCell: UICollectionViewCell {
 
     let activityView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clear
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -79,7 +96,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
         activityView.addSubview(blueView)
         blueView.backgroundColor = ColorManager.customDarkBlue()
         blueView.alpha = 0.4
-        blueView.layer.cornerRadius = 8
     }
     
     override init(frame: CGRect) {
@@ -92,4 +108,22 @@ class CustomCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+class CustomNavigationController: UINavigationController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override var shouldAutorotate: Bool {
+        return (visibleViewController?.shouldAutorotate)!
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return (visibleViewController?.supportedInterfaceOrientations)!
+    }
+    
+}
+
+
 

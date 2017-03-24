@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         let layout = UICollectionViewFlowLayout()
-        let rootController = UINavigationController(rootViewController: HomeViewController(collectionViewLayout: layout))
+        let rootController = CustomNavigationController(rootViewController: HomeViewController(collectionViewLayout: layout))
         window?.rootViewController = rootController
         
         //MARK: get rid of navigation bar shadow

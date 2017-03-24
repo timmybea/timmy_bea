@@ -163,5 +163,14 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         let footer: CGFloat = 40.0
         return CGSize(width: view.frame.width, height: view.frame.height - navHeight - menuBarHeight - footer)
     }
+    
+    //MARK: turn off autorotate
+    override var shouldAutorotate: Bool {
+        return false
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
 }
 

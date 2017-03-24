@@ -18,9 +18,9 @@ struct Project {
     
     static func getProjectArray() -> [Project] {
 
-        let gifter = Project(title: "Gifter", decription: "A gift organizer and planner", dateCompleted: "December 2016", videoThumbnailName: "", videoURL: "")
-        let share = Project(title: "Share", decription: "A food sharing social network", dateCompleted: "January 2017", videoThumbnailName: "", videoURL: "")
-        let meTube = Project(title: "MeTube", decription: "A demonstration app for practising custom UI design", dateCompleted: "February 2017", videoThumbnailName: "", videoURL: "")
+        let gifter = Project(title: "Gifter", decription: "A gift organizer and planner", dateCompleted: "December 2016", videoThumbnailName: "Gifter_logo", videoURL: "")
+        let share = Project(title: "Share", decription: "A food sharing social network", dateCompleted: "January 2017", videoThumbnailName: "Share_logo", videoURL: "")
+        let meTube = Project(title: "MeTube", decription: "A demonstration app for practising custom UI design", dateCompleted: "February 2017", videoThumbnailName: "MeTube", videoURL: "")
         
         return [gifter, share, meTube]
     }
