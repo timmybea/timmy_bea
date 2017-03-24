@@ -12,13 +12,12 @@ enum CellID: String {
     case skills, projects, education_work, about
 }
 
-
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     var backgroundImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "background_gradient")
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .scaleToFill
         return view
     }()
     
@@ -42,23 +41,30 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     let footerLabel: UILabel = {
         let label = UILabel()
         label.text = "Tim Beals • iOS Developer"
-        label.textColor = ColorManager.customPeach()
+        //label.textColor = ColorManager.customPeach()
         label.font = FontManager.AvenirNextRegular(size: 16)
-        label.textAlignment = .center
+        //label.textAlignment = .center
         return label
     }()
+    var footerH = [NSLayoutConstraint]()
+    var footerV = [NSLayoutConstraint]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.backgroundColor = ColorManager.whiteNavBar()
         
+        view.addSubview(menuBar)
+        view.addSubview(footerLabel)
+        
+        
+        
         titleLabel.frame = CGRect(x: 0, y: 0, width: view.frame.width - 60, height: 100)
         navigationItem.titleView = titleLabel
         
         setupBackgroundView()
         setupCollectionView()
-        setupMenuBar()
+        setupMenuBar(withSize: CGSize(width: view.bounds.width, height: view.bounds.height))
         setupNavBarButtons()
     }
 
@@ -67,10 +73,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImage)
         view.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImage)
         view.sendSubview(toBack: backgroundImage)
-        
-        view.addSubview(footerLabel)
-        view.addConstraintsWithFormat(format: "H:|[v0]|", views: footerLabel)
-        view.addConstraintsWithFormat(format: "V:[v0]-12-|", views: footerLabel)
     }
     
     func setupCollectionView() {
@@ -111,10 +113,34 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
 
     
-    private func setupMenuBar() {
-        view.addSubview(menuBar)
-        let navHeight = (navigationController?.navigationBar.frame.height)! + CGFloat(20.0)
-        menuBar.frame = CGRect(x: 0, y: navHeight, width: view.frame.width, height: 50)
+    private func setupMenuBar(withSize size: CGSize) {
+        var navHeight: CGFloat = (navigationController?.navigationBar.frame.height)!
+        
+        if UIDevice.current.orientation.isPortrait {
+            navHeight += 20.0
+            
+            footerLabel.textColor = ColorManager.customPeach()
+            footerLabel.textAlignment = .center
+            
+            footerH = NSLayoutConstraint.constraintsWithFormat(format: "H:|[v0]|", views: footerLabel)
+            footerV = NSLayoutConstraint.constraintsWithFormat(format: "V:[v0]-8-|", views: footerLabel)
+            
+            view.addConstraints(footerH)
+            view.addConstraints(footerV)
+            
+        } else {
+            footerLabel.textColor = ColorManager.customDarkBlue()
+            footerLabel.textAlignment = .right
+            
+            footerH = NSLayoutConstraint.constraintsWithFormat(format: "H:[v0]-16-|", views: footerLabel)
+            footerV = NSLayoutConstraint.constraintsWithFormat(format: "V:|-60-[v0]", views: footerLabel)
+            
+            view.addConstraints(footerH)
+            view.addConstraints(footerV)
+        }
+        
+        menuBar.frame = CGRect(x: 0, y: navHeight, width: size.width, height: 50)
+        
     }
 
     func scrollToItemAt(index: Int) {
@@ -166,11 +192,25 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     //MARK: turn off autorotate
     override var shouldAutorotate: Bool {
-        return false
+        return true
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
+        return [.portrait, .landscape]
     }
+    
+//    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+//        collectionView?.collectionViewLayout.invalidateLayout()
+//        menuBar.collectionView.collectionViewLayout.invalidateLayout()
+//        self.view.setNeedsDisplay()
+//    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        view.removeConstraints(footerV)
+        view.removeConstraints(footerH)
+        self.setupMenuBar(withSize: size)
+    }
+    
 }
 

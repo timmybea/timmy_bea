@@ -29,16 +29,24 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         return view
     }()
     
+    var cvWidth: CGFloat = 0.0
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(whiteView)
-        addConstraintsWithFormat(format: "H:|[v0]|", views: whiteView)
         addConstraintsWithFormat(format: "V:|[v0]|", views: whiteView)
+        addConstraintsWithFormat(format: "H:|[v0]|", views: whiteView)
     
-        
         addSubview(collectionView)
-        addConstraintsWithFormat(format: "H:|[v0]|", views: collectionView)
         addConstraintsWithFormat(format: "V:|[v0]|", views: collectionView)
+        
+        if UIDevice.current.orientation.isLandscape {
+            cvWidth = UIScreen.main.bounds.height
+            addConstraintsWithFormat(format: "H:|[v0(\(cvWidth))]", views: collectionView)
+        } else {
+            cvWidth = UIScreen.main.bounds.width
+            addConstraintsWithFormat(format: "H:|[v0]|", views: collectionView)
+        }
         
         collectionView.register(MenuCell.self, forCellWithReuseIdentifier: "menuCell")
         
@@ -60,7 +68,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         horizontalViewLeftAnchor = horizontalView.leftAnchor.constraint(equalTo: self.leftAnchor)
         horizontalViewLeftAnchor?.isActive = true
         horizontalView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        horizontalView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/4).isActive = true
+        horizontalView.widthAnchor.constraint(equalTo: self.collectionView.widthAnchor, multiplier: 1/4).isActive = true
         horizontalView.heightAnchor.constraint(equalToConstant: 4).isActive = true
     }
     
@@ -92,7 +100,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     //MARK: FlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: frame.width / 4, height: frame.height)
+        return CGSize(width: cvWidth / 4, height: frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

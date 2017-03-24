@@ -62,6 +62,20 @@ extension UIView {
     }
 }
 
+extension NSLayoutConstraint {
+    
+    class func constraintsWithFormat(format: String, views: UIView...) -> [NSLayoutConstraint] {
+        var viewsDictionary = [String: UIView]()
+        
+        for (index, view) in views.enumerated() {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        let key = "v\(index)"
+        viewsDictionary[key] = view
+        }
+        return constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary)
+    }
+}
+
 
 struct ScreenSize {
     
