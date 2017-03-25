@@ -10,6 +10,17 @@ import UIKit
 
 enum CellID: String {
     case skills, projects, education_work, about
+    
+//    switch CellID {
+//    case .skills:
+//    return "SkillsCell"
+//    case .projects:
+//    return "ProjectsCell"
+//    case .education_work:
+//    return "EducationCell"
+//    case .about:
+//    return "AboutCell"
+//    }
 }
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -31,8 +42,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.textColor = UIColor.red
-        titleLabel.text = "    Skills"
+        titleLabel.textColor = UIColor.white
+        titleLabel.text = "Skills"
         titleLabel.font = FontManager.AvenirNextRegular(size: 23)
         return titleLabel
     }()
@@ -76,9 +87,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         view.addSubview(footerLabel)
     
         setupBackgroundView()
+        setupNavBar()
         setupMenuBar(withSize: CGSize(width: view.bounds.width, height: view.bounds.height))
         setupCollectionView()
-        setupNavBar()
     }
 
     func setupBackgroundView() {
@@ -104,17 +115,18 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     //MARK: set frame of collectionView for orientation
     func setCollectionViewFrame(withSize size: CGSize) {
         if UIDevice.current.orientation.isPortrait {
-            collectionView.frame = CGRect(x: 0, y: menuHeight + navHeight + 20, width: size.width, height: size.height)
+            collectionView.frame = CGRect(x: 0, y: menuHeight + navHeight + 20, width: size.width, height: size.height - menuHeight - navHeight - 20)
         } else {
-            collectionView.frame = CGRect(x: 0, y: menuHeight + navHeight, width: size.width, height: size.height)
+            collectionView.frame = CGRect(x: 0, y: menuHeight + navHeight, width: size.width, height: size.height - menuHeight - navHeight)
         }
     }
     
     private func setupNavBar() {
         self.navigationController?.navigationBar.backgroundColor = ColorManager.whiteNavBar()
+
+        navigationController?.view.addSubview(titleLabel)
         
-        navigationItem.titleView?.frame = CGRect(x: 0, y: 0, width: 25, height: 150)
-        navigationItem.titleView?.backgroundColor = UIColor.red
+        setTitleLabelPosition(withSize: view.frame.size)
         
         let contactImage = UIImage(named: "contact")?.withRenderingMode(.alwaysTemplate)
         let contactBarButton = UIBarButtonItem(image: contactImage, style: .plain, target: self, action: #selector(handleContact))
@@ -122,10 +134,24 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         navigationItem.rightBarButtonItems = [contactBarButton]
     }
     
+    func setTitleLabelPosition(withSize size: CGSize) {
+        
+        var labelX: CGFloat = -13.0 //half the width of the imageView in the menuBar cell
+        var labelY: CGFloat = 10
+        
+        if UIDevice.current.orientation.isPortrait {
+            labelX += size.width / 8
+            labelY += 20
+        } else {
+            labelX += size.height / 8
+        }
+        
+        titleLabel.frame = CGRect(x: labelX, y: labelY, width: 250, height: 25)
+    }
+    
     func handleContact() {
         print(123)
     }
-
     
     private func setupMenuBar(withSize size: CGSize) {
         var height = navHeight
@@ -143,7 +169,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         } else {
             footerLabel.textColor = ColorManager.customDarkBlue()
             footerLabel.textAlignment = .right
-            footerH = NSLayoutConstraint.constraintsWithFormat(format: "H:[v0]-16-|", views: footerLabel)
+            footerH = NSLayoutConstraint.constraintsWithFormat(format: "H:[v0]-24-|", views: footerLabel)
             footerV = NSLayoutConstraint.constraintsWithFormat(format: "V:|-60-[v0]", views: footerLabel)
             
             view.addConstraints(footerH)
@@ -171,7 +197,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func setTitleFor(index: Int) {
-        let heading = "    \(headings[index])"
+        let heading = "\(headings[index])"
         titleLabel.text = heading
     }
 
@@ -182,14 +208,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        //let cellIDs: [CellID] = [.skills, .projects, .education_work, .about]
-        let cellIDs = ["test", "test", "test", "test"]
+        let cellIDs: [CellID] = [.skills, .projects, .education_work, .about]
+        //let cellIDs = ["test", "test", "test", "test"]
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIDs[indexPath.row], for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIDs[indexPath.row].rawValue, for: indexPath)
         
-        let color = [UIColor.yellow, UIColor.brown, UIColor.blue, UIColor.red]
-        
-        cell.backgroundColor = color[indexPath.row]
+        //let color = [UIColor.yellow, UIColor.brown, UIColor.blue, UIColor.red]
+        //cell.backgroundColor = UIColor.yellow
+        cell.redrawCell()
         return cell
     }
     
@@ -213,6 +239,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setupMenuBar(withSize: size)
         
         setCollectionViewFrame(withSize: size)
+        
+        setTitleLabelPosition(withSize: size)
+        
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -220,7 +249,11 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
         DispatchQueue.main.async {
             self.scrollToItemAt(index: self.pageTracker)
-        }        
+            self.collectionView.reloadData() //fires the dequeue reusable cell method
+        }
+        
+        //let indexPath = IndexPath(item: self.pageTracker, section: 0)
+        //CustomCollectionViewCell.redrawViews(cell: collectionView.cellForItem(at: indexPath) as! CustomCollectionViewCell)
     }
     
     

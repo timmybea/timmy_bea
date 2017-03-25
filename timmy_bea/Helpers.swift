@@ -93,6 +93,10 @@ struct ScreenSize {
 
 class CustomCollectionViewCell: UICollectionViewCell {
 
+    func redrawCell() {
+        sizeForOrientation()
+    }
+    
     let activityView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clear
@@ -101,15 +105,27 @@ class CustomCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    func setupBackgroundView() {
+    let blueView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ColorManager.customDarkBlue()
+        view.alpha = 0.4
+        return view
+    }()
+    
+    private func setupBackgroundView() {
         
         addSubview(activityView)
-        activityView.frame = CGRect(x: 24, y: 24, width: self.bounds.width - 48, height: self.bounds.height - 24)
-        
-        let blueView = UIView(frame: activityView.bounds)
+        sizeForOrientation()
         activityView.addSubview(blueView)
-        blueView.backgroundColor = ColorManager.customDarkBlue()
-        blueView.alpha = 0.4
+    }
+    
+    private func sizeForOrientation() {
+        if UIDevice.current.orientation.isPortrait {
+            activityView.frame = CGRect(x: 24, y: 24, width: self.bounds.width - 48, height: self.bounds.height - 48 - 10)
+        } else {
+            activityView.frame = CGRect(x: 24, y: 24, width: self.bounds.width - 48, height: self.bounds.height - 48)
+        }
+        blueView.frame = activityView.bounds
     }
     
     override init(frame: CGRect) {
