@@ -19,8 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let layout = UICollectionViewFlowLayout()
-        let rootController = CustomNavigationController(rootViewController: HomeViewController(collectionViewLayout: layout))
+        let rootController = CustomNavigationController(rootViewController: HomeViewController())
         window?.rootViewController = rootController
         
         //MARK: get rid of navigation bar shadow
@@ -36,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.addSubview(statusBarBackgroundView)
         window?.addConstraintsWithFormat(format: "H:|[v0]|", views: statusBarBackgroundView)
         window?.addConstraintsWithFormat(format: "V:|[v0(20)]", views: statusBarBackgroundView)
-
         return true
     }
 

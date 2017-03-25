@@ -31,6 +31,13 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     var cvWidth: CGFloat = 0.0
     
+    let horizontalView: UIView = {
+        let horizontalView = UIView()
+        horizontalView.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        horizontalView.translatesAutoresizingMaskIntoConstraints = false
+        return horizontalView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(whiteView)
@@ -45,7 +52,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
             addConstraintsWithFormat(format: "H:|[v0(\(cvWidth))]", views: collectionView)
         } else {
             cvWidth = UIScreen.main.bounds.width
-            addConstraintsWithFormat(format: "H:|[v0]|", views: collectionView)
+            addConstraintsWithFormat(format: "H:|[v0(\(cvWidth))]", views: collectionView)
         }
         
         collectionView.register(MenuCell.self, forCellWithReuseIdentifier: "menuCell")
@@ -54,17 +61,13 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         let selectedPath = IndexPath(item: 0, section: 0)
         collectionView.selectItem(at: selectedPath, animated: false, scrollPosition: .centeredHorizontally)
         
+        addSubview(horizontalView)
         setupHorizontalView()
     }
     
     var horizontalViewLeftAnchor: NSLayoutConstraint?
     
     func setupHorizontalView() {
-        let horizontalView = UIView()
-        horizontalView.backgroundColor = UIColor(white: 0.95, alpha: 1)
-        horizontalView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(horizontalView)
-        
         horizontalViewLeftAnchor = horizontalView.leftAnchor.constraint(equalTo: self.leftAnchor)
         horizontalViewLeftAnchor?.isActive = true
         horizontalView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
@@ -84,7 +87,6 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuCell", for: indexPath) as! MenuCell
         
-        //withRenderingMode sets the image to its dark red tint color
         let name = self.iconNames[indexPath.item]
         cell.imageView.image = UIImage(named: name)?.withRenderingMode(.alwaysTemplate)
         cell.tintColor = ColorManager.customDarkBlue()

@@ -12,7 +12,7 @@ enum CellID: String {
     case skills, projects, education_work, about
 }
 
-class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     var backgroundImage: UIImageView = {
         let view = UIImageView()
@@ -31,41 +31,54 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.textColor = UIColor.white
+        titleLabel.textColor = UIColor.red
         titleLabel.text = "    Skills"
         titleLabel.font = FontManager.AvenirNextRegular(size: 23)
         return titleLabel
-        
     }()
     
     let footerLabel: UILabel = {
         let label = UILabel()
         label.text = "Tim Beals • iOS Developer"
-        //label.textColor = ColorManager.customPeach()
         label.font = FontManager.AvenirNextRegular(size: 16)
-        //label.textAlignment = .center
         return label
     }()
+    
     var footerH = [NSLayoutConstraint]()
     var footerV = [NSLayoutConstraint]()
+    
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
+        
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = UIColor.clear
+        cv.isScrollEnabled = false
+        cv.isPagingEnabled = true
+        cv.delegate = self
+        cv.dataSource = self
+        return cv
+    }()
+    
+    var navHeight: CGFloat {
+        return (navigationController?.navigationBar.frame.height)!
+    }
+    
+    var menuHeight: CGFloat {
+        return menuBar.frame.height
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.backgroundColor = ColorManager.whiteNavBar()
-        
         view.addSubview(menuBar)
         view.addSubview(footerLabel)
-        
-        
-        
-        titleLabel.frame = CGRect(x: 0, y: 0, width: view.frame.width - 60, height: 100)
-        navigationItem.titleView = titleLabel
-        
+    
         setupBackgroundView()
-        setupCollectionView()
         setupMenuBar(withSize: CGSize(width: view.bounds.width, height: view.bounds.height))
-        setupNavBarButtons()
+        setupCollectionView()
+        setupNavBar()
     }
 
     func setupBackgroundView() {
@@ -77,33 +90,34 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     func setupCollectionView() {
         
-        if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.scrollDirection = .horizontal
-            flowLayout.minimumLineSpacing = 0
-        }
-        
-        collectionView?.isScrollEnabled = false
-        collectionView?.isPagingEnabled = true
-        collectionView?.backgroundColor = UIColor.clear
-        
-        collectionView?.register(SkillsCell.self, forCellWithReuseIdentifier: CellID.skills.rawValue)
-        collectionView?.register(ProjectsCell.self, forCellWithReuseIdentifier: CellID.projects.rawValue)
-        collectionView?.register(EducationCell.self, forCellWithReuseIdentifier: CellID.education_work.rawValue)
-        collectionView?.register(AboutCell.self, forCellWithReuseIdentifier: CellID.about.rawValue)
+        collectionView.register(SkillsCell.self, forCellWithReuseIdentifier: CellID.skills.rawValue)
+        collectionView.register(ProjectsCell.self, forCellWithReuseIdentifier: CellID.projects.rawValue)
+        collectionView.register(EducationCell.self, forCellWithReuseIdentifier: CellID.education_work.rawValue)
+        collectionView.register(AboutCell.self, forCellWithReuseIdentifier: CellID.about.rawValue)
+        collectionView.register(testCell.self, forCellWithReuseIdentifier: "test")
 
-        //make collectionview begin beneath the menu bar
-        
-        collectionView?.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
-        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
+
+        view.insertSubview(collectionView, belowSubview: menuBar)
+        setCollectionViewFrame(withSize: view.frame.size)
     }
     
-    private func setupNavBarButtons() {
+    //MARK: set frame of collectionView for orientation
+    func setCollectionViewFrame(withSize size: CGSize) {
+        if UIDevice.current.orientation.isPortrait {
+            collectionView.frame = CGRect(x: 0, y: menuHeight + navHeight + 20, width: size.width, height: size.height)
+        } else {
+            collectionView.frame = CGRect(x: 0, y: menuHeight + navHeight, width: size.width, height: size.height)
+        }
+    }
+    
+    private func setupNavBar() {
+        self.navigationController?.navigationBar.backgroundColor = ColorManager.whiteNavBar()
+        
+        navigationItem.titleView?.frame = CGRect(x: 0, y: 0, width: 25, height: 150)
+        navigationItem.titleView?.backgroundColor = UIColor.red
         
         let contactImage = UIImage(named: "contact")?.withRenderingMode(.alwaysTemplate)
-        
         let contactBarButton = UIBarButtonItem(image: contactImage, style: .plain, target: self, action: #selector(handleContact))
-        
-        
         contactBarButton.tintColor = ColorManager.customDarkBlue()
         navigationItem.rightBarButtonItems = [contactBarButton]
     }
@@ -114,24 +128,21 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
 
     
     private func setupMenuBar(withSize size: CGSize) {
-        var navHeight: CGFloat = (navigationController?.navigationBar.frame.height)!
+        var height = navHeight
         
         if UIDevice.current.orientation.isPortrait {
-            navHeight += 20.0
+            height += CGFloat(20.0)
             
             footerLabel.textColor = ColorManager.customPeach()
             footerLabel.textAlignment = .center
-            
             footerH = NSLayoutConstraint.constraintsWithFormat(format: "H:|[v0]|", views: footerLabel)
             footerV = NSLayoutConstraint.constraintsWithFormat(format: "V:[v0]-8-|", views: footerLabel)
-            
             view.addConstraints(footerH)
             view.addConstraints(footerV)
             
         } else {
             footerLabel.textColor = ColorManager.customDarkBlue()
             footerLabel.textAlignment = .right
-            
             footerH = NSLayoutConstraint.constraintsWithFormat(format: "H:[v0]-16-|", views: footerLabel)
             footerV = NSLayoutConstraint.constraintsWithFormat(format: "V:|-60-[v0]", views: footerLabel)
             
@@ -139,31 +150,24 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             view.addConstraints(footerV)
         }
         
-        menuBar.frame = CGRect(x: 0, y: navHeight, width: size.width, height: 50)
-        
+        menuBar.frame = CGRect(x: 0, y: height, width: size.width, height: 50)
     }
 
+    var pageTracker: Int = 0
+    
     func scrollToItemAt(index: Int) {
+        pageTracker = index
         let indexPath: NSIndexPath = NSIndexPath(item: index, section: 0)
-        collectionView?.scrollToItem(at: indexPath as IndexPath, at: [], animated: true)
+        collectionView.scrollToItem(at: indexPath as IndexPath, at: [], animated: true)
         setTitleFor(index: index)
     }
     
     //MARK: use the content offset of the collection view to move the white horizontal view of the menu bar
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //print(scrollView.contentOffset.x)
-        let index = scrollView.contentOffset.x / 4
-        menuBar.horizontalViewLeftAnchor?.constant = index
-    }
-    
-    
-    //MARK: Use scrollview method to highlight the apporopriate button in the menubar
-    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        let item: Int = Int(targetContentOffset.pointee.x / view.frame.width)
-        let indexPath: IndexPath = IndexPath(item: item, section: 0)
-        menuBar.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-        setTitleFor(index: item)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollPosition = scrollView.contentOffset.x / 4
+        let multiplier = menuBar.collectionView.frame.width / scrollView.frame.width
+        let leftAnchorX = scrollPosition * multiplier
+        menuBar.horizontalViewLeftAnchor?.constant = leftAnchorX
     }
     
     func setTitleFor(index: Int) {
@@ -172,22 +176,25 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
 
     //MARK: Create cells to correspond with each button in the MenuBar
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cellIDs: [CellID] = [.skills, .projects, .education_work, .about]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIDs[indexPath.row].rawValue, for: indexPath)
+        //let cellIDs: [CellID] = [.skills, .projects, .education_work, .about]
+        let cellIDs = ["test", "test", "test", "test"]
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIDs[indexPath.row], for: indexPath)
+        
+        let color = [UIColor.yellow, UIColor.brown, UIColor.blue, UIColor.red]
+        
+        cell.backgroundColor = color[indexPath.row]
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let navHeight = (navigationController?.navigationBar.frame.height)! + CGFloat(20.0)
-        let menuBarHeight: CGFloat = menuBar.frame.height
-        let footer: CGFloat = 40.0
-        return CGSize(width: view.frame.width, height: view.frame.height - navHeight - menuBarHeight - footer)
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
     
     //MARK: turn off autorotate
@@ -199,18 +206,23 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         return [.portrait, .landscape]
     }
     
-//    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-//        collectionView?.collectionViewLayout.invalidateLayout()
-//        menuBar.collectionView.collectionViewLayout.invalidateLayout()
-//        self.view.setNeedsDisplay()
-//    }
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
         view.removeConstraints(footerV)
         view.removeConstraints(footerH)
-        self.setupMenuBar(withSize: size)
+        setupMenuBar(withSize: size)
+        
+        setCollectionViewFrame(withSize: size)
     }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        collectionView.collectionViewLayout.invalidateLayout()
+
+        DispatchQueue.main.async {
+            self.scrollToItemAt(index: self.pageTracker)
+        }        
+    }
+    
     
 }
 

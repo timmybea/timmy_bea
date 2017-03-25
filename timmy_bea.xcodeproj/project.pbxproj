@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B016F2641E85D4A900878C7B /* testCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B016F2631E85D4A900878C7B /* testCell.swift */; };
 		B029A2B51E83775400500C95 /* skills_v29.json in Resources */ = {isa = PBXBuildFile; fileRef = B029A2B41E83775400500C95 /* skills_v29.json */; };
 		B0BE17B21E8426DF0039778D /* ProjectsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BE17B11E8426DF0039778D /* ProjectsCell.swift */; };
 		B0BE17B41E8427460039778D /* EducationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BE17B31E8427460039778D /* EducationCell.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		14256E79EA48DE8895A0A645 /* Pods_timmy_bea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_timmy_bea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C344AF3DE2F7A1F84028909 /* Pods-timmy_bea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timmy_bea.release.xcconfig"; path = "Pods/Target Support Files/Pods-timmy_bea/Pods-timmy_bea.release.xcconfig"; sourceTree = "<group>"; };
+		B016F2631E85D4A900878C7B /* testCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testCell.swift; sourceTree = "<group>"; };
 		B029A2B41E83775400500C95 /* skills_v29.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skills_v29.json; sourceTree = "<group>"; };
 		B0BE17B11E8426DF0039778D /* ProjectsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsCell.swift; sourceTree = "<group>"; };
 		B0BE17B31E8427460039778D /* EducationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EducationCell.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				B0BE17B31E8427460039778D /* EducationCell.swift */,
 				B0BE17B51E84276E0039778D /* AboutCell.swift */,
 				B0BE17B71E843A870039778D /* ProjectVideoCell.swift */,
+				B016F2631E85D4A900878C7B /* testCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				B0F97D001E7648F6003A0F79 /* Skill.swift in Sources */,
 				B0F62FDB1E75EB9100F5917C /* SkillsCell.swift in Sources */,
 				B0CC0D501E709913006E3D36 /* HomeViewController.swift in Sources */,
+				B016F2641E85D4A900878C7B /* testCell.swift in Sources */,
 				B0CC0D681E711A9B006E3D36 /* MenuCell.swift in Sources */,
 				B0CC0D641E7115F4006E3D36 /* Helpers.swift in Sources */,
 				B0CC0D661E7119CE006E3D36 /* MenuBar.swift in Sources */,
