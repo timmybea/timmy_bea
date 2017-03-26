@@ -21,7 +21,7 @@ class ProjectVideoCell: UICollectionViewCell {
         didSet {
             titleLabel.text = project?.title
             completedLabel.text = project?.dateCompleted
-            descriptionTextLabel.text = project?.decription
+            descriptionTextLabel.text = project?.shortDescription
             thumbnailImageView.image = UIImage(named: (project?.videoThumbnailName)!)
         }
     }
@@ -59,10 +59,19 @@ class ProjectVideoCell: UICollectionViewCell {
     
     let descriptionTextLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.clear
+        label.backgroundColor = UIColor.blue
         label.textColor = ColorManager.customSand()
         label.font = FontManager.AvenirNextRegular(size: 14)
         return label
+    }()
+    
+    let gitHubButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(named: "git_pos")
+        button.setImage(image, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = ColorManager.customSand()
+        return button
     }()
     
     override init(frame: CGRect) {
@@ -80,6 +89,7 @@ class ProjectVideoCell: UICollectionViewCell {
         addSubview(seperatorView)
         addSubview(thumbnailImageView)
         addSubview(descriptionTextLabel)
+        addSubview(gitHubButton)
         
         
         let titleLabelwidth = Int((self.bounds.size.width - 16) / 2)
@@ -87,13 +97,26 @@ class ProjectVideoCell: UICollectionViewCell {
         addConstraintsWithFormat(format: "H:|-8-[v0(\(screenSize.width))]", views: thumbnailImageView)
         addConstraintsWithFormat(format: "H:|-8-[v0]-8-|", views: seperatorView)
         addConstraintsWithFormat(format: "H:|-8-[v0]-8-|", views: descriptionTextLabel)
+        addConstraintsWithFormat(format: "H:[v0(24)]-8-|", views: gitHubButton)
         
-        addConstraintsWithFormat(format: "V:|[v0(20)]-8-[v1(\(screenSize.height))]-8-[v2(20)]-8-[v3(2)]", views: titleLabel, thumbnailImageView, descriptionTextLabel, seperatorView)
+        addConstraintsWithFormat(format: "V:|[v0(20)]-8-[v1(\(screenSize.height))]-8-[v2(20)][v3(24)]-8-[v4(2)]", views: titleLabel, thumbnailImageView, descriptionTextLabel, gitHubButton, seperatorView)
         
         addConstraint(NSLayoutConstraint(item: completedLabel, attribute: .left, relatedBy: .equal, toItem: titleLabel, attribute: .right, multiplier: 1, constant: 1))
         addConstraint(NSLayoutConstraint(item: completedLabel, attribute: .right, relatedBy: .equal, toItem: thumbnailImageView, attribute: .right, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: completedLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .top, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: completedLabel, attribute: .bottom, relatedBy: .equal, toItem: titleLabel, attribute: .bottom, multiplier: 1, constant: 0))
+        
+        gitHubButton.addTarget(self, action: #selector(launchGitHub), for: .touchUpInside)
+        
+    }
+    
+    
+    func launchGitHub() {
+        //print("launch git hub")
+        if let url = URL(string: (project?.gitHubURL)!) {
+            UIApplication.shared.open(url)
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

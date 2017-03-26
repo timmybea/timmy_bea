@@ -11,7 +11,7 @@ import UIKit
 struct ColorManager {
     
     static func whiteNavBar() -> UIColor {
-        return UIColor(white: 200/255, alpha: 0.24)
+        return UIColor(white: 200/255, alpha: 0.35)
     }
     
     static func customDarkBlue() -> UIColor {

@@ -59,7 +59,7 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var screenSize = ScreenSize()
         screenSize.width = Int(self.activityView.bounds.width) - 16
-        return CGSize(width: collectionView.frame.width, height: CGFloat(66 + screenSize.height))
+        return CGSize(width: collectionView.frame.width, height: CGFloat(80 + screenSize.height))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -69,5 +69,30 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    
+    //MARK: device orientation change methods
+    
+    func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+//        view.removeConstraints(footerV)
+//        view.removeConstraints(footerH)
+//        setupMenuBar(withSize: size)
+//        
+//        setCollectionViewFrame(withSize: size)
+//        
+//        setTitleLabelPosition(withSize: size)
+        
+    }
+    
+    func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        collectionView.collectionViewLayout.invalidateLayout()
+        
+        DispatchQueue.main.async {
+            //self.scrollToItemAt(index: self.pageTracker)
+            self.collectionView.reloadData()        }
+    }
+    
     
 }

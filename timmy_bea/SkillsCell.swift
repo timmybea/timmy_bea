@@ -115,7 +115,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
                 let label = createTitleLabel()
                 
                 let labelX = Int(scrollView.frame.width / 2 + (CGFloat(i) * scrollView.frame.width) - 130)
-                label.frame = CGRect(x: labelX, y: 8, width: 260, height: 22)
+                label.frame = CGRect(x: labelX, y: 30, width: 260, height: 22)
                 label.text = skill.title
 
                 let underline = UIView(frame: CGRect(x: 0, y: 0, width: skill.underline, height: 2))
