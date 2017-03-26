@@ -212,10 +212,11 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         //let cellIDs = ["test", "test", "test", "test"]
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIDs[indexPath.row].rawValue, for: indexPath)
+
+        if let currentCell = cell as? CustomCollectionViewCell {
+            currentCell.redrawCell()
+        }
         
-        //let color = [UIColor.yellow, UIColor.brown, UIColor.blue, UIColor.red]
-        //cell.backgroundColor = UIColor.yellow
-        cell.redrawCell()
         return cell
     }
     
