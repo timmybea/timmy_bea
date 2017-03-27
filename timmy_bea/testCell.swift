@@ -8,7 +8,7 @@
 
 import UIKit
 
-class testCell: CustomCollectionViewCell {
+class testCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

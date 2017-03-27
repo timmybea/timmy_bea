@@ -8,14 +8,14 @@
 
 import UIKit
 
-class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HomeViewControllerDelegate {
  
     var projectDataSource = [Project]()
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        let cv = UICollectionView(frame: self.activityView.bounds, collectionViewLayout: layout)
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = UIColor.clear
         cv.delegate = self
         cv.dataSource = self
@@ -29,13 +29,23 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
 
         setupCollectionView()
     }
-    
 
     private func setupCollectionView() {
         activityView.addSubview(collectionView)
         collectionView.register(ProjectVideoCell.self, forCellWithReuseIdentifier: projectVideoCellID)
-        
+        collectionView.register(testCell.self, forCellWithReuseIdentifier: "test")
         projectDataSource = Project.getProjectArray()
+        
+        setCVFrame()
+    }
+    
+    override func redrawCell() {
+        super.redrawCell()
+        setCVFrame()
+    }
+    
+    private func setCVFrame() {
+        collectionView.frame.size = self.activityView.bounds.size
     }
     
     //MARK: CollectionView
@@ -49,17 +59,30 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "test", for: indexPath)
+        //cell.backgroundColor = UIColor.red
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: projectVideoCellID, for: indexPath) as! ProjectVideoCell
         cell.project = projectDataSource[indexPath.item]
+        cell.backgroundColor = UIColor.blue
+        cell.redrawCell()
         return cell
     }
 
     //MARK: FlowLayoutDelegate
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         var screenSize = ScreenSize()
-        screenSize.width = Int(self.activityView.bounds.width) - 16
-        return CGSize(width: collectionView.frame.width, height: CGFloat(80 + screenSize.height))
+        
+        if UIDevice.current.orientation.isPortrait {
+            screenSize.width = Int(self.activityView.bounds.width) - 16
+            return CGSize(width: collectionView.frame.width, height: CGFloat(94 + screenSize.height))
+        } else {
+            screenSize.width = Int(self.activityView.bounds.width / 2)
+            return CGSize(width: collectionView.frame.width, height: CGFloat(screenSize.height + 10))
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -70,29 +93,14 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
     //MARK: device orientation change methods
     
-    func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    func invalidateAndRedrawCollectionView() {
         
-//        view.removeConstraints(footerV)
-//        view.removeConstraints(footerH)
-//        setupMenuBar(withSize: size)
-//        
-//        setCollectionViewFrame(withSize: size)
-//        
-//        setTitleLabelPosition(withSize: size)
-        
-    }
-    
-    func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         collectionView.collectionViewLayout.invalidateLayout()
         
         DispatchQueue.main.async {
-            //self.scrollToItemAt(index: self.pageTracker)
-            self.collectionView.reloadData()        }
+            self.collectionView.reloadData()
+        }
     }
-    
-    
 }

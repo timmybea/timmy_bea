@@ -10,18 +10,12 @@ import UIKit
 
 enum CellID: String {
     case skills, projects, education_work, about
-    
-//    switch CellID {
-//    case .skills:
-//    return "SkillsCell"
-//    case .projects:
-//    return "ProjectsCell"
-//    case .education_work:
-//    return "EducationCell"
-//    case .about:
-//    return "AboutCell"
-//    }
 }
+
+protocol HomeViewControllerDelegate {
+    func invalidateAndRedrawCollectionView()
+}
+
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
@@ -79,6 +73,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var menuHeight: CGFloat {
         return menuBar.frame.height
     }
+    
+    var homeViewControllerDelegate: HomeViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -212,9 +208,13 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         //let cellIDs = ["test", "test", "test", "test"]
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIDs[indexPath.row].rawValue, for: indexPath)
-
+        
         if let currentCell = cell as? CustomCollectionViewCell {
             currentCell.redrawCell()
+        }
+
+        if let currentCell = cell as? ProjectsCell {
+            self.homeViewControllerDelegate = currentCell
         }
         
         return cell
@@ -242,6 +242,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setCollectionViewFrame(withSize: size)
         
         setTitleLabelPosition(withSize: size)
+        
+        if let delegate = self.homeViewControllerDelegate {
+            delegate.invalidateAndRedrawCollectionView()
+        }
         
     }
     
