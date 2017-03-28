@@ -8,6 +8,7 @@
 
 import UIKit
 
+let pad: Int = 8
 
 class ProjectVideoCell: UICollectionViewCell {
 
@@ -20,8 +21,9 @@ class ProjectVideoCell: UICollectionViewCell {
         didSet {
             titleLabel.text = project?.title
             completedLabel.text = project?.dateCompleted
-            descriptionTextLabel.text = project?.shortDescription
+            shortDescLabel.text = project?.shortDescription
             thumbnailImageView.image = UIImage(named: (project?.videoThumbnailName)!)
+            longDescTextView.text = project?.longDescription
         }
     }
     
@@ -56,12 +58,20 @@ class ProjectVideoCell: UICollectionViewCell {
         return view
     }()
     
-    let descriptionTextLabel: UILabel = {
+    let shortDescLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.blue
+        label.backgroundColor = UIColor.clear
         label.textColor = ColorManager.customSand()
         label.font = FontManager.AvenirNextRegular(size: 14)
         return label
+    }()
+    
+    let longDescTextView: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = UIColor.clear
+        textView.textColor = ColorManager.customSand()
+        textView.font = FontManager.AvenirNextRegular(size: 14)
+        return textView
     }()
     
     let gitHubButton: UIButton = {
@@ -80,7 +90,7 @@ class ProjectVideoCell: UICollectionViewCell {
         addSubview(completedLabel)
         addSubview(separatorView)
         addSubview(thumbnailImageView)
-        addSubview(descriptionTextLabel)
+        
         addSubview(gitHubButton)
         gitHubButton.addTarget(self, action: #selector(launchGitHub), for: .touchUpInside)
 
@@ -96,34 +106,61 @@ class ProjectVideoCell: UICollectionViewCell {
 //        for view in self.subviews {
 //            view.removeFromSuperview()
 //        }
+    
+        var currentY = 0
+        var currentX = 0
         
         if UIDevice.current.orientation.isPortrait {
             
+            longDescTextView.removeFromSuperview()
             screenSize.width = Int(self.bounds.size.width - 16)
             
-            let titleLabelWidth = Int((self.bounds.size.width - 16) / 2)
-            titleLabel.frame = CGRect(x: 8, y: 0, width: titleLabelWidth, height: 20)
+            let titleLabelWidth: Int = (Int(self.bounds.size.width) - (pad * 2)) / 2
+            titleLabel.frame = CGRect(x: pad, y: 0, width: titleLabelWidth, height: 20)
+            
+            currentX += pad + Int(titleLabel.frame.width)
+            completedLabel.frame = CGRect(x: currentX, y: 0, width: titleLabelWidth, height: 20)
 
-//            addConstraintsWithFormat(format: "H:|-8-[v0(\(titleLabelwidth))]", views: titleLabel)
-//            addConstraintsWithFormat(format: "H:|-8-[v0(\(screenSize.width))]", views: thumbnailImageView)
-//            addConstraintsWithFormat(format: "H:|-8-[v0]-8-|", views: separatorView)
-//            addConstraintsWithFormat(format: "H:|-8-[v0]-8-|", views: descriptionTextLabel)
-//            addConstraintsWithFormat(format: "H:[v0(24)]-8-|", views: gitHubButton)
-//            
-//            addConstraintsWithFormat(format: "V:|[v0(20)]-8-[v1(\(screenSize.height))]-8-[v2(24)][v3(24)]-8-[v4(2)]", views: titleLabel, thumbnailImageView, descriptionTextLabel, gitHubButton, separatorView)
-//            
-//            addConstraint(NSLayoutConstraint(item: completedLabel, attribute: .left, relatedBy: .equal, toItem: titleLabel, attribute: .right, multiplier: 1, constant: 1))
-//            addConstraint(NSLayoutConstraint(item: completedLabel, attribute: .right, relatedBy: .equal, toItem: thumbnailImageView, attribute: .right, multiplier: 1, constant: 0))
-//            addConstraint(NSLayoutConstraint(item: completedLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .top, multiplier: 1, constant: 0))
-//            addConstraint(NSLayoutConstraint(item: completedLabel, attribute: .bottom, relatedBy: .equal, toItem: titleLabel, attribute: .bottom, multiplier: 1, constant: 0))
+            currentY += Int(titleLabel.frame.height) + pad
+            thumbnailImageView.frame = CGRect(x: pad, y: currentY, width: screenSize.width, height: screenSize.height)
+            
+            addSubview(shortDescLabel)
+            
+            currentY += Int(screenSize.height + 4)
+            shortDescLabel.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.size.width) - (pad * 2), height: 24)
+            
+            
+            currentY += Int(shortDescLabel.frame.height) + 4
+            gitHubButton.frame = CGRect(x: Int(self.bounds.width) - 30 - pad, y: currentY, width: 30, height: 30)
+            
+            currentY += Int(gitHubButton.frame.height) + pad
+            separatorView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (pad * 2), height: 2)
+
         } else {
             
+            shortDescLabel.removeFromSuperview()
+            screenSize.width = (Int(self.bounds.size.width) - (pad * 2)) / 2
             
-//            screenSize.width = Int(self.bounds.size.width / 2)
-//            addConstraintsWithFormat(format: "H:|-8-[v0(\(screenSize.width))]", views: thumbnailImageView)
-//            addConstraintsWithFormat(format: "H:|-8-[v0]-8-|", views: separatorView)
-//            addConstraintsWithFormat(format: "V:|[v0(\(screenSize.height))]-8-[v1(2)]", views: thumbnailImageView, separatorView)
+            currentX += pad
+            thumbnailImageView.frame = CGRect(x: currentX, y: 0, width: screenSize.width, height: screenSize.height)
             
+            currentX += screenSize.width + pad
+            titleLabel.frame = CGRect(x: currentX, y: 0, width: (screenSize.width - pad) / 2, height: 20)
+
+            addSubview(longDescTextView)
+
+            currentY += Int(titleLabel.frame.height) + pad
+            let descHeight = Int(self.bounds.height - titleLabel.bounds.height) - (pad * 3) - 32
+            longDescTextView.frame = CGRect(x: currentX, y: currentY, width: screenSize.width - pad, height: descHeight)
+            
+            currentY += Int(longDescTextView.frame.height) + pad
+            gitHubButton.frame = CGRect(x: Int(self.bounds.width) - 30 - pad, y: currentY, width: 30, height: 30)
+            
+            currentY += Int(gitHubButton.frame.height) + pad
+            separatorView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (pad * 2), height: 2)
+            
+            currentX += Int(titleLabel.frame.width)
+            completedLabel.frame = CGRect(x: currentX, y: 0, width: Int(titleLabel.frame.width), height: 20)
         }
     }
     

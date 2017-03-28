@@ -59,13 +59,8 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "test", for: indexPath)
-        //cell.backgroundColor = UIColor.red
-
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: projectVideoCellID, for: indexPath) as! ProjectVideoCell
         cell.project = projectDataSource[indexPath.item]
-        cell.backgroundColor = UIColor.blue
         cell.redrawCell()
         return cell
     }
@@ -78,9 +73,10 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         
         if UIDevice.current.orientation.isPortrait {
             screenSize.width = Int(self.activityView.bounds.width) - 16
-            return CGSize(width: collectionView.frame.width, height: CGFloat(94 + screenSize.height))
+            let height  = 20 + pad + screenSize.height + pad + 24 + 30 + pad + 2
+            return CGSize(width: collectionView.frame.width, height: CGFloat(height))
         } else {
-            screenSize.width = Int(self.activityView.bounds.width / 2)
+            screenSize.width = Int((self.activityView.bounds.width - 16) / 2)
             return CGSize(width: collectionView.frame.width, height: CGFloat(screenSize.height + 10))
         }
     }

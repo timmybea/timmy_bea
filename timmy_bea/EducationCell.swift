@@ -8,12 +8,12 @@
 
 import UIKit
 
-class EducationCell: UICollectionViewCell {
+class EducationCell: CustomCollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor.gray
+        //backgroundColor = UIColor.gray
     }
     
     required init?(coder aDecoder: NSCoder) {
