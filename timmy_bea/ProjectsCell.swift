@@ -10,6 +10,11 @@ import UIKit
 
 class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HomeViewControllerDelegate {
  
+    lazy var videoLauncher: VideoLauncher = {
+        let launcher = VideoLauncher()
+        return launcher
+    }()
+    
     var projectDataSource = [Project]()
     
     lazy var collectionView: UICollectionView = {
@@ -42,6 +47,10 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     override func redrawCell() {
         super.redrawCell()
         setCVFrame()
+        
+        if videoLauncher.isVideoLaunched {
+            videoLauncher.redrawVideoScreen()
+        }
     }
     
     private func setCVFrame() {
@@ -85,13 +94,17 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         return CGSize(width: collectionView.frame.width, height: 8)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        videoLauncher.launchVideo()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     //MARK: device orientation change methods
     
-    func invalidateAndRedrawCollectionView() {
+    func viewControllerDidChangeOrientation() {
         
         collectionView.collectionViewLayout.invalidateLayout()
         

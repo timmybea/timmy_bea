@@ -13,9 +13,8 @@ enum CellID: String {
 }
 
 protocol HomeViewControllerDelegate {
-    func invalidateAndRedrawCollectionView()
+    func viewControllerDidChangeOrientation()
 }
-
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
@@ -244,7 +243,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setTitleLabelPosition(withSize: size)
         
         if let delegate = self.homeViewControllerDelegate {
-            delegate.invalidateAndRedrawCollectionView()
+            delegate.viewControllerDidChangeOrientation()
         }
         
     }
@@ -256,9 +255,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.scrollToItemAt(index: self.pageTracker)
             self.collectionView.reloadData() //fires the dequeue reusable cell method
         }
-        
-        //let indexPath = IndexPath(item: self.pageTracker, section: 0)
-        //CustomCollectionViewCell.redrawViews(cell: collectionView.cellForItem(at: indexPath) as! CustomCollectionViewCell)
     }
     
     
