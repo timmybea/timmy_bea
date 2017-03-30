@@ -48,9 +48,9 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         super.redrawCell()
         setCVFrame()
         
-        if videoLauncher.isVideoLaunched {
-            videoLauncher.redrawVideoScreen()
-        }
+//        if videoLauncher.isVideoLaunched {
+//            videoLauncher.redrawVideoScreen()
+//        }
     }
     
     private func setCVFrame() {

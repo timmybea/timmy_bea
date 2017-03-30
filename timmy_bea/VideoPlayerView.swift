@@ -2,7 +2,7 @@
 //  VideoPlayerView.swift
 //  timmy_bea
 //
-//  Created by Tim Beals on 2017-03-28.
+//  Created by Tim Beals on 2017-03-29.
 //  Copyright © 2017 Tim Beals. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 class VideoPlayerView: UIView {
-
+    
     var player: AVPlayer?
     var isSettingPlay = true
     
@@ -92,7 +92,7 @@ class VideoPlayerView: UIView {
     lazy var slider: UISlider = {
         let slider = UISlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.minimumTrackTintColor = ColorManager.customPeach()
+        slider.minimumTrackTintColor = ColorManager.customSand()
         slider.maximumTrackTintColor = UIColor.white
         slider.setThumbImage(UIImage(named: "thumb"), for: .normal)
         slider.addTarget(self, action: #selector(handleSliderChangedValue), for: .valueChanged)
@@ -162,8 +162,7 @@ class VideoPlayerView: UIView {
     }
     
     private func setupVideoPlayer() {
-        let urlString = "https://firebasestorage.googleapis.com/v0/b/videoplayerhosting.appspot.com/o/Gifter.mp4?alt=media&token=ec77e2bf-527e-4b60-8baa-2cabed68c767"
-        
+        let urlString = "https://firebasestorage.googleapis.com/v0/b/timmybea-3ba58.appspot.com/o/Gifter.mp4?alt=media&token=ec379ed2-dca2-4039-8d8f-8ef5ec045f29"
         let videoURL = NSURL(string: urlString)
         player = AVPlayer(url: videoURL as! URL)
         let playerLayer = AVPlayerLayer(player: player)
@@ -192,10 +191,7 @@ class VideoPlayerView: UIView {
                 self.slider.value = Float(seconds / totalSeconds)
             }
         })
-        
-        
     }
-    
     
     //This function changes the play position of the video when the slider changes value
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -221,4 +217,5 @@ class VideoPlayerView: UIView {
         gradientLayer.locations = [0.9, 1.6]
         controlsContainerView.layer.addSublayer(gradientLayer)
     }
+    
 }
