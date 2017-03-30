@@ -121,7 +121,7 @@ class VideoPlayerView: UIView {
         backgroundColor = UIColor.black
         setupVideoPlayer()
         
-        controlsContainerView.frame = self.frame
+        controlsContainerView.frame = self.bounds
         self.addSubview(controlsContainerView)
         
         controlsContainerView.addSubview(activityIndicatorView)
@@ -168,7 +168,7 @@ class VideoPlayerView: UIView {
         let playerLayer = AVPlayerLayer(player: player)
         
         self.layer.addSublayer(playerLayer)
-        playerLayer.frame = self.frame
+        playerLayer.frame = self.bounds
         
         player?.play()
         
