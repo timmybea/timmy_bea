@@ -12,6 +12,9 @@ import AVFoundation
 class VideoPlayerView: UIView {
     
     var player: AVPlayer?
+    var playerLayer: AVPlayerLayer?
+    var gradientLayer: CAGradientLayer?
+
     var isSettingPlay = true
     
     let activityIndicatorView: UIActivityIndicatorView = {
@@ -161,14 +164,15 @@ class VideoPlayerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupVideoPlayer() {
-        let urlString = "https://firebasestorage.googleapis.com/v0/b/timmybea-3ba58.appspot.com/o/Gifter.mp4?alt=media&token=ec379ed2-dca2-4039-8d8f-8ef5ec045f29"
+    
+    private func setupVideoPlayer(withURLString URLString: String) {
+        let urlString = //***
         let videoURL = NSURL(string: urlString)
         player = AVPlayer(url: videoURL as! URL)
-        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer = AVPlayerLayer(player: player)
         
-        self.layer.addSublayer(playerLayer)
-        playerLayer.frame = self.bounds
+        self.layer.addSublayer(playerLayer!)
+        playerLayer?.frame = self.bounds
         
         player?.play()
         
@@ -193,6 +197,12 @@ class VideoPlayerView: UIView {
         })
     }
     
+    
+    func redrawLayers() {
+        playerLayer?.frame = self.bounds
+        gradientLayer?.frame = self.bounds
+    }
+    
     //This function changes the play position of the video when the slider changes value
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "currentItem.loadedTimeRanges" {
@@ -211,11 +221,11 @@ class VideoPlayerView: UIView {
     }
     
     private func setupGradientLayer() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = bounds
-        gradientLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
-        gradientLayer.locations = [0.9, 1.6]
-        controlsContainerView.layer.addSublayer(gradientLayer)
+        gradientLayer = CAGradientLayer()
+        gradientLayer?.frame = bounds
+        gradientLayer?.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
+        gradientLayer?.locations = [0.9, 1.6]
+        controlsContainerView.layer.addSublayer(gradientLayer!)
     }
     
 }

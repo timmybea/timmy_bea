@@ -20,9 +20,9 @@ struct Project {
     
     static func getProjectArray() -> [Project] {
 
-        let gifter = Project(title: "Gifter", shortDescription: "A gift organizer and planner", longDescription: "More details go here", dateCompleted: "December 2016", videoThumbnailName: "Gifter_logo", videoURL: "", gitHubURL: "https://github.com/timmybea/Celebrator")
-        let share = Project(title: "Share", shortDescription: "A food sharing social network", longDescription: "More details go in here", dateCompleted: "January 2017", videoThumbnailName: "Share_logo", videoURL: "", gitHubURL: "https://github.com/suvan92/FinalProject")
-        let meTube = Project(title: "MeTube", shortDescription: "A demonstration app for practising custom UI Design", longDescription: "More details go in here", dateCompleted: "February 2017", videoThumbnailName: "MeTube", videoURL: "", gitHubURL: "https://github.com/timmybea/youtubeHomePage")
+        let gifter = Project(title: "Gifter", shortDescription: "A gift organizer and planner", longDescription: "More details go here", dateCompleted: "December 2016", videoThumbnailName: "Gifter_logo", videoURL: "https://firebasestorage.googleapis.com/v0/b/timmybea-3ba58.appspot.com/o/Gifter.mp4?alt=media&token=ec379ed2-dca2-4039-8d8f-8ef5ec045f29", gitHubURL: "https://github.com/timmybea/Celebrator")
+        let share = Project(title: "Share", shortDescription: "A food sharing social network", longDescription: "More details go in here", dateCompleted: "January 2017", videoThumbnailName: "Share_logo", videoURL: "https://firebasestorage.googleapis.com/v0/b/timmybea-3ba58.appspot.com/o/Gifter.mp4?alt=media&token=ec379ed2-dca2-4039-8d8f-8ef5ec045f29", gitHubURL: "https://github.com/suvan92/FinalProject")
+        let meTube = Project(title: "MeTube", shortDescription: "A demonstration app for practising custom UI Design", longDescription: "More details go in here", dateCompleted: "February 2017", videoThumbnailName: "MeTube", videoURL: "https://firebasestorage.googleapis.com/v0/b/timmybea-3ba58.appspot.com/o/Gifter.mp4?alt=media&token=ec379ed2-dca2-4039-8d8f-8ef5ec045f29", gitHubURL: "https://github.com/timmybea/youtubeHomePage")
         
         return [meTube, share, gifter]
     }

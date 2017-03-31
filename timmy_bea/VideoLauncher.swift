@@ -10,6 +10,9 @@ import UIKit
 
 class VideoLauncher: NSObject {
 
+    
+    var project: Project?
+    
     var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "background_gradient")
@@ -23,8 +26,11 @@ class VideoLauncher: NSObject {
     
     var isVideoLaunched = false
     
-    func launchVideo() {
+    func launchVideo(withProject project: Project) {
         //setup background view with animation
+        
+        self.project = project
+        
         if let window = UIApplication.shared.keyWindow {
             imageView.frame = window.frame
             imageView.backgroundColor = UIColor.white
@@ -32,9 +38,15 @@ class VideoLauncher: NSObject {
             //Note that this height is for standard 16:9 screen ratio used by youtube
             screenSize.width = Int(window.frame.width) + 2
             
-            
-            let frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
-            videoPlayerView = VideoPlayerView(frame: frame)
+            if UIDevice.current.orientation.isPortrait {
+                let frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
+                videoPlayerView = VideoPlayerView(frame: frame)
+
+            } else {
+                let frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
+                videoPlayerView = VideoPlayerView(frame: frame)
+
+            }
             imageView.addSubview(videoPlayerView!)
             
             imageView.frame = CGRect(x: window.frame.width, y: window.frame.height, width: 0, height: 0)
@@ -70,14 +82,16 @@ class VideoLauncher: NSObject {
         if UIDevice.current.orientation.isPortrait {
             if let window = UIApplication.shared.keyWindow {
                 imageView.frame = window.frame
-//                screenSize.width = Int(imageView.frame.width)
-//                videoPlayerView?.frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
+                screenSize.width = Int(imageView.frame.width)
+                videoPlayerView?.frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
+                videoPlayerView?.redrawLayers()
             }
         } else {
             if let window = UIApplication.shared.keyWindow {
                 imageView.frame = window.frame
-//                screenSize.width = Int(imageView.frame.width)
-//                videoPlayerView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
+                screenSize.width = Int(imageView.frame.width)
+                videoPlayerView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
+                videoPlayerView?.redrawLayers()
             }
         }
     }

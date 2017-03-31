@@ -95,7 +95,7 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        videoLauncher.launchVideo()
+        videoLauncher.launchVideo(withProject: projectDataSource[indexPath.item])
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -103,7 +103,6 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     }
     
     //MARK: device orientation change methods
-    
     func viewControllerDidChangeOrientation() {
         
         collectionView.collectionViewLayout.invalidateLayout()
