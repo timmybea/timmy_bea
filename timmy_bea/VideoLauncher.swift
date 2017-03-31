@@ -40,12 +40,11 @@ class VideoLauncher: NSObject {
             
             if UIDevice.current.orientation.isPortrait {
                 let frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
-                videoPlayerView = VideoPlayerView(frame: frame)
+                videoPlayerView = VideoPlayerView(withFrame: frame, videoURLString: (self.project?.videoURL)!)
 
             } else {
                 let frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-                videoPlayerView = VideoPlayerView(frame: frame)
-
+                videoPlayerView = VideoPlayerView(withFrame: frame, videoURLString: (self.project?.videoURL)!)
             }
             imageView.addSubview(videoPlayerView!)
             

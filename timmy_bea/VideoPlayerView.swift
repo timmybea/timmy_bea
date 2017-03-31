@@ -116,13 +116,13 @@ class VideoPlayerView: UIView {
         }
     }
     
-    override init(frame: CGRect) {
+    init(withFrame frame: CGRect, videoURLString: String) {
         super.init(frame: frame)
         
         setupGradientLayer()
         
         backgroundColor = UIColor.black
-        setupVideoPlayer()
+        setupVideoPlayer(withURLString: videoURLString)
         
         controlsContainerView.frame = self.bounds
         self.addSubview(controlsContainerView)
@@ -166,8 +166,8 @@ class VideoPlayerView: UIView {
     
     
     private func setupVideoPlayer(withURLString URLString: String) {
-        let urlString = //***
-        let videoURL = NSURL(string: urlString)
+        //let urlString = URLString
+        let videoURL = NSURL(string: URLString)
         player = AVPlayer(url: videoURL as! URL)
         playerLayer = AVPlayerLayer(player: player)
         
