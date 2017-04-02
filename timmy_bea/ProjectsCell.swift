@@ -38,7 +38,6 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     private func setupCollectionView() {
         activityView.addSubview(collectionView)
         collectionView.register(ProjectVideoCell.self, forCellWithReuseIdentifier: projectVideoCellID)
-        collectionView.register(testCell.self, forCellWithReuseIdentifier: "test")
         projectDataSource = Project.getProjectArray()
         
         setCVFrame()

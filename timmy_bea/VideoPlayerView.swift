@@ -197,7 +197,6 @@ class VideoPlayerView: UIView {
         })
     }
     
-    
     func redrawLayers() {
         playerLayer?.frame = self.bounds
         gradientLayer?.frame = self.bounds
