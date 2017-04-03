@@ -9,23 +9,23 @@
 import UIKit
 
 class Contact: NSObject {
-    let name: SettingName
+    let name: ContactName
     let imageName: String
     
-    init(name: SettingName, imageName: String) {
+    init(name: ContactName, imageName: String) {
         self.name = name
         self.imageName = imageName
     }
 }
 
-enum SettingName: String {
+enum ContactName: String {
     case email = "Email"
     case linkedIn = "LinkedIn"
     case github = "GitHub"
     case cancel = "Cancel"
 }
 
-class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     var homeController: HomeViewController?
     
@@ -40,10 +40,10 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     let cellId = "cellId"
     let cellHeight: CGFloat = 45
     
-    let settingsArray: [Contact] = [Contact(name: .email, imageName: "contact_email"), Contact(name: .linkedIn, imageName: "contact_linkedIn"), Contact(name: .github, imageName: "contact_git"), Contact(name: .cancel, imageName: "contact_cancel")]
+    let contactsArray: [Contact] = [Contact(name: .email, imageName: "contact_email"), Contact(name: .linkedIn, imageName: "contact_linkedIn"), Contact(name: .github, imageName: "contact_git"), Contact(name: .cancel, imageName: "contact_cancel")]
 
     
-    func launchSettings() {
+    func launchContacts() {
         //Animate black transparent view to cover entire window.
         if let window = UIApplication.shared.keyWindow {
             
@@ -54,7 +54,7 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
             
             window.addSubview(collectionView)
             
-            let height: CGFloat = CGFloat(settingsArray.count) * cellHeight
+            let height: CGFloat = CGFloat(contactsArray.count) * cellHeight
             let y = window.frame.height - height
             collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
             
@@ -68,7 +68,7 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     }
     
     func dismissNoSetting() {
-        handleDismiss(contact: settingsArray[3])
+        handleDismiss(contact: contactsArray[3])
     }
     
     func handleDismiss(contact: Contact) {
@@ -88,13 +88,13 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     //MARK: CollectionView delegate methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.settingsArray.count
+        return self.contactsArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let contact: Contact = settingsArray[indexPath.item]
+        let contact: Contact = contactsArray[indexPath.item]
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SettingsCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ContactsCell
         
         cell.contact = contact
         return cell
@@ -109,7 +109,7 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let contact = settingsArray[indexPath.item]
+        let contact = contactsArray[indexPath.item]
         
         handleDismiss(contact: contact)
     }
@@ -119,6 +119,6 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
         
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(SettingsCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(ContactsCell.self, forCellWithReuseIdentifier: cellId)
     }
 }

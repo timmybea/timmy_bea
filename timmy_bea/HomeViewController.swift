@@ -144,11 +144,11 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     //MARK: Contact menu setup
     func handleContact() {
-        settingsLauncher.launchSettings()
+        contactsLauncher.launchContacts()
     }
     
-    lazy var settingsLauncher: SettingsLauncher = {
-        let launcher = SettingsLauncher()
+    lazy var contactsLauncher: ContactsLauncher = {
+        let launcher = ContactsLauncher()
         launcher.homeController = self
         return launcher
     }()

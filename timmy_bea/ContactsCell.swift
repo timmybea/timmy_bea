@@ -1,5 +1,5 @@
 //
-//  SettingsCell.swift
+//  ContactsCell.swift
 //  timmy_bea
 //
 //  Created by Tim Beals on 2017-04-03.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsCell: UICollectionViewCell {
+class ContactsCell: UICollectionViewCell {
     
     var contact: Contact? {
         didSet {
