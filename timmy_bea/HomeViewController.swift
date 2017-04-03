@@ -142,10 +142,45 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         titleLabel.frame = CGRect(x: labelX, y: labelY, width: 250, height: 25)
     }
     
+    //MARK: Contact menu setup
     func handleContact() {
-        print(123)
+        settingsLauncher.launchSettings()
     }
     
+    lazy var settingsLauncher: SettingsLauncher = {
+        let launcher = SettingsLauncher()
+        launcher.homeController = self
+        return launcher
+    }()
+    
+    func pushToSettingsController(contact: Contact) {
+        let settingViewController = UIViewController()
+        settingViewController.navigationItem.title = contact.name.rawValue
+        settingViewController.view.backgroundColor = UIColor.white
+        
+        
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        settingViewController.view.addSubview(label)
+        label.centerXAnchor.constraint(equalTo: settingViewController.view.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: settingViewController.view.centerYAnchor, constant: -50).isActive = true
+        label.widthAnchor.constraint(equalTo: settingViewController.view.widthAnchor).isActive = true
+        label.heightAnchor.constraint(equalToConstant: 60)
+        
+        label.numberOfLines = 2
+        label.text = "Empty demonstration view controller"
+        label.textColor = ColorManager.customDarkBlue()
+        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.textAlignment = .center
+        
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navigationController?.pushViewController(settingViewController, animated: true)
+    }
+    
+    
+    
+    //MARK: Setup menu bar
     private func setupMenuBar(withSize size: CGSize) {
         var height = navHeight
         
@@ -254,7 +289,4 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.collectionView.reloadData() //fires the dequeue reusable cell method
         }
     }
-    
-    
 }
-

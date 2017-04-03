@@ -20,7 +20,6 @@ class EducationCell: CustomCollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        //.backgroundColor = UIColor.yellow
         label.textColor = ColorManager.customSand()
         label.text = "Drag to view"
         label.textAlignment = .center
@@ -61,12 +60,15 @@ class EducationCell: CustomCollectionViewCell {
     
     func addMenuViews(with offset: CGFloat, recipe: Recipe)  {
         
-        let stackView = StackView()
-        stackView.recipe = recipe
+        
+        let stackView = StackView(frame: self.activityView.bounds)
 
+        activityView.addSubview(stackView)
+        
+        stackView.recipe = recipe
         stackView.frame = activityView.bounds.offsetBy(dx: 0, dy: activityView.bounds.height - offset)
         
-        activityView.addSubview(stackView)
+        
         
         //pan Gesture
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(panRecognizer:)))
@@ -89,7 +91,7 @@ class EducationCell: CustomCollectionViewCell {
     
     func setupDynamicAnimator() {
         
-        dynamicAnimator = UIDynamicAnimator(referenceView: self) //?? self.view
+        dynamicAnimator = UIDynamicAnimator(referenceView: self) //??
         
         gravityBehavior = UIGravityBehavior()
         gravityBehavior.magnitude = 4
@@ -118,7 +120,6 @@ class EducationCell: CustomCollectionViewCell {
                 
                 snap(dragView: dragView)
                 
-                //Applies behavior to the dynamic item again. Makes it adhere to gravity etc.
                 dynamicAnimator.updateItem(usingCurrentState: dragView)
                 
                 isDragging = false

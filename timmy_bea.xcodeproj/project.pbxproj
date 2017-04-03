@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B01679471E92CB0100CAB4F5 /* SettingLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01679461E92CB0100CAB4F5 /* SettingLauncher.swift */; };
+		B01679491E92CB4500CAB4F5 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01679481E92CB4500CAB4F5 /* SettingsCell.swift */; };
 		B029A2B51E83775400500C95 /* skills_v29.json in Resources */ = {isa = PBXBuildFile; fileRef = B029A2B41E83775400500C95 /* skills_v29.json */; };
 		B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */; };
 		B09D46BD1E90BBCB0018FA65 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46BC1E90BBCB0018FA65 /* StackView.swift */; };
@@ -32,6 +34,8 @@
 /* Begin PBXFileReference section */
 		14256E79EA48DE8895A0A645 /* Pods_timmy_bea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_timmy_bea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C344AF3DE2F7A1F84028909 /* Pods-timmy_bea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timmy_bea.release.xcconfig"; path = "Pods/Target Support Files/Pods-timmy_bea/Pods-timmy_bea.release.xcconfig"; sourceTree = "<group>"; };
+		B01679461E92CB0100CAB4F5 /* SettingLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingLauncher.swift; sourceTree = "<group>"; };
+		B01679481E92CB4500CAB4F5 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		B029A2B41E83775400500C95 /* skills_v29.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skills_v29.json; sourceTree = "<group>"; };
 		B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		B09D46BC1E90BBCB0018FA65 /* StackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
@@ -114,6 +118,7 @@
 			children = (
 				B0CC0D631E7115F4006E3D36 /* Helpers.swift */,
 				B0DEFD6E1E8B3E8A000D1721 /* VideoLauncher.swift */,
+				B01679461E92CB0100CAB4F5 /* SettingLauncher.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -138,6 +143,7 @@
 				B0BE17B71E843A870039778D /* ProjectVideoCell.swift */,
 				B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */,
 				B09D46BC1E90BBCB0018FA65 /* StackView.swift */,
+				B01679481E92CB4500CAB4F5 /* SettingsCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -296,6 +302,7 @@
 			files = (
 				B0F97D001E7648F6003A0F79 /* Skill.swift in Sources */,
 				B0F62FDB1E75EB9100F5917C /* SkillsCell.swift in Sources */,
+				B01679491E92CB4500CAB4F5 /* SettingsCell.swift in Sources */,
 				B0CC0D501E709913006E3D36 /* HomeViewController.swift in Sources */,
 				B0DEFD6F1E8B3E8A000D1721 /* VideoLauncher.swift in Sources */,
 				B0CC0D681E711A9B006E3D36 /* MenuCell.swift in Sources */,
@@ -310,6 +317,7 @@
 				B0BE17B21E8426DF0039778D /* ProjectsCell.swift in Sources */,
 				B0BE17BA1E8441740039778D /* Project.swift in Sources */,
 				B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */,
+				B01679471E92CB0100CAB4F5 /* SettingLauncher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

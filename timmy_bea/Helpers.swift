@@ -25,7 +25,14 @@ struct ColorManager {
     static func customSand() -> UIColor {
         return UIColor(red: 251/255, green: 221/255, blue: 189/255, alpha: 1)
     }
-    
+
+    static func customSkyBlue() -> UIColor {
+        return UIColor(red: 57/255, green: 186/255, blue: 200/255, alpha: 1)
+    }
+  
+    static func customSeaGreen() -> UIColor {
+        return UIColor(red: 156/255, green: 219/255, blue: 207/255, alpha: 1)
+    }
 }
 
 struct FontManager {
