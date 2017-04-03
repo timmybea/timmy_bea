@@ -100,8 +100,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         collectionView.register(ProjectsCell.self, forCellWithReuseIdentifier: CellID.projects.rawValue)
         collectionView.register(EducationCell.self, forCellWithReuseIdentifier: CellID.education_work.rawValue)
         collectionView.register(AboutCell.self, forCellWithReuseIdentifier: CellID.about.rawValue)
-        collectionView.register(testCell.self, forCellWithReuseIdentifier: "test")
-
 
         view.insertSubview(collectionView, belowSubview: menuBar)
         setCollectionViewFrame(withSize: view.frame.size)
