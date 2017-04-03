@@ -80,7 +80,7 @@ class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
             }
         }) { (completed: Bool) in
             if contact.name != .cancel {
-                self.homeController?.pushToSettingsController(contact: contact)
+                self.homeController?.pushToContact(contact: contact)
             }
         }
     }

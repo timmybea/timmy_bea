@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 enum CellID: String {
     case skills, projects, education_work, about
@@ -16,7 +17,7 @@ protocol HomeViewControllerDelegate {
     func viewControllerDidChangeOrientation()
 }
 
-class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MFMailComposeViewControllerDelegate {
 
     var backgroundImage: UIImageView = {
         let view = UIImageView()
@@ -153,31 +154,36 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return launcher
     }()
     
-    func pushToSettingsController(contact: Contact) {
-        let settingViewController = UIViewController()
-        settingViewController.navigationItem.title = contact.name.rawValue
-        settingViewController.view.backgroundColor = UIColor.white
+    func pushToContact(contact: Contact) {
+
+        if contact.name == .email {
+            if MFMailComposeViewController.canSendMail() {
+                let mail = MFMailComposeViewController()
+                mail.mailComposeDelegate = self
+                mail.setToRecipients(["tim.beals@gmail.com"])
+                mail.setSubject("Message From iOSDeveloper App")
+                present(mail, animated: true)
+            } else {
+                print("Error launching email")
+            }
+        } else if contact.name == .linkedIn {
+            if let url = URL(string: "https://www.linkedin.com/in/tim-beals-a058b218/") {
+                UIApplication.shared.open(url)
+            }
+        } else if contact.name == .github {
+            if let url = URL(string: "https://github.com/timmybea") {
+                UIApplication.shared.open(url)
+            }
+        }
         
         
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        settingViewController.view.addSubview(label)
-        label.centerXAnchor.constraint(equalTo: settingViewController.view.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: settingViewController.view.centerYAnchor, constant: -50).isActive = true
-        label.widthAnchor.constraint(equalTo: settingViewController.view.widthAnchor).isActive = true
-        label.heightAnchor.constraint(equalToConstant: 60)
-        
-        label.numberOfLines = 2
-        label.text = "Empty demonstration view controller"
-        label.textColor = ColorManager.customDarkBlue()
-        label.font = UIFont.boldSystemFont(ofSize: 22)
-        label.textAlignment = .center
-        
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        navigationController?.pushViewController(settingViewController, animated: true)
     }
     
+    
+    //dismiss email app
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
     
     
     //MARK: Setup menu bar
