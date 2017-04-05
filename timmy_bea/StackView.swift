@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StackView: UIView {
+class StackView: UIView, UIScrollViewDelegate {
     
     var career:  Career? {
         didSet {
@@ -25,26 +25,6 @@ class StackView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    private func setupLayer() {
-//        layer.cornerRadius = 8
-//        
-//        layer.shadowColor = UIColor.black.cgColor
-//        layer.shadowOffset = CGSize(width: 2, height: 2)
-//        layer.shadowOpacity = 0.5
-//        layer.shadowRadius = 3
-//        self.backgroundColor = UIColor.blue
-//        if let recipe = self.recipe {
-//            self.gradientColors = recipe.gradientColors
-//
-//            let gradientLayer = CAGradientLayer()
-//            gradientLayer.frame = self.bounds
-//            gradientLayer.colors = self.gradientColors
-//            gradientLayer.locations = [0.3, 0.75]
-//            self.layer.insertSublayer(gradientLayer, at: 0)
-//            //self.layer.addSublayer(gradientLayer, at)
-//        }
-//    }
-    
     let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -59,8 +39,13 @@ class StackView: UIView {
         label.textAlignment = .center
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
-        //label.backgroundColor = UIColor.blue
         return label
+    }()
+    
+    let scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        sv.backgroundColor = UIColor.clear
+        return sv
     }()
     
     let subtitleLabel: UILabel = {
@@ -70,6 +55,25 @@ class StackView: UIView {
         label.textAlignment = .center
         return label
     }()
+    
+    let summaryTextView: UITextView = {
+        let textView = UITextView()
+        textView.textAlignment = .justified
+        textView.font = FontManager.AvenirNextRegular(size: 14)
+        textView.textColor = ColorManager.customSand()
+        textView.isScrollEnabled = false
+        textView.backgroundColor = UIColor.clear
+        return textView
+    }()
+    
+    let educationLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = ColorManager.customSand()
+        label.font = FontManager.AvenirNextMedium(size: 16)
+        label.textAlignment = .left
+        return label
+    }()
+    
     
     private func setupSubviews() {
         
@@ -87,6 +91,9 @@ class StackView: UIView {
             self.addSubview(logoImageView)
             self.addSubview(titleLabel)
             self.addSubview(subtitleLabel)
+            self.addSubview(scrollView)
+            scrollView.addSubview(summaryTextView)
+            scrollView.addSubview(educationLabel)
             
             logoImageView.image = UIImage(named: career.imageName)?.withRenderingMode(.alwaysTemplate)
             
@@ -106,9 +113,32 @@ class StackView: UIView {
                 titleLabel.center.x = CGFloat(centerX)
                 
                 currentY += Int(titleLabel.frame.height) + 4
-                subtitleLabel.frame = CGRect(x: currentX, y: currentY, width: Int(titleLabel.frame.width), height: 20)
+                subtitleLabel.frame = CGRect(x: currentX, y: currentY, width: Int(titleLabel.frame.width), height: 16)
                 subtitleLabel.center.x = titleLabel.center.x
                 subtitleLabel.text = career.subtitle
+                
+                let yImage = (4 * pad) + Int(logoImageView.frame.height)
+                let yText = currentY + Int(subtitleLabel.frame.height) + pad
+                
+                if yImage > yText {
+                    currentY = yImage
+                } else {
+                    currentY = yText
+                }
+
+                scrollView.frame = CGRect(x: 0, y: currentY, width: Int(self.bounds.width), height: Int(self.bounds.height) - currentY - 40)
+                scrollView.contentSize = CGSize(width: scrollView.frame.width, height: scrollView.frame.height * 2)
+                
+                summaryTextView.frame = CGRect(x: pad, y: 0, width: Int(scrollView.bounds.width) - (2 * pad), height: 20)
+                summaryTextView.text = career.description
+                summaryTextView.sizeToFit()
+                
+                currentY = Int(summaryTextView.frame.height) + pad
+                educationLabel.frame = CGRect(x: pad, y: currentY, width: Int(scrollView.bounds.width), height: 16)
+                educationLabel.text = "Education"
+                
+                
+                
             }
             
             
