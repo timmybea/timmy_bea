@@ -42,12 +42,6 @@ class StackView: UIView, UIScrollViewDelegate {
         return label
     }()
     
-    let scrollView: UIScrollView = {
-        let sv = UIScrollView()
-        sv.backgroundColor = UIColor.clear
-        return sv
-    }()
-    
     let subtitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = ColorManager.customSand()
@@ -56,24 +50,13 @@ class StackView: UIView, UIScrollViewDelegate {
         return label
     }()
     
-    let summaryTextView: UITextView = {
+    let mainTextView: UITextView = {
         let textView = UITextView()
         textView.textAlignment = .justified
-        textView.font = FontManager.AvenirNextRegular(size: 14)
-        textView.textColor = ColorManager.customSand()
         textView.isScrollEnabled = false
         textView.backgroundColor = UIColor.clear
         return textView
     }()
-    
-    let educationLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = ColorManager.customSand()
-        label.font = FontManager.AvenirNextMedium(size: 16)
-        label.textAlignment = .left
-        return label
-    }()
-    
     
     private func setupSubviews() {
         
@@ -91,10 +74,13 @@ class StackView: UIView, UIScrollViewDelegate {
             self.addSubview(logoImageView)
             self.addSubview(titleLabel)
             self.addSubview(subtitleLabel)
-            self.addSubview(scrollView)
-            scrollView.addSubview(summaryTextView)
-            scrollView.addSubview(educationLabel)
-            
+            self.addSubview(mainTextView)
+        }
+        layoutFrames()
+    }
+    
+    private func layoutFrames() {
+        if let career = self.career {
             logoImageView.image = UIImage(named: career.imageName)?.withRenderingMode(.alwaysTemplate)
             
             var currentX = pad
@@ -117,38 +103,82 @@ class StackView: UIView, UIScrollViewDelegate {
                 subtitleLabel.center.x = titleLabel.center.x
                 subtitleLabel.text = career.subtitle
                 
-                let yImage = (4 * pad) + Int(logoImageView.frame.height)
-                let yText = currentY + Int(subtitleLabel.frame.height) + pad
+                let yImage = (3 * pad) + Int(logoImageView.frame.height) + 4
+                let yText = currentY + Int(subtitleLabel.frame.height) + 4
                 
                 if yImage > yText {
                     currentY = yImage
                 } else {
                     currentY = yText
                 }
-
-                scrollView.frame = CGRect(x: 0, y: currentY, width: Int(self.bounds.width), height: Int(self.bounds.height) - currentY - 40)
-                scrollView.contentSize = CGSize(width: scrollView.frame.width, height: scrollView.frame.height * 2)
                 
-                summaryTextView.frame = CGRect(x: pad, y: 0, width: Int(scrollView.bounds.width) - (2 * pad), height: 20)
-                summaryTextView.text = career.description
-                summaryTextView.sizeToFit()
+                mainTextView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (2 * pad), height: Int(self.bounds.height) - currentY - 40)
                 
-                currentY = Int(summaryTextView.frame.height) + pad
-                educationLabel.frame = CGRect(x: pad, y: currentY, width: Int(scrollView.bounds.width), height: 16)
-                educationLabel.text = "Education"
+            } else {
                 
+                currentY = pad
                 
+                let logoWidth = (Int(self.bounds.width) - (2 * pad)) / 5
+                logoImageView.frame = CGRect(x: (pad * 3), y: currentY, width: logoWidth, height: logoWidth / 2)
                 
+                currentX += Int(logoImageView.frame.width) + pad
+                let titleWidth = Int(self.bounds.width) - currentX - pad
+                titleLabel.frame = CGRect(x: currentX, y: currentY, width: titleWidth, height: 20)
+                titleLabel.text = career.title
+                titleLabel.sizeToFit()
+                let centerX = currentX + ((Int(self.bounds.width) - currentX - pad) / 2)
+                titleLabel.center.x = CGFloat(centerX)
+                
+                currentY += Int(titleLabel.frame.height) + 4
+                subtitleLabel.frame = CGRect(x: currentX, y: currentY, width: Int(titleLabel.frame.width), height: 16)
+                subtitleLabel.center.x = titleLabel.center.x
+                subtitleLabel.text = career.subtitle
+                
+                let yImage = (3 * pad) + Int(logoImageView.frame.height) + 4
+                let yText = currentY + Int(subtitleLabel.frame.height) + 4
+                
+                if yImage > yText {
+                    currentY = yImage
+                } else {
+                    currentY = yText
+                }
+                
+                mainTextView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (2 * pad), height: Int(self.bounds.height) - currentY - 40)
             }
-            
-            
-            
-            
-            
-            
+            mainTextView.attributedText = createAttributedString()
+            mainTextView.alpha = 0
         }
-        
     }
     
+    private func createAttributedString() -> NSAttributedString {
+        
+        let attributedString = NSMutableAttributedString()
+        
+        if let career = self.career {
+
+            let style = NSMutableParagraphStyle()
+            style.alignment = NSTextAlignment.justified
+            
+            attributedString.append(NSAttributedString(string: career.description, attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: 14), NSForegroundColorAttributeName: ColorManager.customSand(), NSParagraphStyleAttributeName: style]))
+            
+            attributedString.append(NSAttributedString(string: "\n\nEducation", attributes: [NSFontAttributeName: FontManager.AvenirNextMedium(size: 16), NSForegroundColorAttributeName: ColorManager.customSand()]))
+            
+            for qualification in career.education {
+                attributedString.append(NSAttributedString(string: "\n\(qualification.institution!) - \(qualification.role!) \(qualification.date!)", attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: 12), NSForegroundColorAttributeName: ColorManager.customSand()]))
+            }
+            
+            if career.relatedRoles.count > 0 {
+                
+                attributedString.append(NSAttributedString(string: "\n\nRelated Work", attributes: [NSFontAttributeName: FontManager.AvenirNextMedium(size: 16), NSForegroundColorAttributeName: ColorManager.customSand()]))
+                
+                for role in career.relatedRoles {
+                    attributedString.append(NSAttributedString(string: "\n\(role.institution!) - \(role.role!) \(role.date!)", attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: 12), NSForegroundColorAttributeName: ColorManager.customSand()]))
+                }
+            }
+            
+            attributedString.append(NSAttributedString(string: "\n\nReferences available by request", attributes: [NSFontAttributeName: FontManager.AvenirNextItalic(size: 14), NSForegroundColorAttributeName: ColorManager.customSand()]))
+        }
+        return attributedString
+    }
 
 }

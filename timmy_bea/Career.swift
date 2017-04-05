@@ -53,7 +53,7 @@ struct Career {
         //
         let iOSEdOne = CareerDetail(institution: "Lighthouse Labs", role: "iOS Development Bootcamp", date: "(2016)")
         
-        let iOSDeveloper = Career(title: "iOS Developer \n(Canada, USA)", subtitle: "2016 - present", description: "My hobbyist interest in coding turned into a career pursuit last year, when I embarked on a two and a half month iOS bootcamp at Lighthouse Labs in Vancouver, BC. The intensive course covered a comprehensive list of core competencies and frameworks. I worked extensively in Swift and Objective C with a hands on approach. My partner and I won the People's Choice award for our final project called Share. Now I am seeking opportunities to develop my craft and career further.", imageName: "logo_LHL", education: [iOSEdOne], relatedRoles: [], relatedURLs: [], backgroundColor: ColorManager.customStackBlue())
+        let iOSDeveloper = Career(title: "iOS Developer (Canada, USA)", subtitle: "2016 - present", description: "My hobbyist interest in coding turned into a career pursuit last year, when I embarked on a two and a half month iOS bootcamp at Lighthouse Labs in Vancouver, BC. The intensive course covered a comprehensive list of core competencies and frameworks. I worked extensively in Swift and Objective C with a hands on approach. My partner and I won the People's Choice award for our final project called Share. Now I am seeking opportunities to develop my craft and career further.", imageName: "logo_LHL", education: [iOSEdOne], relatedRoles: [], relatedURLs: [], backgroundColor: ColorManager.customStackBlue())
         
         
         return [musician, teacher, iOSDeveloper]

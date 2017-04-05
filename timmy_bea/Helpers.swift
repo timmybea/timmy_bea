@@ -25,14 +25,6 @@ struct ColorManager {
     static func customSand() -> UIColor {
         return UIColor(red: 251/255, green: 221/255, blue: 189/255, alpha: 1)
     }
-
-//    static func customSkyBlue() -> UIColor {
-//        return UIColor(red: 57/255, green: 186/255, blue: 200/255, alpha: 1)
-//    }
-//  
-//    static func customSeaGreen() -> UIColor {
-//        return UIColor(red: 156/255, green: 219/255, blue: 207/255, alpha: 1)
-//    }
     
     static func customStackRust() -> UIColor {
         return UIColor(red: 208/255, green: 111/255, blue: 102/255, alpha: 0.87)
@@ -63,6 +55,10 @@ struct FontManager {
 
     static func AvenirNextDBold(size: CGFloat) -> UIFont {
         return UIFont(name: "AvenirNext-DemiBold", size: size)!
+    }
+    
+    static func AvenirNextItalic(size: CGFloat) -> UIFont {
+        return UIFont(name: "AvenirNext-Italic", size: size)!
     }
 }
 

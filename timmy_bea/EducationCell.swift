@@ -33,11 +33,11 @@ class EducationCell: CustomCollectionViewCell {
         
         layoutBackgroundViews()
         setupDynamicAnimator()
-        
-        let offset: CGFloat = (self.activityView.bounds.height - 30) / 3
-        var currentOrigin: CGFloat = (activityView.bounds.height - 55)
     
         let careers = Career.getCareers()
+
+        let offset: CGFloat = (self.activityView.bounds.height - 30) / 3
+        var currentOrigin: CGFloat = (activityView.bounds.height - 55)
         
         for career in careers {
             addStackViews(with: currentOrigin, career: career)
@@ -156,8 +156,7 @@ class EducationCell: CustomCollectionViewCell {
             for stackView in stackViews {
                 if stackView == currentView {
                     UIView.animate(withDuration: 0.5, animations: {
-//                        stackView.textView.alpha = 0
-//                        stackView.button.alpha = 0
+                        stackView.mainTextView.alpha = 0
                     })
                 }
                 stackView.alpha = 1
@@ -168,8 +167,7 @@ class EducationCell: CustomCollectionViewCell {
                     stackView.alpha = 0
                 } else {
                     UIView.animate(withDuration: 0.5, animations: {
-//                        stackView.textView.alpha = 1
-//                        stackView.button.alpha = 1
+                        stackView.mainTextView.alpha = 1
                     })
                 }
                 
