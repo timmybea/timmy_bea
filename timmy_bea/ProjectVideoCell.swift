@@ -110,7 +110,7 @@ class ProjectVideoCell: UICollectionViewCell {
         var currentY = 0
         var currentX = 0
         
-        if UIDevice.current.orientation.isPortrait {
+        if UIApplication.shared.statusBarOrientation.isPortrait {
             
             longDescTextView.removeFromSuperview()
             screenSize.width = Int(self.bounds.size.width - 16)

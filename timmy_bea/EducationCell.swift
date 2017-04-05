@@ -36,10 +36,11 @@ class EducationCell: CustomCollectionViewCell {
         
         let offset: CGFloat = (self.activityView.bounds.height - 30) / 3
         var currentOrigin: CGFloat = (activityView.bounds.height - 55)
-        let recipes = Recipe.getRecipes()
+    
+        let careers = Career.getCareers()
         
-        for recipe in recipes {
-            addMenuViews(with: currentOrigin, recipe: recipe)
+        for career in careers {
+            addStackViews(with: currentOrigin, career: career)
             currentOrigin -= offset
         }
     }
@@ -58,17 +59,14 @@ class EducationCell: CustomCollectionViewCell {
         layoutBackgroundViews()
     }
     
-    func addMenuViews(with offset: CGFloat, recipe: Recipe)  {
+    func addStackViews(with offset: CGFloat, career: Career)  {
         
         
         let stackView = StackView(frame: self.activityView.bounds)
 
         activityView.addSubview(stackView)
-        
-        stackView.recipe = recipe
+        stackView.career = career // use setter to layout stackView
         stackView.frame = activityView.bounds.offsetBy(dx: 0, dy: activityView.bounds.height - offset)
-        
-        
         
         //pan Gesture
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(panRecognizer:)))
@@ -129,7 +127,7 @@ class EducationCell: CustomCollectionViewCell {
     
     func snap(dragView: UIView) {
         
-        let viewHasNearedSnapPosition = dragView.frame.origin.y < 130 //??
+        let viewHasNearedSnapPosition = dragView.frame.origin.y < 80 //??
         
         if viewHasNearedSnapPosition {
             if !isViewSnapped {

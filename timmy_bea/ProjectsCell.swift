@@ -47,6 +47,8 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         super.redrawCell()
         setCVFrame()
         
+        viewControllerDidChangeOrientation()
+        
         if videoLauncher.isVideoLaunched {
             videoLauncher.redrawVideoScreen()
         }
@@ -79,7 +81,7 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         
         var screenSize = ScreenSize()
         
-        if UIDevice.current.orientation.isPortrait {
+        if UIApplication.shared.statusBarOrientation.isPortrait {
             screenSize.width = Int(self.activityView.bounds.width) - 16
             let height  = 20 + pad + screenSize.height + pad + 24 + 30 + pad + 2
             return CGSize(width: collectionView.frame.width, height: CGFloat(height))

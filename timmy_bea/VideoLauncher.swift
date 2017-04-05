@@ -46,7 +46,7 @@ class VideoLauncher: NSObject {
 
             screenSize.width = Int(window.frame.width) + 2
             
-            if UIDevice.current.orientation.isPortrait {
+            if UIApplication.shared.statusBarOrientation.isPortrait {
                 let frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
                 videoPlayerView = VideoPlayerView(withFrame: frame, videoURLString: (self.project?.videoURL)!)
             } else {
@@ -74,6 +74,7 @@ class VideoLauncher: NSObject {
                 self.imageView.frame = CGRect(x: window.frame.width, y: window.frame.height, width: 0, height: 0)
             }
         }, completion: { (true) in
+            self.videoPlayerView = nil
             self.isVideoLaunched = false
             self.dismissTouchView.removeFromSuperview()
         })
@@ -81,7 +82,7 @@ class VideoLauncher: NSObject {
 
     func redrawVideoScreen() {
         
-        if UIDevice.current.orientation.isPortrait {
+        if UIApplication.shared.statusBarOrientation.isPortrait {
             if let window = UIApplication.shared.keyWindow {
                 imageView.frame = window.frame
                 screenSize.width = Int(imageView.frame.width)
@@ -145,7 +146,7 @@ class VideoLauncher: NSObject {
     }()
     
     private func setupVideoInfoViews() {
-        if UIDevice.current.orientation.isPortrait {
+        if UIApplication.shared.statusBarOrientation.isPortrait {
             imageView.addSubview(activeView)
             activeView.addSubview(blueView)
             activeView.addSubview(titleLabel)

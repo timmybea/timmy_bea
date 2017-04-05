@@ -38,7 +38,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
 
     private func positionAnimationView() {
         
-        if UIDevice.current.orientation.isPortrait {
+        if UIApplication.shared.statusBarOrientation.isPortrait {
             screenSize.width = Int(activityView.bounds.width)
             
             animationView.frame = CGRect(x: 0, y: 20, width: screenSize.width, height: screenSize.height)
@@ -63,7 +63,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
     }
     
     private func positionScrollView() {
-        if UIDevice.current.orientation.isPortrait {
+        if UIApplication.shared.statusBarOrientation.isPortrait {
             scrollView.frame = self.activityView.bounds
         } else {
             let width = Int(self.activityView.bounds.width) - screenSize.width
@@ -82,7 +82,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
         
         let skillsArray = Skill.skillDataArray()
         
-        if UIDevice.current.orientation.isPortrait {
+        if UIApplication.shared.statusBarOrientation.isPortrait {
             
             for (i, skill) in skillsArray.enumerated() {
                 

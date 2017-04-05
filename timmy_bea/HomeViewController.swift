@@ -175,8 +175,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 UIApplication.shared.open(url)
             }
         }
-        
-        
     }
     
     

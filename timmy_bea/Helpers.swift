@@ -26,12 +26,24 @@ struct ColorManager {
         return UIColor(red: 251/255, green: 221/255, blue: 189/255, alpha: 1)
     }
 
-    static func customSkyBlue() -> UIColor {
-        return UIColor(red: 57/255, green: 186/255, blue: 200/255, alpha: 1)
+//    static func customSkyBlue() -> UIColor {
+//        return UIColor(red: 57/255, green: 186/255, blue: 200/255, alpha: 1)
+//    }
+//  
+//    static func customSeaGreen() -> UIColor {
+//        return UIColor(red: 156/255, green: 219/255, blue: 207/255, alpha: 1)
+//    }
+    
+    static func customStackRust() -> UIColor {
+        return UIColor(red: 208/255, green: 111/255, blue: 102/255, alpha: 0.87)
     }
-  
-    static func customSeaGreen() -> UIColor {
-        return UIColor(red: 156/255, green: 219/255, blue: 207/255, alpha: 1)
+    
+    static func customStackGreen() -> UIColor {
+        return UIColor(red: 90/255, green: 176/255, blue: 159/255, alpha: 0.87)
+    }
+    
+    static func customStackBlue() -> UIColor {
+        return UIColor(red: 59/255, green: 169/255, blue: 181/255, alpha: 0.87)
     }
 }
 
@@ -127,7 +139,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
     
     private func sizeForOrientation() {
-        if UIDevice.current.orientation.isPortrait {
+        if UIApplication.shared.statusBarOrientation.isPortrait {
             activityView.frame = CGRect(x: 24, y: 24, width: self.bounds.width - 48, height: self.bounds.height - 48 - 10)
         } else {
             activityView.frame = CGRect(x: 24, y: 24, width: self.bounds.width - 48, height: self.bounds.height - 48)
