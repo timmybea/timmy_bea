@@ -27,6 +27,8 @@ enum ContactName: String {
 
 class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    var isContactsLaunched = false
+    
     var homeController: HomeViewController?
     
     let blackView = UIView()
@@ -64,6 +66,7 @@ class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
             }, completion: nil)
             
             blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissNoSetting)))
+            isContactsLaunched = true
         }
     }
     
@@ -80,9 +83,11 @@ class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
             }
         }) { (completed: Bool) in
             if contact.name != .cancel {
+                
                 self.homeController?.pushToContact(contact: contact)
             }
         }
+        isContactsLaunched = false
     }
     
     //MARK: CollectionView delegate methods
@@ -120,5 +125,24 @@ class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(ContactsCell.self, forCellWithReuseIdentifier: cellId)
+    }
+    
+    //MARK: Delegate method for device orientation change
+    func redrawContacts(withSize: CGSize) {
+        if isContactsLaunched {
+            if let window = UIApplication.shared.keyWindow {
+                let height: CGFloat = CGFloat(contactsArray.count) * cellHeight
+                let y = window.bounds.width - height
+                self.collectionView.frame = CGRect(x: 0, y: y, width: window.bounds.height, height: height)
+                
+                self.blackView.frame = CGRect(x: 0, y: 0, width: window.bounds.height, height: window.bounds.width)
+            }
+            
+            collectionView.collectionViewLayout.invalidateLayout()
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
     }
 }

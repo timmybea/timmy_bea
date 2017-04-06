@@ -283,6 +283,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             delegate.viewControllerDidChangeOrientation()
         }
         
+        if contactsLauncher.isContactsLaunched {
+            contactsLauncher.redrawContacts(withSize: size)
+        }
+        
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {

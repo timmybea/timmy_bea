@@ -142,10 +142,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         
         
         let viewHasNearedSnapPosition = dragView.frame.origin.y < 60
-        
-        
-        print("snap value \(dragView.frame.origin.y)")
-        
+
         if viewHasNearedSnapPosition {
             if !isViewSnapped {
                 var snapPosition = activityView.center
@@ -187,7 +184,6 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
                         stackView.mainTextView.alpha = 1
                     })
                 }
-                
             }
         }
     }
