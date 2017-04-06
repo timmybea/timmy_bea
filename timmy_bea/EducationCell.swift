@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EducationCell: CustomCollectionViewCell {
+class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
 
     var stackViews = [StackView]()
     var dynamicAnimator: UIDynamicAnimator!
@@ -27,17 +27,19 @@ class EducationCell: CustomCollectionViewCell {
         return label
     }()
     
+    var careers = [Career]()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         activityView.addSubview(titleLabel)
         
         layoutBackgroundViews()
         setupDynamicAnimator()
-    
-        let careers = Career.getCareers()
-
+        
+        careers = Career.getCareers()
+        
         let offset: CGFloat = (self.activityView.bounds.height - 30) / 3
-        var currentOrigin: CGFloat = (activityView.bounds.height - 55)
+        var currentOrigin: CGFloat = (self.activityView.bounds.height - 55)
         
         for career in careers {
             addStackViews(with: currentOrigin, career: career)
@@ -54,19 +56,23 @@ class EducationCell: CustomCollectionViewCell {
         titleLabel.frame = CGRect(x: titleX, y: 4, width: 130, height: 20)
     }
     
-    override func redrawCell() {
-        super.redrawCell()
-        layoutBackgroundViews()
+    func setupDynamicAnimator() {
+        
+        dynamicAnimator = UIDynamicAnimator(referenceView: self)
+        
+        gravityBehavior = UIGravityBehavior()
+        gravityBehavior.magnitude = 4
+        dynamicAnimator.addBehavior(gravityBehavior)
     }
     
     func addStackViews(with offset: CGFloat, career: Career)  {
-        
         
         let stackView = StackView(frame: self.activityView.bounds)
 
         activityView.addSubview(stackView)
         stackView.career = career // use setter to layout stackView
-        stackView.frame = activityView.bounds.offsetBy(dx: 0, dy: activityView.bounds.height - offset)
+        
+        stackView.frame = updateStackViewFrame(stackView: stackView, offset: offset)
         
         //pan Gesture
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(panRecognizer:)))
@@ -80,6 +86,17 @@ class EducationCell: CustomCollectionViewCell {
         let boundaryStart = CGPoint(x: 0, y: boundaryY)
         let boundaryEnd = CGPoint(x: stackView.frame.width, y: boundaryY)
         collisionBehavior.addBoundary(withIdentifier: 1 as NSCopying, from: boundaryStart, to: boundaryEnd)
+        
+        //left boundary
+//        let leftBoundaryStart = CGPoint(x: 0, y: 0)
+//        let leftBoundaryEnd = CGPoint(x: 0, y: stackView.frame.height)
+//        collisionBehavior.addBoundary(withIdentifier: 2 as NSCopying, from: leftBoundaryStart, to: leftBoundaryEnd)
+        
+        //right boundary
+//        let rightBoundaryStart = CGPoint(x: stackView.frame.width, y: 0)
+//        let rightBoundaryEnd = CGPoint(x: stackView.frame.width, y: stackView.frame.height)
+//        collisionBehavior.addBoundary(withIdentifier: 3 as NSCopying, from: rightBoundaryStart, to: rightBoundaryEnd)
+        
         dynamicAnimator.addBehavior(collisionBehavior)
         
         gravityBehavior.addItem(stackView)
@@ -87,22 +104,18 @@ class EducationCell: CustomCollectionViewCell {
         stackViews.append(stackView)
     }
     
-    func setupDynamicAnimator() {
-        
-        dynamicAnimator = UIDynamicAnimator(referenceView: self) //??
-        
-        gravityBehavior = UIGravityBehavior()
-        gravityBehavior.magnitude = 4
-        dynamicAnimator.addBehavior(gravityBehavior)
+    private func updateStackViewFrame(stackView: StackView, offset: CGFloat) -> CGRect {
+        return activityView.bounds.offsetBy(dx: 0, dy: activityView.bounds.height - offset)
     }
-
+    
+    
     func handlePan(panRecognizer: UIPanGestureRecognizer) {
         
-        let currentPosition = panRecognizer.location(in: self) //??
+        let currentPosition = panRecognizer.location(in: self)
         
         if let dragView = panRecognizer.view {
             if panRecognizer.state == .began {
-                let isTouchNearTop = panRecognizer.location(in: dragView).y < 80
+                let isTouchNearTop = panRecognizer.location(in: dragView).y < 60
                 
                 if isTouchNearTop {
                     isDragging = true
@@ -127,7 +140,11 @@ class EducationCell: CustomCollectionViewCell {
     
     func snap(dragView: UIView) {
         
-        let viewHasNearedSnapPosition = dragView.frame.origin.y < 80 //??
+        
+        let viewHasNearedSnapPosition = dragView.frame.origin.y < 60
+        
+        
+        print("snap value \(dragView.frame.origin.y)")
         
         if viewHasNearedSnapPosition {
             if !isViewSnapped {
@@ -175,4 +192,24 @@ class EducationCell: CustomCollectionViewCell {
         }
     }
     
+    override func redrawCell() {
+        super.redrawCell()
+        layoutBackgroundViews()
+
+        for stackView in stackViews {
+            stackView.removeFromSuperview()
+        }
+        
+        isViewSnapped = false
+        setupDynamicAnimator()
+        
+        let offset: CGFloat = (self.activityView.bounds.height - 30) / 3
+        var initialOffset: CGFloat = (self.activityView.bounds.height - 55)
+        
+        for career in careers {
+            addStackViews(with: initialOffset, career: career)
+            initialOffset -= offset
+        }
+    }
+
 }

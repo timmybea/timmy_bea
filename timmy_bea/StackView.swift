@@ -79,7 +79,7 @@ class StackView: UIView, UIScrollViewDelegate {
         layoutFrames()
     }
     
-    private func layoutFrames() {
+    func layoutFrames() {
         if let career = self.career {
             logoImageView.image = UIImage(named: career.imageName)?.withRenderingMode(.alwaysTemplate)
             
@@ -113,6 +113,7 @@ class StackView: UIView, UIScrollViewDelegate {
                 }
                 
                 mainTextView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (2 * pad), height: Int(self.bounds.height) - currentY - 40)
+                mainTextView.isScrollEnabled = false
                 
             } else {
                 
@@ -144,11 +145,14 @@ class StackView: UIView, UIScrollViewDelegate {
                 }
                 
                 mainTextView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (2 * pad), height: Int(self.bounds.height) - currentY - 40)
+                mainTextView.isScrollEnabled = true
             }
             mainTextView.attributedText = createAttributedString()
             mainTextView.alpha = 0
         }
     }
+    
+    
     
     private func createAttributedString() -> NSAttributedString {
         
