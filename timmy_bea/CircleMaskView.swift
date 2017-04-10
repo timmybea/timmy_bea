@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol CircleMaskViewDelegate {
+    func viewWasTouched()
+}
+
 class CircleMaskView: UIView {
+    
+    var circleMaskViewDelegate: CircleMaskViewDelegate?
     
     let circlePathLayer = CAShapeLayer()
     
@@ -85,5 +91,8 @@ class CircleMaskView: UIView {
     
     func performAnimations(recognizer: UITapGestureRecognizer) {
         createAnimations()
+        if circleMaskViewDelegate != nil {
+            circleMaskViewDelegate?.viewWasTouched()
+        }
     }
 }

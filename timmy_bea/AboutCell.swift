@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AboutCell: CustomCollectionViewCell {
+class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
 
     let speechBubble: SpeechBubble = {
         let view = SpeechBubble()
@@ -22,10 +22,10 @@ class AboutCell: CustomCollectionViewCell {
         let size: CGFloat = 140
         let circleMaskX = (activityView.bounds.width / 2) - (size / 2)
         let circleMaskView = CircleMaskView(frame: CGRect(x: circleMaskX, y: activityView.bounds.height - size - CGFloat(pad), width: size, height: size))
+        circleMaskView.circleMaskViewDelegate = self
         
         activityView.addSubview(circleMaskView)
         
-
         activityView.addSubview(speechBubble)
         speechBubble.frame = CGRect(x: pad, y: pad, width: Int(activityView.bounds.width) - (2 * pad), height: Int(activityView.bounds.height - circleMaskView.frame.height) - (3 * pad))
     }
@@ -34,4 +34,10 @@ class AboutCell: CustomCollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    //MARK: Circle mask view delegate method
+    func viewWasTouched() {
+        //enter actions here
+        speechBubble.animateBubbleChange()
+    }
 }
