@@ -12,13 +12,24 @@ class SpeechBubble: UIView, CAAnimationDelegate {
 
     override var frame: CGRect {
         didSet {
-            setupTailLayer()
             setupBubbleLayer()
         }
     }
     
     var stretchLayer: CALayer?
     var tailLayer: CALayer?
+    
+    var textView: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = UIColor.clear
+        textView.textAlignment = .justified
+        textView.textColor = ColorManager.customDarkBlue()
+        textView.font = FontManager.AvenirNextMedium(size: 16)
+        textView.isEditable = false
+        return textView
+    }()
+    
+    var displayText: String?
     
     func setupBubbleLayer() {
         stretchLayer?.removeFromSuperlayer()
@@ -29,44 +40,81 @@ class SpeechBubble: UIView, CAAnimationDelegate {
             stretchLayer = CALayer()
             stretchLayer?.frame = self.bounds
             stretchLayer?.contents = image.cgImage
-            //don't forget this line - the image will not scale properly without it!
             stretchLayer?.contentsScale = UIScreen.main.scale
             stretchLayer?.contentsCenter = contentsCenter
             
-            self.layer.insertSublayer(stretchLayer!, above: tailLayer)
+            self.layer.addSublayer(stretchLayer!)
         }
+        
+        textView.frame = CGRect(x: CGFloat(pad), y: CGFloat(pad), width: self.bounds.width - CGFloat(2 * pad), height: self.bounds.height - CGFloat(2 * pad))
+        
+        if displayText != nil {
+            textView.text = displayText
+        }
+        self.addSubview(textView)
     }
     
-    func setupTailLayer() {
+    func setupTailLayer(origin: CGPoint, portrait: Bool) {
         tailLayer?.removeFromSuperlayer()
         
         tailLayer = CALayer()
-        //tailLayer?.backgroundColor = UIColor.red.cgColor
-        tailLayer?.frame = CGRect(x: 50, y: self.bounds.height, width: 100, height: 50)
-        tailLayer?.contents = UIImage(named: "tail")?.cgImage
-        tailLayer?.contentsGravity = kCAGravityResizeAspect
-        self.layer.addSublayer(tailLayer!)
+        
+        if portrait {
+            tailLayer?.frame = CGRect(x: origin.x, y: self.bounds.height, width: 100, height: 50)
+            tailLayer?.contents = UIImage(named: "tail")?.cgImage
+            tailLayer?.contentsGravity = kCAGravityResizeAspect
+            
+            beginTailPosition = CGPoint(x: origin.x + (tailLayer!.bounds.width / 2), y: self.bounds.height + (tailLayer!.bounds.height / 2))
+            endTailPosition = CGPoint(x: origin.x + (tailLayer!.bounds.width / 2), y: self.bounds.height - (tailLayer!.bounds.height / 2))
+            
+        } else {
+            tailLayer?.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
+            tailLayer?.contents = UIImage(named: "tail")?.cgImage
+            tailLayer?.contentsGravity = kCAGravityResizeAspect
+        
+            let degrees = 90.0
+            let radians = CGFloat(degrees * Double.pi / 180)
+            tailLayer?.transform = CATransform3DMakeRotation(radians, 0.0, 0.0, 1.0)
+            
+            tailLayer?.frame.origin = CGPoint(x: (tailLayer?.frame.width)! * -1, y: origin.y)
+            
+            beginTailPosition = CGPoint(x: (tailLayer?.frame.origin.x)! / 2, y: (tailLayer?.frame.origin.y)! + ((tailLayer?.frame.height)! / 2))
+            endTailPosition = CGPoint(x: (tailLayer?.frame.width)! / 2, y: beginTailPosition.y)
+        }
+        
+        if let stretchLayer = self.stretchLayer {
+            self.layer.insertSublayer(tailLayer!, below: stretchLayer)
+        }
     }
     
     func animateBubbleChange() {
         
+        textView.alpha = 0
+        
+        var time: CFTimeInterval = 0.0
         tailUpAnimation()
-        Timer.scheduledTimer(timeInterval: animationDuration + 0.10, target: self, selector: #selector(stretchHeightAnimation), userInfo: nil, repeats: false)
-        Timer.scheduledTimer(timeInterval: animationDuration * 3 + 0.10, target: self, selector: #selector(tailDownAnimation), userInfo: nil, repeats: false)
+        
+        time += tailAnimationDuration + 0.10
+        Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(stretchHeightAnimation), userInfo: nil, repeats: false)
+        
+        time += bubbleAnimationDuration * 2
+        Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(tailDownAnimation), userInfo: nil, repeats: false)
     }
     
-    let animationDuration: CFTimeInterval = 0.2
+    let tailAnimationDuration: CFTimeInterval = 0.05
+    let bubbleAnimationDuration: CFTimeInterval = 0.2
+    
+    var beginTailPosition = CGPoint.zero
+    var endTailPosition = CGPoint.zero
     
     private func tailUpAnimation() {
         if let tailLayer = tailLayer {
             
-            let beginTailPosition = CGPoint(x: 50 + (tailLayer.bounds.width / 2), y: self.bounds.height + (tailLayer.bounds.height / 2))
-            let endTailPosition = CGPoint(x: 50 + (tailLayer.bounds.width / 2), y: self.bounds.height - (tailLayer.bounds.height / 2))
             let tailPositionAnimation = CABasicAnimation(keyPath: "position")
             tailPositionAnimation.fromValue = beginTailPosition
             tailPositionAnimation.toValue = endTailPosition
             tailPositionAnimation.beginTime = 0
-            tailPositionAnimation.duration = animationDuration
+            tailPositionAnimation.duration = tailAnimationDuration
             tailPositionAnimation.setValue("tail_up", forKey: "animation_name")
             tailPositionAnimation.delegate = self
             tailPositionAnimation.fillMode = kCAFillModeForwards
@@ -75,16 +123,13 @@ class SpeechBubble: UIView, CAAnimationDelegate {
         }
     }
     
-    
     @objc private func tailDownAnimation() {
         if let tailLayer = tailLayer {
-            let beginTailPosition = CGPoint(x: 50 + (tailLayer.bounds.width / 2), y: self.bounds.height + (tailLayer.bounds.height / 2))
-            let endTailPosition = CGPoint(x: 50 + (tailLayer.bounds.width / 2), y: self.bounds.height - (tailLayer.bounds.height / 2))
             let tailPositionAnimation = CABasicAnimation(keyPath: "position")
             tailPositionAnimation.fromValue = endTailPosition
             tailPositionAnimation.toValue = beginTailPosition
             tailPositionAnimation.beginTime = 0
-            tailPositionAnimation.duration = animationDuration
+            tailPositionAnimation.duration = tailAnimationDuration
             tailPositionAnimation.setValue("tail_down", forKey: "animation_name")
             tailPositionAnimation.delegate = self
             tailPositionAnimation.fillMode = kCAFillModeForwards
@@ -105,7 +150,7 @@ class SpeechBubble: UIView, CAAnimationDelegate {
             heightAnimation.fromValue = beginHeight
             heightAnimation.toValue = endHeight
             heightAnimation.beginTime = 0
-            heightAnimation.duration = animationDuration
+            heightAnimation.duration = bubbleAnimationDuration
             heightAnimation.autoreverses = true
             
             let beginPosition = CGPoint(x: self.bounds.width / 2, y: self.bounds.height / 2)
@@ -115,12 +160,12 @@ class SpeechBubble: UIView, CAAnimationDelegate {
             positionAnimation.fromValue = NSValue.init(cgPoint: beginPosition)
             positionAnimation.toValue = NSValue.init(cgPoint: endPosition)
             positionAnimation.beginTime = 0
-            positionAnimation.duration = animationDuration
+            positionAnimation.duration = bubbleAnimationDuration
             positionAnimation.autoreverses = true
             
             let animationGroup = CAAnimationGroup()
             animationGroup.animations = [heightAnimation, positionAnimation]
-            animationGroup.duration = animationDuration * 2
+            animationGroup.duration = bubbleAnimationDuration * 2
             animationGroup.repeatCount = 1
             animationGroup.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
             animationGroup.setValue("height_animation", forKey: "animation_name")
@@ -135,15 +180,15 @@ class SpeechBubble: UIView, CAAnimationDelegate {
         
         switch animationName {
         case "tail_up":
-            //print("tail up stopped")
             tailLayer?.isHidden = true
         case "height_animation":
-            //print("height animation stopped")
             tailLayer?.isHidden = false
         case "tail_down":
-            print("animation complete")
+            textView.text = displayText
+            textView.alpha = 1
         default:
             print("no luck this time")
+            
         }
     }
 }
