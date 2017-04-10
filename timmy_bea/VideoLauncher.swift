@@ -141,6 +141,7 @@ class VideoLauncher: NSObject {
         let textView = UITextView()
         textView.backgroundColor = UIColor.clear
         textView.textColor = ColorManager.customSand()
+        textView.textAlignment = .justified
         textView.font = FontManager.AvenirNextRegular(size: 14)
         return textView
     }()

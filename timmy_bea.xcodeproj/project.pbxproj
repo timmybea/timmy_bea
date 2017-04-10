@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B0156E201E9AFF2000A966BB /* SpeechBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0156E1F1E9AFF2000A966BB /* SpeechBubble.swift */; };
 		B01679471E92CB0100CAB4F5 /* ContactsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */; };
 		B01679491E92CB4500CAB4F5 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01679481E92CB4500CAB4F5 /* ContactsCell.swift */; };
 		B018DE1A1E9412BD00B6B2D3 /* Career.swift in Sources */ = {isa = PBXBuildFile; fileRef = B018DE191E9412BD00B6B2D3 /* Career.swift */; };
 		B029A2B51E83775400500C95 /* skills_v29.json in Resources */ = {isa = PBXBuildFile; fileRef = B029A2B41E83775400500C95 /* skills_v29.json */; };
+		B04FE7C61E982EC600BC6532 /* CircleMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */; };
 		B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */; };
 		B09D46BD1E90BBCB0018FA65 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46BC1E90BBCB0018FA65 /* StackView.swift */; };
 		B09D46BF1E90BC650018FA65 /* RecipeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46BE1E90BC650018FA65 /* RecipeData.swift */; };
@@ -35,10 +37,12 @@
 /* Begin PBXFileReference section */
 		14256E79EA48DE8895A0A645 /* Pods_timmy_bea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_timmy_bea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C344AF3DE2F7A1F84028909 /* Pods-timmy_bea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timmy_bea.release.xcconfig"; path = "Pods/Target Support Files/Pods-timmy_bea/Pods-timmy_bea.release.xcconfig"; sourceTree = "<group>"; };
+		B0156E1F1E9AFF2000A966BB /* SpeechBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubble.swift; sourceTree = "<group>"; };
 		B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLauncher.swift; sourceTree = "<group>"; };
 		B01679481E92CB4500CAB4F5 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsCell.swift; sourceTree = "<group>"; };
 		B018DE191E9412BD00B6B2D3 /* Career.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Career.swift; sourceTree = "<group>"; };
 		B029A2B41E83775400500C95 /* skills_v29.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skills_v29.json; sourceTree = "<group>"; };
+		B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMaskView.swift; sourceTree = "<group>"; };
 		B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		B09D46BC1E90BBCB0018FA65 /* StackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
 		B09D46BE1E90BC650018FA65 /* RecipeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeData.swift; sourceTree = "<group>"; };
@@ -146,6 +150,8 @@
 				B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */,
 				B09D46BC1E90BBCB0018FA65 /* StackView.swift */,
 				B01679481E92CB4500CAB4F5 /* ContactsCell.swift */,
+				B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */,
+				B0156E1F1E9AFF2000A966BB /* SpeechBubble.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -318,7 +324,9 @@
 				B0CC0D4E1E709913006E3D36 /* AppDelegate.swift in Sources */,
 				B09D46BD1E90BBCB0018FA65 /* StackView.swift in Sources */,
 				B0BE17B81E843A870039778D /* ProjectVideoCell.swift in Sources */,
+				B0156E201E9AFF2000A966BB /* SpeechBubble.swift in Sources */,
 				B0BE17B21E8426DF0039778D /* ProjectsCell.swift in Sources */,
+				B04FE7C61E982EC600BC6532 /* CircleMaskView.swift in Sources */,
 				B0BE17BA1E8441740039778D /* Project.swift in Sources */,
 				B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */,
 				B01679471E92CB0100CAB4F5 /* ContactsLauncher.swift in Sources */,
