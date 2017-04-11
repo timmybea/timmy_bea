@@ -86,5 +86,7 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
         incrementInfoIndex()
         speechBubble.displayText = self.aboutInfo[currentInfoIndex]
         speechBubble.animateBubbleChange()
+        
+        print("This device is a \(UIDevice.current.systemVersion)")
     }
 }

@@ -266,6 +266,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        
         return [.portrait, .landscape]
     }
     

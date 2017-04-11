@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B0156E201E9AFF2000A966BB /* SpeechBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0156E1F1E9AFF2000A966BB /* SpeechBubble.swift */; };
 		B0156E221E9C0CDC00A966BB /* AboutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0156E211E9C0CDC00A966BB /* AboutInfo.swift */; };
+		B0156E441E9D423600A966BB /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0156E431E9D423600A966BB /* Device.swift */; };
 		B01679471E92CB0100CAB4F5 /* ContactsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */; };
 		B01679491E92CB4500CAB4F5 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01679481E92CB4500CAB4F5 /* ContactsCell.swift */; };
 		B018DE1A1E9412BD00B6B2D3 /* Career.swift in Sources */ = {isa = PBXBuildFile; fileRef = B018DE191E9412BD00B6B2D3 /* Career.swift */; };
@@ -40,6 +41,7 @@
 		5C344AF3DE2F7A1F84028909 /* Pods-timmy_bea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timmy_bea.release.xcconfig"; path = "Pods/Target Support Files/Pods-timmy_bea/Pods-timmy_bea.release.xcconfig"; sourceTree = "<group>"; };
 		B0156E1F1E9AFF2000A966BB /* SpeechBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubble.swift; sourceTree = "<group>"; };
 		B0156E211E9C0CDC00A966BB /* AboutInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutInfo.swift; sourceTree = "<group>"; };
+		B0156E431E9D423600A966BB /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLauncher.swift; sourceTree = "<group>"; };
 		B01679481E92CB4500CAB4F5 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsCell.swift; sourceTree = "<group>"; };
 		B018DE191E9412BD00B6B2D3 /* Career.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Career.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				B0CC0D631E7115F4006E3D36 /* Helpers.swift */,
+				B0156E431E9D423600A966BB /* Device.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				B04FE7C61E982EC600BC6532 /* CircleMaskView.swift in Sources */,
 				B0BE17BA1E8441740039778D /* Project.swift in Sources */,
 				B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */,
+				B0156E441E9D423600A966BB /* Device.swift in Sources */,
 				B01679471E92CB0100CAB4F5 /* ContactsLauncher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
