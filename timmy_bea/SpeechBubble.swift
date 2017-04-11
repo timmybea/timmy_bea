@@ -24,10 +24,11 @@ class SpeechBubble: UIView, CAAnimationDelegate {
         textView.backgroundColor = UIColor.clear
         textView.textAlignment = .justified
         textView.textColor = ColorManager.customDarkBlue()
-        textView.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
+        textView.font = FontManager.AvenirNextMedium(size: FontManager.sizeHeader)
         textView.isEditable = false
         return textView
     }()
+    
     
     var displayText: String?
     
@@ -51,6 +52,8 @@ class SpeechBubble: UIView, CAAnimationDelegate {
         if displayText != nil {
             textView.text = displayText
         }
+        textView.sizeToFit()
+        textView.center.y = self.center.y
         self.addSubview(textView)
     }
     
@@ -59,8 +62,16 @@ class SpeechBubble: UIView, CAAnimationDelegate {
         
         tailLayer = CALayer()
         
+        var longSide: CGFloat = 100
+        
+        if Device.isSize(height: .Inches_4_7) {
+            longSide = 80
+        } else if Device.isSize(height: .Inches_4) {
+            longSide = 70
+        }
+        
         if portrait {
-            tailLayer?.frame = CGRect(x: origin.x, y: self.bounds.height, width: 100, height: 50)
+            tailLayer?.frame = CGRect(x: origin.x, y: self.bounds.height, width: longSide, height: longSide / 2)
             tailLayer?.contents = UIImage(named: "tail")?.cgImage
             tailLayer?.contentsGravity = kCAGravityResizeAspect
             
@@ -68,7 +79,7 @@ class SpeechBubble: UIView, CAAnimationDelegate {
             endTailPosition = CGPoint(x: origin.x + (tailLayer!.bounds.width / 2), y: self.bounds.height - (tailLayer!.bounds.height / 2))
             
         } else {
-            tailLayer?.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
+            tailLayer?.frame = CGRect(x: 0, y: 0, width: longSide, height: longSide / 2)
             tailLayer?.contents = UIImage(named: "tail")?.cgImage
             tailLayer?.contentsGravity = kCAGravityResizeAspect
         
@@ -185,6 +196,8 @@ class SpeechBubble: UIView, CAAnimationDelegate {
             tailLayer?.isHidden = false
         case "tail_down":
             textView.text = displayText
+            textView.sizeToFit()
+            textView.center.y = self.center.y
             textView.alpha = 1
         default:
             print("no luck this time")

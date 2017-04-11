@@ -18,7 +18,10 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
     }()
     
     var circleMaskView: CircleMaskView = {
-        let circleDiameter = 140
+        var circleDiameter = 140
+        if Device.isSize(height: .Inches_4) {
+            circleDiameter = 110
+        }
         let view = CircleMaskView(frame: CGRect(x: 0, y: 0, width: circleDiameter, height: circleDiameter))
         return view
     }()
@@ -50,7 +53,6 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
             circleMaskView.frame.origin = CGPoint(x: circleMaskX, y: circleMaskY)
             
             speechBubble.frame = CGRect(x: pad, y: pad, width: Int(activityView.bounds.width) - (2 * pad), height: Int(activityView.bounds.height - circleMaskView.frame.height) - (3 * pad))
-            
             
             let origin = CGPoint(x: circleMaskX + circleMaskView.frame.width - 12, y: speechBubble.frame.height)
             speechBubble.setupTailLayer(origin: origin, portrait: true)

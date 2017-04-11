@@ -90,6 +90,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B0156E451E9D576600A966BB /* MenuCells */ = {
+			isa = PBXGroup;
+			children = (
+				B0CC0D671E711A9B006E3D36 /* MenuCell.swift */,
+				B0F62FDA1E75EB9100F5917C /* SkillsCell.swift */,
+				B0BE17B11E8426DF0039778D /* ProjectsCell.swift */,
+				B0BE17B31E8427460039778D /* EducationCell.swift */,
+				B0BE17B51E84276E0039778D /* AboutCell.swift */,
+			);
+			name = MenuCells;
+			sourceTree = "<group>";
+		};
 		B0CC0D411E709913006E3D36 = {
 			isa = PBXGroup;
 			children = (
@@ -111,7 +123,7 @@
 		B0CC0D4C1E709913006E3D36 /* timmy_bea */ = {
 			isa = PBXGroup;
 			children = (
-				B0F97CFE1E75FF71003A0F79 /* Assets */,
+				B0F97CFE1E75FF71003A0F79 /* Animation */,
 				B0CC0D621E70992B006E3D36 /* Model */,
 				B0CC0D611E709929006E3D36 /* View */,
 				B0CC0D601E709928006E3D36 /* Controller */,
@@ -135,6 +147,7 @@
 		B0CC0D601E709928006E3D36 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B0CC0D651E7119CE006E3D36 /* MenuBar.swift */,
 				B0CC0D4F1E709913006E3D36 /* HomeViewController.swift */,
 				B0DEFD6E1E8B3E8A000D1721 /* VideoLauncher.swift */,
 				B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */,
@@ -145,12 +158,7 @@
 		B0CC0D611E709929006E3D36 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B0CC0D651E7119CE006E3D36 /* MenuBar.swift */,
-				B0CC0D671E711A9B006E3D36 /* MenuCell.swift */,
-				B0F62FDA1E75EB9100F5917C /* SkillsCell.swift */,
-				B0BE17B11E8426DF0039778D /* ProjectsCell.swift */,
-				B0BE17B31E8427460039778D /* EducationCell.swift */,
-				B0BE17B51E84276E0039778D /* AboutCell.swift */,
+				B0156E451E9D576600A966BB /* MenuCells */,
 				B0BE17B71E843A870039778D /* ProjectVideoCell.swift */,
 				B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */,
 				B09D46BC1E90BBCB0018FA65 /* StackView.swift */,
@@ -174,12 +182,12 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		B0F97CFE1E75FF71003A0F79 /* Assets */ = {
+		B0F97CFE1E75FF71003A0F79 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
 				B029A2B41E83775400500C95 /* skills_v29.json */,
 			);
-			name = Assets;
+			name = Animation;
 			sourceTree = "<group>";
 		};
 		C41885AA57EF17C6780ECFF9 /* Pods */ = {
@@ -452,7 +460,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F3B7356EEDCA8D942AC3EF44 /* Pods-timmy_bea.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				DEVELOPMENT_TEAM = 2733C6P24Y;
 				INFOPLIST_FILE = timmy_bea/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -466,7 +474,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C344AF3DE2F7A1F84028909 /* Pods-timmy_bea.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				DEVELOPMENT_TEAM = 2733C6P24Y;
 				INFOPLIST_FILE = timmy_bea/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

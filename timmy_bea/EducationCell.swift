@@ -87,16 +87,6 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         let boundaryEnd = CGPoint(x: stackView.frame.width, y: boundaryY)
         collisionBehavior.addBoundary(withIdentifier: 1 as NSCopying, from: boundaryStart, to: boundaryEnd)
         
-        //left boundary
-//        let leftBoundaryStart = CGPoint(x: 0, y: 0)
-//        let leftBoundaryEnd = CGPoint(x: 0, y: stackView.frame.height)
-//        collisionBehavior.addBoundary(withIdentifier: 2 as NSCopying, from: leftBoundaryStart, to: leftBoundaryEnd)
-        
-        //right boundary
-//        let rightBoundaryStart = CGPoint(x: stackView.frame.width, y: 0)
-//        let rightBoundaryEnd = CGPoint(x: stackView.frame.width, y: stackView.frame.height)
-//        collisionBehavior.addBoundary(withIdentifier: 3 as NSCopying, from: rightBoundaryStart, to: rightBoundaryEnd)
-        
         dynamicAnimator.addBehavior(collisionBehavior)
         
         gravityBehavior.addItem(stackView)
