@@ -60,6 +60,32 @@ struct FontManager {
     static func AvenirNextItalic(size: CGFloat) -> UIFont {
         return UIFont(name: "AvenirNext-Italic", size: size)!
     }
+    
+    static func getTextSizes() {
+        
+        if Device.isSize(height: .Inches_4_7) {
+            
+            sizeNavText = 20
+            sizeHeader = 18
+            sizeSubHeader = 14
+            sizeBodyText = 12
+            sizeFootnote = 11
+            
+        } else if Device.isSize(height: .Inches_4) {
+            
+            sizeNavText = 18
+            sizeHeader = 14
+            sizeSubHeader = 12
+            sizeBodyText = 10
+            sizeFootnote = 9
+        }
+    }
+
+    static var sizeNavText: CGFloat = 23
+    static var sizeHeader: CGFloat = 20
+    static var sizeSubHeader: CGFloat = 16
+    static var sizeBodyText: CGFloat = 14
+    static var sizeFootnote: CGFloat = 12
 }
 
 extension UIView {

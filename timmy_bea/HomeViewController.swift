@@ -38,14 +38,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor.white
         titleLabel.text = "Skills"
-        titleLabel.font = FontManager.AvenirNextRegular(size: 23)
+        titleLabel.font = FontManager.AvenirNextRegular(size: FontManager.sizeNavText)
         return titleLabel
     }()
     
     let footerLabel: UILabel = {
         let label = UILabel()
         label.text = "Tim Beals • iOS Developer"
-        label.font = FontManager.AvenirNextRegular(size: 16)
+        label.font = FontManager.AvenirNextRegular(size: FontManager.sizeSubHeader)
         return label
     }()
     
@@ -66,9 +66,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return cv
     }()
     
-    var navHeight: CGFloat {
-        return (navigationController?.navigationBar.frame.height)!
-    }
+    var navPortraitHeight: CGFloat = 44
+    var navLandscapeHeight: CGFloat = 44
     
     var menuHeight: CGFloat {
         return menuBar.frame.height
@@ -79,6 +78,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if Device.isSizeOrSmaller(height: .Inches_4_7) {
+          navLandscapeHeight = 32
+        }
+
         view.addSubview(menuBar)
         view.addSubview(footerLabel)
     
@@ -109,9 +112,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     //MARK: set frame of collectionView for orientation
     func setCollectionViewFrame(withSize size: CGSize) {
         if UIDevice.current.orientation.isPortrait {
-            collectionView.frame = CGRect(x: 0, y: menuHeight + navHeight + 20, width: size.width, height: size.height - menuHeight - navHeight - 20)
+            collectionView.frame = CGRect(x: 0, y: menuHeight + navPortraitHeight + 20, width: size.width, height: size.height - menuHeight - navPortraitHeight - 20)
         } else {
-            collectionView.frame = CGRect(x: 0, y: menuHeight + navHeight, width: size.width, height: size.height - menuHeight - navHeight)
+            collectionView.frame = CGRect(x: 0, y: menuHeight + navLandscapeHeight, width: size.width, height: size.height - menuHeight - navLandscapeHeight)
         }
     }
     
@@ -186,7 +189,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     //MARK: Setup menu bar
     private func setupMenuBar(withSize size: CGSize) {
-        var height = navHeight
+        var height = navPortraitHeight
         
         if UIDevice.current.orientation.isPortrait {
             height += CGFloat(20.0)
@@ -199,6 +202,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             view.addConstraints(footerV)
             
         } else {
+            height = navLandscapeHeight
             footerLabel.textColor = ColorManager.customDarkBlue()
             footerLabel.textAlignment = .right
             footerH = NSLayoutConstraint.constraintsWithFormat(format: "H:[v0]-24-|", views: footerLabel)

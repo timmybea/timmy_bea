@@ -82,6 +82,12 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
         
         let skillsArray = Skill.skillDataArray()
         
+        var space: CGFloat = 20
+        
+        if Device.isSize(height: .Inches_4) {
+            space = 16
+        }
+        
         if UIApplication.shared.statusBarOrientation.isPortrait {
             
             for (i, skill) in skillsArray.enumerated() {
@@ -93,15 +99,18 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
                 let underline = UIView(frame: CGRect(x: 0, y: 0, width: skill.underline, height: 2))
                 underline.backgroundColor = ColorManager.customSand()
                 underline.center.x = label.center.x
-                underline.center.y = label.center.y + 20
+                
+
+
+                underline.center.y = label.center.y + space
                 
                 let textView = createTextView()
-                textView.frame = CGRect(x: (CGFloat(i) * scrollView.frame.width) + 12, y: underline.center.y + 8, width: scrollView.bounds.width - 24, height: 240)
+                textView.frame = CGRect(x: (CGFloat(i) * scrollView.frame.width) + 12, y: underline.center.y, width: scrollView.bounds.width - 24, height: 240)
                 textView.text = skill.bodyText
                 
                 if i == 0 {
                     textView.textAlignment = .center
-                    textView.font = FontManager.AvenirNextMedium(size: 18)
+                    textView.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
                 }
                 
                 scrollView.addSubview(label)
@@ -121,7 +130,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
                 let underline = UIView(frame: CGRect(x: 0, y: 0, width: skill.underline, height: 2))
                 underline.backgroundColor = ColorManager.customSand()
                 underline.center.x = label.center.x
-                underline.center.y = label.center.y + 20
+                underline.center.y = label.center.y + space
 
                 let textView = createTextView()
                 textView.frame = CGRect(x: (CGFloat(i) * scrollView.frame.width) + 12, y: underline.center.y, width: scrollView.bounds.width - 24, height: 240)
@@ -129,7 +138,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
 
                 if i == 0 {
                     textView.textAlignment = .center
-                    textView.font = FontManager.AvenirNextMedium(size: 18)
+                    textView.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
                 }
                 
                 scrollView.addSubview(label)
@@ -142,7 +151,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
     
     private func createTitleLabel() -> UILabel {
         let label = UILabel()
-        label.font = FontManager.AvenirNextDBold(size: 20)
+        label.font = FontManager.AvenirNextDBold(size: FontManager.sizeHeader)
         label.textColor = ColorManager.customSand()
         label.textAlignment = .center
         return label
@@ -153,7 +162,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
         textView.backgroundColor = UIColor.clear
         textView.textAlignment = .justified
         textView.textColor = ColorManager.customSand()
-        textView.font = FontManager.AvenirNextMedium(size: 16)
+        textView.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
         textView.isEditable = false
         return textView
     }

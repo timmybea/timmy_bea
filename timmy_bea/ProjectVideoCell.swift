@@ -8,7 +8,7 @@
 
 import UIKit
 
-let pad: Int = 8
+var pad: Int = 8
 
 class ProjectVideoCell: UICollectionViewCell {
 
@@ -29,7 +29,7 @@ class ProjectVideoCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = FontManager.AvenirNextDBold(size: 20)
+        label.font = FontManager.AvenirNextDBold(size: FontManager.sizeHeader)
         label.textColor = ColorManager.customSand()
         label.textAlignment = .left
         label.backgroundColor = UIColor.clear
@@ -39,7 +39,7 @@ class ProjectVideoCell: UICollectionViewCell {
     let completedLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
-        label.font = FontManager.AvenirNextMedium(size: 14)
+        label.font = FontManager.AvenirNextMedium(size: FontManager.sizeBodyText)
         label.textColor = ColorManager.customSand()
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +62,7 @@ class ProjectVideoCell: UICollectionViewCell {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
         label.textColor = ColorManager.customSand()
-        label.font = FontManager.AvenirNextRegular(size: 14)
+        label.font = FontManager.AvenirNextRegular(size: FontManager.sizeBodyText)
         return label
     }()
     
@@ -70,7 +70,7 @@ class ProjectVideoCell: UICollectionViewCell {
         let textView = UITextView()
         textView.backgroundColor = UIColor.clear
         textView.textColor = ColorManager.customSand()
-        textView.font = FontManager.AvenirNextRegular(size: 14)
+        textView.font = FontManager.AvenirNextRegular(size: FontManager.sizeBodyText)
         return textView
     }()
     

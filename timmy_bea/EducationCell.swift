@@ -23,7 +23,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         label.textColor = ColorManager.customSand()
         label.text = "Drag to view"
         label.textAlignment = .center
-        label.font = FontManager.AvenirNextRegular(size: 16)
+        label.font = FontManager.AvenirNextRegular(size: FontManager.sizeSubHeader)
         return label
     }()
     

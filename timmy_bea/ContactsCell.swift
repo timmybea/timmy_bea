@@ -19,7 +19,7 @@ class ContactsCell: UICollectionViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: FontManager.sizeBodyText)
         label.textColor = UIColor.darkGray
         return label
     }()

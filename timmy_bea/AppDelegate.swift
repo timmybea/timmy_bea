@@ -8,11 +8,6 @@
 
 import UIKit
 
-var navPortraitHeight: Int = 44
-var navLandscapeHeight: Int = 44
-var bodyTextSize: Int = 14
-
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -34,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //MARK: Custom status bar
         application.statusBarStyle = .lightContent
+        
+        FontManager.getTextSizes()
         
         let statusBarBackgroundView = UIView()
         statusBarBackgroundView.backgroundColor = UIColor.clear

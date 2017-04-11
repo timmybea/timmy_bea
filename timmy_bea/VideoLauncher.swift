@@ -121,7 +121,7 @@ class VideoLauncher: NSObject {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = FontManager.AvenirNextDBold(size: 20)
+        label.font = FontManager.AvenirNextDBold(size: FontManager.sizeHeader)
         label.textColor = ColorManager.customSand()
         label.textAlignment = .left
         label.backgroundColor = UIColor.clear
@@ -131,7 +131,7 @@ class VideoLauncher: NSObject {
     private let completedLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
-        label.font = FontManager.AvenirNextMedium(size: 14)
+        label.font = FontManager.AvenirNextMedium(size: FontManager.sizeBodyText)
         label.textColor = ColorManager.customSand()
         label.textAlignment = .right
         return label
@@ -142,7 +142,7 @@ class VideoLauncher: NSObject {
         textView.backgroundColor = UIColor.clear
         textView.textColor = ColorManager.customSand()
         textView.textAlignment = .justified
-        textView.font = FontManager.AvenirNextRegular(size: 14)
+        textView.font = FontManager.AvenirNextRegular(size: FontManager.sizeBodyText)
         return textView
     }()
     

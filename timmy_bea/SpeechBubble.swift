@@ -24,7 +24,7 @@ class SpeechBubble: UIView, CAAnimationDelegate {
         textView.backgroundColor = UIColor.clear
         textView.textAlignment = .justified
         textView.textColor = ColorManager.customDarkBlue()
-        textView.font = FontManager.AvenirNextMedium(size: 16)
+        textView.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
         textView.isEditable = false
         return textView
     }()

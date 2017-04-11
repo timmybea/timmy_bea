@@ -34,7 +34,7 @@ class StackView: UIView, UIScrollViewDelegate {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = FontManager.AvenirNextDBold(size: 20)
+        label.font = FontManager.AvenirNextDBold(size: FontManager.sizeHeader)
         label.textColor = ColorManager.customSand()
         label.textAlignment = .center
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
@@ -45,7 +45,7 @@ class StackView: UIView, UIScrollViewDelegate {
     let subtitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = ColorManager.customSand()
-        label.font = FontManager.AvenirNextMedium(size: 16)
+        label.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
         label.textAlignment = .center
         return label
     }()
@@ -163,24 +163,24 @@ class StackView: UIView, UIScrollViewDelegate {
             let style = NSMutableParagraphStyle()
             style.alignment = NSTextAlignment.justified
             
-            attributedString.append(NSAttributedString(string: career.description, attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: 14), NSForegroundColorAttributeName: ColorManager.customSand(), NSParagraphStyleAttributeName: style]))
+            attributedString.append(NSAttributedString(string: career.description, attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand(), NSParagraphStyleAttributeName: style]))
             
-            attributedString.append(NSAttributedString(string: "\n\nEducation", attributes: [NSFontAttributeName: FontManager.AvenirNextMedium(size: 16), NSForegroundColorAttributeName: ColorManager.customSand()]))
+            attributedString.append(NSAttributedString(string: "\n\nEducation", attributes: [NSFontAttributeName: FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader), NSForegroundColorAttributeName: ColorManager.customSand()]))
             
             for qualification in career.education {
-                attributedString.append(NSAttributedString(string: "\n\(qualification.institution!) - \(qualification.role!) \(qualification.date!)", attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: 12), NSForegroundColorAttributeName: ColorManager.customSand()]))
+                attributedString.append(NSAttributedString(string: "\n\(qualification.institution!) - \(qualification.role!) \(qualification.date!)", attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: FontManager.sizeFootnote), NSForegroundColorAttributeName: ColorManager.customSand()]))
             }
             
             if career.relatedRoles.count > 0 {
                 
-                attributedString.append(NSAttributedString(string: "\n\nRelated Work", attributes: [NSFontAttributeName: FontManager.AvenirNextMedium(size: 16), NSForegroundColorAttributeName: ColorManager.customSand()]))
+                attributedString.append(NSAttributedString(string: "\n\nRelated Work", attributes: [NSFontAttributeName: FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader), NSForegroundColorAttributeName: ColorManager.customSand()]))
                 
                 for role in career.relatedRoles {
-                    attributedString.append(NSAttributedString(string: "\n\(role.institution!) - \(role.role!) \(role.date!)", attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: 12), NSForegroundColorAttributeName: ColorManager.customSand()]))
+                    attributedString.append(NSAttributedString(string: "\n\(role.institution!) - \(role.role!) \(role.date!)", attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: FontManager.sizeFootnote), NSForegroundColorAttributeName: ColorManager.customSand()]))
                 }
             }
             
-            attributedString.append(NSAttributedString(string: "\n\nReferences available by request", attributes: [NSFontAttributeName: FontManager.AvenirNextItalic(size: 14), NSForegroundColorAttributeName: ColorManager.customSand()]))
+            attributedString.append(NSAttributedString(string: "\n\nReferences available by request", attributes: [NSFontAttributeName: FontManager.AvenirNextItalic(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand()]))
         }
         return attributedString
     }
