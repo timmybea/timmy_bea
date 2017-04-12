@@ -31,7 +31,7 @@ class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     
     var homeController: HomeViewController?
     
-    let blackView = UIView()
+    private let blackView = UIView()
     let collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
@@ -39,10 +39,10 @@ class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
         return cv
     }()
     
-    let cellId = "cellId"
-    let cellHeight: CGFloat = 45
+    private let cellId = "cellId"
+    private let cellHeight: CGFloat = 45
     
-    let contactsArray: [Contact] = [Contact(name: .email, imageName: "contact_email"), Contact(name: .linkedIn, imageName: "contact_linkedIn"), Contact(name: .github, imageName: "contact_git"), Contact(name: .cancel, imageName: "contact_cancel")]
+    private let contactsArray: [Contact] = [Contact(name: .email, imageName: "contact_email"), Contact(name: .linkedIn, imageName: "contact_linkedIn"), Contact(name: .github, imageName: "contact_git"), Contact(name: .cancel, imageName: "contact_cancel")]
 
     
     func launchContacts() {
@@ -70,11 +70,11 @@ class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
         }
     }
     
-    func dismissNoSetting() {
+    @objc private func dismissNoSetting() {
         handleDismiss(contact: contactsArray[3])
     }
     
-    func handleDismiss(contact: Contact) {
+    private func handleDismiss(contact: Contact) {
         
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.blackView.alpha = 0
