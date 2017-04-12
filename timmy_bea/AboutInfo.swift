@@ -10,7 +10,6 @@ import UIKit
 
 struct AboutInfo {
 
-    
     static func getAboutInfo() -> [String] {
         
         let aboutOne = "Thank you for taking the time to experience this app and see some of the skill set that I have to offer. You can tap my face (gently!) to learn more about my soft skills, and what kinds of opportunities I'm seeking."
@@ -27,6 +26,4 @@ struct AboutInfo {
         
         return [aboutOne, aboutTwo, aboutThree, aboutFour, aboutFive]
     }
-    
-    
 }

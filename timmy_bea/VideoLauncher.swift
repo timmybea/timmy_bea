@@ -15,7 +15,6 @@ class VideoLauncher: NSObject {
         didSet {
             titleLabel.text = project?.title
             completedLabel.text = project?.dateCompleted
-            longDescTextView.text = project?.longDescription
         }
     }
     
@@ -65,6 +64,24 @@ class VideoLauncher: NSObject {
                 self.isVideoLaunched = true
             })
         }
+     
+        let attributedString = NSMutableAttributedString()
+        
+        let style = NSMutableParagraphStyle()
+        style.alignment = NSTextAlignment.justified
+        
+        attributedString.append(NSAttributedString(string: project.longDescription, attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand(), NSParagraphStyleAttributeName: style]))
+        
+        style.alignment = NSTextAlignment.left
+        attributedString.append(NSAttributedString(string: "\n\nLanguages: ", attributes: [NSFontAttributeName: FontManager.AvenirNextMedium(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand(), NSParagraphStyleAttributeName: style]))
+        
+        attributedString.append(NSAttributedString(string: project.languages, attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand()]))
+        
+        attributedString.append(NSAttributedString(string: "\n\nFrameworks: ", attributes: [NSFontAttributeName: FontManager.AvenirNextMedium(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand()]))
+        
+        attributedString.append(NSAttributedString(string: project.frameWorks, attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand()]))
+        
+        longDescTextView.attributedText = attributedString
     }
     
     func handleDismiss() {
@@ -181,8 +198,8 @@ class VideoLauncher: NSObject {
         let currentX = Int(8 + titleLabel.frame.width)
         completedLabel.frame = CGRect(x: currentX, y: currentY, width: Int(titleLabel.frame.width), height: 22)
         
-        currentY += Int(titleLabel.frame.height) + pad
-        longDescTextView.frame = CGRect(x: pad, y: currentY, width: Int(blueView.frame.width) - (2 * pad), height: Int(blueView.frame.height) - currentY - pad)
+        currentY += Int(titleLabel.frame.height)
+        longDescTextView.frame = CGRect(x: 4, y: currentY, width: Int(blueView.frame.width) - (2 * 4), height: Int(blueView.frame.height) - currentY - pad)
         
         let dismissY: CGFloat = CGFloat(40 + screenSize.height)
         dismissTouchView.frame = CGRect(x: 0, y: dismissY, width: imageView.frame.width, height: imageView.frame.height - CGFloat(dismissY))

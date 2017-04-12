@@ -11,20 +11,20 @@ import AVFoundation
 
 class VideoPlayerView: UIView {
     
-    var player: AVPlayer?
-    var playerLayer: AVPlayerLayer?
-    var gradientLayer: CAGradientLayer?
+    private var player: AVPlayer?
+    private var playerLayer: AVPlayerLayer?
+    private var gradientLayer: CAGradientLayer?
 
-    var isSettingPlay = true
+    private var isSettingPlay = true
     
-    let activityIndicatorView: UIActivityIndicatorView = {
+    private let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         aiv.translatesAutoresizingMaskIntoConstraints = false
         aiv.startAnimating()
         return aiv
     }()
     
-    let pausePlayButton: UIButton = {
+    private let pausePlayButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(named: "Pause")
         button.setImage(image, for: .normal)
@@ -34,11 +34,11 @@ class VideoPlayerView: UIView {
         return button
     }()
     
-    func handleTapGesture() {
+    @objc private func handleTapGesture() {
         handlePausePlayTouch()
     }
     
-    func handlePausePlayTouch() {
+    @objc private func handlePausePlayTouch() {
         if isSettingPlay {
             player?.pause()
             pausePlayButton.alpha = 1
@@ -55,8 +55,8 @@ class VideoPlayerView: UIView {
         }
     }
     
-    func fadeButton() {
-        let when = DispatchTime.now() + 2 // change 2 to desired number of seconds
+    private func fadeButton() {
+        let when = DispatchTime.now() + 2
         DispatchQueue.main.asyncAfter(deadline: when) {
             UIView.animate(withDuration: 1, animations: {
                 if self.isSettingPlay {
@@ -66,7 +66,7 @@ class VideoPlayerView: UIView {
         }
     }
     
-    let controlsContainerView: UIView = {
+    private let controlsContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black
         return view
@@ -82,7 +82,7 @@ class VideoPlayerView: UIView {
         return label
     }()
     
-    var currentTimeLabel: UILabel = {
+    private var currentTimeLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00"
         label.font = UIFont.boldSystemFont(ofSize: 13)
@@ -102,8 +102,7 @@ class VideoPlayerView: UIView {
         return slider
     }()
     
-    func handleSliderChangedValue() {
-        //print(slider.value)
+    @objc private func handleSliderChangedValue() {
         if let duration = player?.currentItem?.duration {
             let totalSeconds = CMTimeGetSeconds(duration)
             
@@ -111,7 +110,7 @@ class VideoPlayerView: UIView {
             let seekTime = CMTime(value: Int64(value), timescale: 1)
             
             player?.seek(to: seekTime, completionHandler: { (completedSeek) in
-                //do something here
+                //
             })
         }
     }
@@ -166,7 +165,6 @@ class VideoPlayerView: UIView {
     
     
     private func setupVideoPlayer(withURLString URLString: String) {
-        //let urlString = URLString
         let videoURL = NSURL(string: URLString)
         player = AVPlayer(url: videoURL as! URL)
         playerLayer = AVPlayerLayer(player: player)
@@ -176,9 +174,7 @@ class VideoPlayerView: UIView {
         
         player?.play()
         
-        //This keyPath is called when the AVPlayer begins rendering frames. In other words, when the video has loaded and starts playing. Notice the observeValue function below...
         player?.addObserver(self, forKeyPath: "currentItem.loadedTimeRanges", options: .new, context: nil)
-        
         
         //MARK:track progress of the video
         let interval = CMTime(value: 1, timescale: 2)
@@ -202,7 +198,7 @@ class VideoPlayerView: UIView {
         gradientLayer?.frame = self.bounds
     }
     
-    //This function changes the play position of the video when the slider changes value
+    //MARK: This function changes the play position of the video when the slider changes value
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "currentItem.loadedTimeRanges" {
             activityIndicatorView.stopAnimating()
@@ -226,5 +222,4 @@ class VideoPlayerView: UIView {
         gradientLayer?.locations = [0.9, 1.6]
         controlsContainerView.layer.addSublayer(gradientLayer!)
     }
-    
 }

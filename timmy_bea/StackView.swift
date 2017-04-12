@@ -25,14 +25,14 @@ class StackView: UIView, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let logoImageView: UIImageView = {
+    private let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = ColorManager.customSand()
         return imageView
     }()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = FontManager.AvenirNextDBold(size: FontManager.sizeHeader)
         label.textColor = ColorManager.customSand()
@@ -42,7 +42,7 @@ class StackView: UIView, UIScrollViewDelegate {
         return label
     }()
     
-    let subtitleLabel: UILabel = {
+    private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = ColorManager.customSand()
         label.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
@@ -79,7 +79,7 @@ class StackView: UIView, UIScrollViewDelegate {
         layoutFrames()
     }
     
-    func layoutFrames() {
+    private func layoutFrames() {
         if let career = self.career {
             logoImageView.image = UIImage(named: career.imageName)?.withRenderingMode(.alwaysTemplate)
             
@@ -152,8 +152,6 @@ class StackView: UIView, UIScrollViewDelegate {
         }
     }
     
-    
-    
     private func createAttributedString() -> NSAttributedString {
         
         let attributedString = NSMutableAttributedString()
@@ -184,5 +182,4 @@ class StackView: UIView, UIScrollViewDelegate {
         }
         return attributedString
     }
-
 }

@@ -16,10 +16,10 @@ class SpeechBubble: UIView, CAAnimationDelegate {
         }
     }
     
-    var stretchLayer: CALayer?
-    var tailLayer: CALayer?
+    private var stretchLayer: CALayer?
+    private var tailLayer: CALayer?
     
-    var textView: UITextView = {
+    private var textView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = UIColor.clear
         textView.textAlignment = .justified
@@ -32,7 +32,7 @@ class SpeechBubble: UIView, CAAnimationDelegate {
     
     var displayText: String?
     
-    func setupBubbleLayer() {
+    private func setupBubbleLayer() {
         stretchLayer?.removeFromSuperlayer()
         
         if let image = UIImage(named: "speech_bubble") {
@@ -112,11 +112,11 @@ class SpeechBubble: UIView, CAAnimationDelegate {
         Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(tailDownAnimation), userInfo: nil, repeats: false)
     }
     
-    let tailAnimationDuration: CFTimeInterval = 0.05
-    let bubbleAnimationDuration: CFTimeInterval = 0.2
+    private let tailAnimationDuration: CFTimeInterval = 0.05
+    private let bubbleAnimationDuration: CFTimeInterval = 0.2
     
-    var beginTailPosition = CGPoint.zero
-    var endTailPosition = CGPoint.zero
+    private var beginTailPosition = CGPoint.zero
+    private var endTailPosition = CGPoint.zero
     
     private func tailUpAnimation() {
         if let tailLayer = tailLayer {
@@ -200,8 +200,7 @@ class SpeechBubble: UIView, CAAnimationDelegate {
             textView.center.y = self.center.y
             textView.alpha = 1
         default:
-            print("no luck this time")
-            
+            print("speech bubble animation error")
         }
     }
 }

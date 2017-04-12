@@ -15,7 +15,7 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         return launcher
     }()
     
-    var projectDataSource = [Project]()
+    private var projectDataSource = [Project]()
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -27,7 +27,7 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         return cv
     }()
     
-    let projectVideoCellID = "projectVideoCell"
+    private let projectVideoCellID = "projectVideoCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)

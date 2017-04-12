@@ -35,6 +35,10 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
         
         setupScrollView()
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     private func positionAnimationView() {
         
@@ -180,9 +184,4 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
         pageTracker = Int(scrollView.contentOffset.x / scrollView.frame.width)
         animationView.animationProgress = progress
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }

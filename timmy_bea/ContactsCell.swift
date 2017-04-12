@@ -17,14 +17,14 @@ class ContactsCell: UICollectionViewCell {
         }
     }
     
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: FontManager.sizeBodyText)
         label.textColor = UIColor.darkGray
         return label
     }()
     
-    let iconImageView: UIImageView = {
+    private let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.tintColor = UIColor.darkGray
@@ -37,8 +37,11 @@ class ContactsCell: UICollectionViewCell {
         setupView()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    func setupView() {
+    private func setupView() {
         addSubview(nameLabel)
         addSubview(iconImageView)
         
@@ -55,9 +58,5 @@ class ContactsCell: UICollectionViewCell {
             nameLabel.textColor = isHighlighted ? UIColor.white : UIColor.darkGray
             self.backgroundColor = isHighlighted ? UIColor.darkGray : UIColor.white
         }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

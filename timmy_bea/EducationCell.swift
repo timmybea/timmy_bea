@@ -10,15 +10,15 @@ import UIKit
 
 class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
 
-    var stackViews = [StackView]()
-    var dynamicAnimator: UIDynamicAnimator!
-    var gravityBehavior: UIGravityBehavior!
-    var snap: UISnapBehavior?
-    var isDragging = false
-    var previousPosition: CGPoint?
-    var isViewSnapped = false
+    private var stackViews = [StackView]()
+    private var dynamicAnimator: UIDynamicAnimator!
+    private var gravityBehavior: UIGravityBehavior!
+    private var snap: UISnapBehavior?
+    private var isDragging = false
+    private var previousPosition: CGPoint?
+    private var isViewSnapped = false
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = ColorManager.customSand()
         label.text = "Drag to view"
@@ -27,7 +27,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         return label
     }()
     
-    var careers = [Career]()
+    private var careers = [Career]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,12 +51,12 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func layoutBackgroundViews() {
+    private func layoutBackgroundViews() {
         let titleX = CGFloat((activityView.bounds.width - 130) / 2)
         titleLabel.frame = CGRect(x: titleX, y: 4, width: 130, height: 20)
     }
     
-    func setupDynamicAnimator() {
+    private func setupDynamicAnimator() {
         
         dynamicAnimator = UIDynamicAnimator(referenceView: self)
         
@@ -65,12 +65,12 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         dynamicAnimator.addBehavior(gravityBehavior)
     }
     
-    func addStackViews(with offset: CGFloat, career: Career)  {
+    private func addStackViews(with offset: CGFloat, career: Career)  {
         
         let stackView = StackView(frame: self.activityView.bounds)
 
         activityView.addSubview(stackView)
-        stackView.career = career // use setter to layout stackView
+        stackView.career = career
         
         stackView.frame = updateStackViewFrame(stackView: stackView, offset: offset)
         
@@ -99,7 +99,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     }
     
     
-    func handlePan(panRecognizer: UIPanGestureRecognizer) {
+    @objc private func handlePan(panRecognizer: UIPanGestureRecognizer) {
         
         let currentPosition = panRecognizer.location(in: self)
         
@@ -128,8 +128,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         }
     }
     
-    func snap(dragView: UIView) {
-        
+    private func snap(dragView: UIView) {
         
         let viewHasNearedSnapPosition = dragView.frame.origin.y < 60
 
@@ -154,7 +153,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         }
     }
     
-    func changeStackViewAlpha(currentView: UIView) {
+    private func changeStackViewAlpha(currentView: UIView) {
         
         if isViewSnapped {
             for stackView in stackViews {
@@ -197,5 +196,4 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
             initialOffset -= offset
         }
     }
-
 }

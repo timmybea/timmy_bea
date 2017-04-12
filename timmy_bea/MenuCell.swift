@@ -21,7 +21,11 @@ class MenuCell: UICollectionViewCell {
         setupCell()
     }
     
-    func setupCell() {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupCell() {
         
         addSubview(imageView)
         addConstraintsWithFormat(format: "H:[v0(26)]", views: imageView)
@@ -41,9 +45,4 @@ class MenuCell: UICollectionViewCell {
             imageView.tintColor = isSelected ? UIColor.white : ColorManager.customDarkBlue()
         }
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
 }

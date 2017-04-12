@@ -16,19 +16,19 @@ class CircleMaskView: UIView {
     
     var circleMaskViewDelegate: CircleMaskViewDelegate?
     
-    let circlePathLayer = CAShapeLayer()
+    private let circlePathLayer = CAShapeLayer()
     
-    let animationDuration: CFTimeInterval = 0.15
+    private let animationDuration: CFTimeInterval = 0.15
     
-    var ovalPathSmall: UIBezierPath {
+    private var ovalPathSmall: UIBezierPath {
         return UIBezierPath(ovalIn: CGRect(x: 8, y: 8, width: self.bounds.width - 16, height: self.bounds.height - 16))
     }
     
-    var ovalPathMedium: UIBezierPath {
+    private var ovalPathMedium: UIBezierPath {
         return UIBezierPath(ovalIn: CGRect(x: 4, y: 4, width: self.bounds.width - 8, height: self.bounds.height - 8))
     }
     
-    var ovalPathLarge: UIBezierPath {
+    private var ovalPathLarge: UIBezierPath {
         return UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
     }
     

@@ -27,7 +27,7 @@ class ProjectVideoCell: UICollectionViewCell {
         }
     }
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = FontManager.AvenirNextDBold(size: FontManager.sizeHeader)
         label.textColor = ColorManager.customSand()
@@ -36,7 +36,7 @@ class ProjectVideoCell: UICollectionViewCell {
         return label
     }()
     
-    let completedLabel: UILabel = {
+    private let completedLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
         label.font = FontManager.AvenirNextMedium(size: FontManager.sizeBodyText)
@@ -46,19 +46,19 @@ class ProjectVideoCell: UICollectionViewCell {
         return label
     }()
     
-    let separatorView: UIView = {
+    private let separatorView: UIView = {
         let view = UIView()
         view.backgroundColor = ColorManager.customSand()
         return view
     }()
     
-    let thumbnailImageView: UIImageView = {
+    private let thumbnailImageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor.gray
         return view
     }()
     
-    let shortDescLabel: UILabel = {
+    private let shortDescLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
         label.textColor = ColorManager.customSand()
@@ -66,7 +66,7 @@ class ProjectVideoCell: UICollectionViewCell {
         return label
     }()
     
-    let longDescTextView: UITextView = {
+    private let longDescTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = UIColor.clear
         textView.textColor = ColorManager.customSand()
@@ -74,7 +74,7 @@ class ProjectVideoCell: UICollectionViewCell {
         return textView
     }()
     
-    let gitHubButton: UIButton = {
+    private let gitHubButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(named: "git_pos")
         button.setImage(image, for: .normal)
@@ -98,15 +98,7 @@ class ProjectVideoCell: UICollectionViewCell {
     }
     
     func redrawCell() {
-        
-//        for constraint in self.constraints {
-//            self.removeConstraint(constraint)
-//        }
-        
-//        for view in self.subviews {
-//            view.removeFromSuperview()
-//        }
-    
+     
         var currentY = 0
         var currentX = 0
         
@@ -164,16 +156,13 @@ class ProjectVideoCell: UICollectionViewCell {
         }
     }
     
-    func launchGitHub() {
-        //print("launch git hub")
+    @objc private func launchGitHub() {
         if let url = URL(string: (project?.gitHubURL)!) {
             UIApplication.shared.open(url)
         }
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
+    }    
 }

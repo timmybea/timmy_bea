@@ -90,7 +90,7 @@ struct Device {
         return SIMULATOR_OR_DEVICE == "Device"
     }
     
-    //    // MARK: - Device Size Checks
+    // MARK: - Device Size Checks
     enum Heights: CGFloat {
         case Inches_3_5 = 480
         case Inches_4 = 568
@@ -173,5 +173,5 @@ struct Device {
     
     static func IS_5_5_INCHES_OR_SMALLER() -> Bool {
         return isPhone() && isSizeOrLarger(height: .Inches_5_5)
-}
+    }
 }

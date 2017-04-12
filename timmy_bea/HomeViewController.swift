@@ -19,7 +19,7 @@ protocol HomeViewControllerDelegate {
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MFMailComposeViewControllerDelegate {
 
-    var backgroundImage: UIImageView = {
+    private var backgroundImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "background_gradient")
         view.contentMode = .scaleToFill
@@ -32,9 +32,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return mb
     }()
     
-    let headings: [String] = ["Skills", "Projects", "Education & Work", "About"]
+    private let headings: [String] = ["Skills", "Projects", "Education & Work", "About"]
     
-    var titleLabel: UILabel = {
+    private var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor.white
         titleLabel.text = "Skills"
@@ -42,15 +42,15 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return titleLabel
     }()
     
-    let footerLabel: UILabel = {
+    private let footerLabel: UILabel = {
         let label = UILabel()
         label.text = "Tim Beals • iOS Developer"
         label.font = FontManager.AvenirNextRegular(size: FontManager.sizeSubHeader)
         return label
     }()
     
-    var footerH = [NSLayoutConstraint]()
-    var footerV = [NSLayoutConstraint]()
+    private var footerH = [NSLayoutConstraint]()
+    private var footerV = [NSLayoutConstraint]()
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -66,10 +66,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return cv
     }()
     
-    var navPortraitHeight: CGFloat = 44
-    var navLandscapeHeight: CGFloat = 44
+    private var navPortraitHeight: CGFloat = 44
+    private var navLandscapeHeight: CGFloat = 44
     
-    var menuHeight: CGFloat {
+    private var menuHeight: CGFloat {
         return menuBar.frame.height
     }
     
@@ -91,14 +91,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setupCollectionView()
     }
 
-    func setupBackgroundView() {
+    private func setupBackgroundView() {
         view.addSubview(backgroundImage)
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: backgroundImage)
         view.addConstraintsWithFormat(format: "V:|[v0]|", views: backgroundImage)
         view.sendSubview(toBack: backgroundImage)
     }
     
-    func setupCollectionView() {
+    private func setupCollectionView() {
         
         collectionView.register(SkillsCell.self, forCellWithReuseIdentifier: CellID.skills.rawValue)
         collectionView.register(ProjectsCell.self, forCellWithReuseIdentifier: CellID.projects.rawValue)
@@ -110,7 +110,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     //MARK: set frame of collectionView for orientation
-    func setCollectionViewFrame(withSize size: CGSize) {
+    private func setCollectionViewFrame(withSize size: CGSize) {
         if UIDevice.current.orientation.isPortrait {
             collectionView.frame = CGRect(x: 0, y: menuHeight + navPortraitHeight + 20, width: size.width, height: size.height - menuHeight - navPortraitHeight - 20)
         } else {
@@ -131,8 +131,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         navigationItem.rightBarButtonItems = [contactBarButton]
     }
     
-    func setTitleLabelPosition(withSize size: CGSize) {
-        
+    private func setTitleLabelPosition(withSize size: CGSize) {
         var labelX: CGFloat = -13.0 //half the width of the imageView in the menuBar cell
         var labelY: CGFloat = 10
         
@@ -147,7 +146,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     //MARK: Contact menu setup
-    func handleContact() {
+    @objc private func handleContact() {
         contactsLauncher.launchContacts()
     }
     
@@ -158,7 +157,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }()
     
     func pushToContact(contact: Contact) {
-
         if contact.name == .email {
             if MFMailComposeViewController.canSendMail() {
                 let mail = MFMailComposeViewController()
@@ -180,12 +178,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
-    
-    //dismiss email app
+    //MARK: dismiss email app
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true)
     }
-    
     
     //MARK: Setup menu bar
     private func setupMenuBar(withSize size: CGSize) {
@@ -215,7 +211,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         menuBar.frame = CGRect(x: 0, y: height, width: size.width, height: 50)
     }
 
-    var pageTracker: Int = 0
+    private var pageTracker: Int = 0
     
     func scrollToItemAt(index: Int) {
         pageTracker = index
@@ -232,7 +228,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         menuBar.horizontalViewLeftAnchor?.constant = leftAnchorX
     }
     
-    func setTitleFor(index: Int) {
+    private func setTitleFor(index: Int) {
         let heading = "\(headings[index])"
         titleLabel.text = heading
     }
@@ -245,8 +241,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cellIDs: [CellID] = [.skills, .projects, .education_work, .about]
-        //let cellIDs = ["test", "test", "test", "test"]
-        
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIDs[indexPath.row].rawValue, for: indexPath)
         
         if let currentCell = cell as? CustomCollectionViewCell {
@@ -274,6 +269,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return [.portrait, .landscape]
     }
     
+    //MARK: orientation change methods
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
         view.removeConstraints(footerV)
@@ -291,7 +288,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         if contactsLauncher.isContactsLaunched {
             contactsLauncher.redrawContacts(withSize: size)
         }
-        
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {

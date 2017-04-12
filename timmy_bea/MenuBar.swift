@@ -10,7 +10,7 @@ import UIKit
 
 class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    let iconNames = ["skills", "projects", "education", "about"]
+    private let iconNames = ["skills", "projects", "education", "about"]
     
     var homeViewController: HomeViewController?
     
@@ -23,15 +23,15 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         return cv
     }()
     
-    let whiteView: UIView = {
+    private let whiteView: UIView = {
         let view = UIView()
         view.backgroundColor = ColorManager.whiteNavBar()
         return view
     }()
     
-    var cvWidth: CGFloat = 0.0
+    private var cvWidth: CGFloat = 0.0
     
-    let horizontalView: UIView = {
+    private let horizontalView: UIView = {
         let horizontalView = UIView()
         horizontalView.backgroundColor = UIColor(white: 0.95, alpha: 1)
         horizontalView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,20 +65,20 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         setupHorizontalView()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     var horizontalViewLeftAnchor: NSLayoutConstraint?
     
-    func setupHorizontalView() {
+    private func setupHorizontalView() {
         horizontalViewLeftAnchor = horizontalView.leftAnchor.constraint(equalTo: self.leftAnchor)
         horizontalViewLeftAnchor?.isActive = true
         horizontalView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         horizontalView.widthAnchor.constraint(equalTo: self.collectionView.widthAnchor, multiplier: 1/4).isActive = true
         horizontalView.heightAnchor.constraint(equalToConstant: 4).isActive = true
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     //MARK: Collection view delegate methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
@@ -93,10 +93,9 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         return cell
     }
     
-    //MARK: animate the sliding horizontal view
+    //MARK: homeViewController scrolls to correct cell
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        //change the collectionview cell in Home Controller with the menubar buttons
         homeViewController?.scrollToItemAt(index: indexPath.item)
     }
     
@@ -108,6 +107,4 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
-
 }

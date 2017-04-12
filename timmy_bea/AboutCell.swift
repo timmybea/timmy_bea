@@ -12,12 +12,12 @@ var currentInfoIndex = 0
 
 class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
 
-    let speechBubble: SpeechBubble = {
+    private let speechBubble: SpeechBubble = {
         let view = SpeechBubble()
         return view
     }()
     
-    var circleMaskView: CircleMaskView = {
+    private var circleMaskView: CircleMaskView = {
         var circleDiameter = 140
         if Device.isSize(height: .Inches_4) {
             circleDiameter = 110
@@ -26,7 +26,7 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
         return view
     }()
     
-    var aboutInfo: [String] = AboutInfo.getAboutInfo()
+    private var aboutInfo: [String] = AboutInfo.getAboutInfo()
     
     private func incrementInfoIndex() {
         currentInfoIndex = (currentInfoIndex < aboutInfo.count - 1) ? currentInfoIndex + 1 : 1
@@ -39,11 +39,13 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
         circleMaskView.circleMaskViewDelegate = self
         
         activityView.addSubview(speechBubble)
-        
-        //layoutViews()
     }
     
-    func layoutViews() {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func layoutViews() {
     
         speechBubble.displayText = aboutInfo[currentInfoIndex]
         
@@ -74,21 +76,12 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
         super.redrawCell()
         
         layoutViews()
-        
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-
     
     //MARK: Circle mask view delegate method
-    func viewWasTouched() {
+    internal func viewWasTouched() {
         incrementInfoIndex()
         speechBubble.displayText = self.aboutInfo[currentInfoIndex]
         speechBubble.animateBubbleChange()
-        
-        print("This device is a \(UIDevice.current.systemVersion)")
     }
 }
