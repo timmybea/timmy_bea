@@ -175,6 +175,20 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             if let url = URL(string: "https://github.com/timmybea") {
                 UIApplication.shared.open(url)
             }
+        } else if contact.name == .mobile {
+            callNumber(phoneNumber: "5148168809")
+        }
+    }
+    
+    
+    private func callNumber(phoneNumber:String) {
+        
+        if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+            
+            let application:UIApplication = UIApplication.shared
+            if (application.canOpenURL(phoneCallURL)) {
+                application.open(phoneCallURL, options: [:], completionHandler: nil)
+            }
         }
     }
     

@@ -19,6 +19,7 @@ class Contact: NSObject {
 }
 
 enum ContactName: String {
+    case mobile = "Mobile"
     case email = "Email"
     case linkedIn = "LinkedIn"
     case github = "GitHub"
@@ -42,7 +43,7 @@ class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     private let cellId = "cellId"
     private let cellHeight: CGFloat = 45
     
-    private let contactsArray: [Contact] = [Contact(name: .email, imageName: "contact_email"), Contact(name: .linkedIn, imageName: "contact_linkedIn"), Contact(name: .github, imageName: "contact_git"), Contact(name: .cancel, imageName: "contact_cancel")]
+    private let contactsArray: [Contact] = [Contact(name: .mobile, imageName: "phone"), Contact(name: .email, imageName: "contact_email"), Contact(name: .linkedIn, imageName: "contact_linkedIn"), Contact(name: .github, imageName: "contact_git"), Contact(name: .cancel, imageName: "contact_cancel")]
 
     
     func launchContacts() {
