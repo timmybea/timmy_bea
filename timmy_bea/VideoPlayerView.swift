@@ -166,7 +166,7 @@ class VideoPlayerView: UIView {
     
     private func setupVideoPlayer(withURLString URLString: String) {
         let videoURL = NSURL(string: URLString)
-        player = AVPlayer(url: videoURL as! URL)
+        player = AVPlayer(url: videoURL! as URL)
         playerLayer = AVPlayerLayer(player: player)
         
         self.layer.addSublayer(playerLayer!)

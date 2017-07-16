@@ -33,6 +33,7 @@ class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     var homeController: HomeViewController?
     
     private let blackView = UIView()
+    
     let collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
