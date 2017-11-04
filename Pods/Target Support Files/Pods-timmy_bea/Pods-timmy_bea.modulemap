@@ -1,6 +1,0 @@
-framework module Pods_timmy_bea {
-  umbrella header "Pods-timmy_bea-umbrella.h"
-
-  export *
-  module * { export * }
-}
