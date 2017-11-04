@@ -89,7 +89,7 @@ class CircleMaskView: UIView {
         self.addGestureRecognizer(tapGesture)
     }
     
-    func performAnimations(recognizer: UITapGestureRecognizer) {
+    @objc func performAnimations(recognizer: UITapGestureRecognizer) {
         createAnimations()
         if circleMaskViewDelegate != nil {
             circleMaskViewDelegate?.viewWasTouched()

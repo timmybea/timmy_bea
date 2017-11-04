@@ -49,6 +49,9 @@
       }
       _initialShape = [self _bezierShapeFromValue:value closed:closed];
     }
+    if (shapeValues[@"x"]) {
+      NSLog(@"%s: Warning: expressions are not supported", __PRETTY_FUNCTION__);
+    }
   }
   return self;
 }
@@ -168,6 +171,11 @@
   NSArray *inTangents = pointsData[@"i"];
   NSArray *outTangents = pointsData[@"o"];
   
+  if (pointsArray.count == 0) {
+    NSLog(@"%s: Warning: shape has no vertices", __PRETTY_FUNCTION__);
+    return nil;
+  }
+  
   NSAssert((pointsArray.count == inTangents.count &&
             pointsArray.count == outTangents.count),
            @"Lottie: Incorrect number of points and tangents");
@@ -185,8 +193,7 @@
     if (CGPointEqualToPoint(previousVertex, cp1) &&
         CGPointEqualToPoint(vertex, cp2)) {
       // Straight Line
-      cp1 = LOT_PointByLerpingPoints(previousVertex, vertex, 0.01);
-      cp2 = LOT_PointByLerpingPoints(previousVertex, vertex, 0.99);
+      [shape addLineToPoint:vertex];
     } else {
       if (CGPointEqualToPoint(previousVertex, cp1)) {
         // Missing out tan
@@ -197,11 +204,10 @@
         // Missing in tan
         cp2 = LOT_PointByLerpingPoints(cp1, vertex, 0.99);
       }
+      [shape addCurveToPoint:vertex
+               controlPoint1:cp1
+               controlPoint2:cp2];
     }
-
-    [shape addCurveToPoint:vertex
-            controlPoint1:cp1
-            controlPoint2:cp2];
   }
   
   if (closedPath) {

@@ -70,21 +70,21 @@ class VideoLauncher: NSObject {
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.justified
         
-        attributedString.append(NSAttributedString(string: project.longDescription, attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand(), NSParagraphStyleAttributeName: style]))
+        attributedString.append(NSAttributedString(string: project.longDescription, attributes: [NSAttributedStringKey.font: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand(), NSAttributedStringKey.paragraphStyle: style]))
         
         style.alignment = NSTextAlignment.left
-        attributedString.append(NSAttributedString(string: "\n\nLanguages: ", attributes: [NSFontAttributeName: FontManager.AvenirNextMedium(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand(), NSParagraphStyleAttributeName: style]))
+        attributedString.append(NSAttributedString(string: "\n\nLanguages: ", attributes: [NSAttributedStringKey.font: FontManager.AvenirNextMedium(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand(), NSAttributedStringKey.paragraphStyle: style]))
         
-        attributedString.append(NSAttributedString(string: project.languages, attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand()]))
+        attributedString.append(NSAttributedString(string: project.languages, attributes: [NSAttributedStringKey.font: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
         
-        attributedString.append(NSAttributedString(string: "\n\nFrameworks: ", attributes: [NSFontAttributeName: FontManager.AvenirNextMedium(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand()]))
+        attributedString.append(NSAttributedString(string: "\n\nFrameworks: ", attributes: [NSAttributedStringKey.font: FontManager.AvenirNextMedium(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
         
-        attributedString.append(NSAttributedString(string: project.frameWorks, attributes: [NSFontAttributeName: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSForegroundColorAttributeName: ColorManager.customSand()]))
+        attributedString.append(NSAttributedString(string: project.frameWorks, attributes: [NSAttributedStringKey.font: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
         
         longDescTextView.attributedText = attributedString
     }
     
-    func handleDismiss() {
+    @objc func handleDismiss() {
         UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             
             if let window = UIApplication.shared.keyWindow {
