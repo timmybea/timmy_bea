@@ -55,7 +55,7 @@ extension UIFont {
         
         var size: CGFloat {
             switch self {
-            case .navText:      return Device.isSize(height: .Inches_4_7) ? 20 : 18
+            case .navText:      return Device.isSizeOrLarger(height: .Inches_4_7) ? 20 : 18
             case .header:       return Device.isSize(height: .Inches_4_7) ? 18 : 14
             case .subHeader:    return Device.isSize(height: .Inches_4_7) ? 14 : 12
             case .bodyText:     return Device.isSize(height: .Inches_4_7) ? 12 : 10
@@ -65,8 +65,8 @@ extension UIFont {
         
         var font: UIFont {
             switch self {
-            case .navText:      return UIFont(name: FontFamily.demiBold.rawValue, size: size)!
-            case .header:       return UIFont(name: FontFamily.medium.rawValue, size: size)!
+            case .navText:      return UIFont.systemFont(ofSize: size, weight: .medium)
+            case .header:       return UIFont.systemFont(ofSize: size, weight: .heavy)
             case .subHeader:    return UIFont(name: FontFamily.medium.rawValue, size: size)!
             case .bodyText:     return UIFont(name: FontFamily.regular.rawValue, size: size)!
             case .footNote:     return UIFont(name: FontFamily.regular.rawValue, size: size)!
@@ -117,7 +117,6 @@ extension NSLayoutConstraint {
     }
     
 }
-
 
 struct ScreenSize {
     
@@ -180,22 +179,5 @@ class CustomCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-class CustomNavigationController: UINavigationController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override var shouldAutorotate: Bool {
-        return (visibleViewController?.shouldAutorotate)!
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return (visibleViewController?.supportedInterfaceOrientations)!
-    }
-    
-}
-
 
 

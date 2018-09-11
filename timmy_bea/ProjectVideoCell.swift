@@ -52,11 +52,7 @@ class ProjectVideoCell: UICollectionViewCell {
         return view
     }()
     
-    private let thumbnailImageView: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = UIColor.gray
-        return view
-    }()
+    private let thumbnailImageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFill)
     
     private let shortDescLabel: UILabel = {
         let label = UILabel()

@@ -25,8 +25,7 @@ class ContactsCell: UICollectionViewCell {
     }()
     
     private let iconImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        let imageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFill)
         imageView.tintColor = UIColor.darkGray
         return imageView
     }()

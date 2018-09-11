@@ -8,11 +8,18 @@
 
 import UIKit
 
+protocol MenuBarDelegate {
+    var pageTracker: Int { get set }
+    func scrollToItemAt(index: Int)
+}
+
 class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
+    static var menuBarHeight = 44
+        
     private let iconNames = ["skills", "projects", "education", "about"]
     
-    var homeViewController: HomeViewController?
+    var delegate: MenuBarDelegate?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -37,6 +44,14 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         horizontalView.translatesAutoresizingMaskIntoConstraints = false
         return horizontalView
     }()
+    
+    
+    //MARK: Factory Method
+    static func create(in delegate: MenuBarDelegate) -> MenuBar {
+        let menuBar = MenuBar()
+        menuBar.delegate = delegate
+        return menuBar
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -96,7 +111,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     //MARK: homeViewController scrolls to correct cell
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        homeViewController?.scrollToItemAt(index: indexPath.item)
+        delegate?.scrollToItemAt(index: indexPath.item)
     }
     
     //MARK: FlowLayout

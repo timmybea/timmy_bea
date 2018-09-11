@@ -33,7 +33,6 @@ struct Device {
     }
     
     static var currentDeviceWidth: CGFloat {
-        
         struct Singleton {
             static let width = min(UIScreen.main.bounds.size.height, UIScreen.main.bounds.size.width)
         }
@@ -60,7 +59,6 @@ struct Device {
     
     static var SIMULATOR_OR_DEVICE: String {
         #if targetEnvironment(simulator)
-//        #if (arch(i386) || arch(x86_64)) && os(iOS)
             return "Simulator"
         #else
             return "Device"

@@ -21,9 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let rootController = CustomNavigationController(rootViewController: HomeViewController())
         window?.rootViewController = rootController
-        
+    
         UINavigationBar.setupCustomAppearance()
-        application.statusBarStyle = .lightContent
+        
+        setupStatusBar(for: application)
         
         return true
     }
@@ -50,6 +51,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    private func setupStatusBar(for application: UIApplication) {
+        application.statusBarStyle = .lightContent
+        
+        let statusBarBackgroundView = UIView()
+        statusBarBackgroundView.backgroundColor  = UIColor.clear
+        window?.addSubview(statusBarBackgroundView)
+        window?.addConstraintsWithFormat(format: "H:|[v0]|", views: statusBarBackgroundView)
+        window?.addConstraintsWithFormat(format: "V:|[v0(20)]", views: statusBarBackgroundView)
+    }
 
 }
 

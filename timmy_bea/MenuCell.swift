@@ -10,11 +10,13 @@ import UIKit
 
 class MenuCell: UICollectionViewCell {
 
-    let imageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
+    let imageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFit)
+    
+//    let imageView: UIImageView = {
+//        let iv = UIImageView()
+//        iv.contentMode = .scaleAspectFit
+//        return iv
+//    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

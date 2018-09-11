@@ -26,8 +26,7 @@ class StackView: UIView, UIScrollViewDelegate {
     }
     
     private let logoImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        let imageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFit)
         imageView.tintColor = UIColor.Theme.customSand.color
         return imageView
     }()

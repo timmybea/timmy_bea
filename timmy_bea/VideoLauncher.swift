@@ -19,8 +19,7 @@ class VideoLauncher: NSObject {
     }
     
     private var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "background_gradient")
+        let imageView = UIImageView.createWith(imageName: UIImage.Theme.backgroundGradient.rawValue, contentMode: .scaleAspectFill)
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
