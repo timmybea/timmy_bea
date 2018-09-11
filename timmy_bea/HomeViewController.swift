@@ -15,7 +15,7 @@ protocol HomeViewControllerDelegate {
     func viewControllerDidChangeOrientation()
 }
 
-class HomeViewController: UIViewController, UICollectionViewDelegateFlowLayout, MFMailComposeViewControllerDelegate {
+class HomeViewController: UIViewController {
 
     //MARK: UI Properties
     private var backgroundImage = UIImageView.createWith(imageName: UIImage.Theme.backgroundGradient.rawValue, contentMode: .scaleAspectFill)
@@ -51,14 +51,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         return UIDevice.current.orientation.isPortrait ? 20.0 : 0.0
     }
     
-    var homeViewControllerDelegate: HomeViewControllerDelegate?
+    var delegate: HomeViewControllerDelegate?
     
     var pageTracker: Int = 0
-    
-    //MARK: Contact menu setup
-    @objc private func handleContact() {
-        contactsLauncher.launchContacts()
-    }
     
     lazy var contactsLauncher: ContactsLauncher = {
         let launcher = ContactsLauncher()
@@ -66,99 +61,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         return launcher
     }()
     
-    func pushToContact(contact: Contact) {
-        if contact.name == .email {
-            if MFMailComposeViewController.canSendMail() {
-                let mail = MFMailComposeViewController()
-                mail.mailComposeDelegate = self
-                mail.setToRecipients(["tim.beals@gmail.com"])
-                mail.setSubject("Message From iOSDeveloper App")
-                present(mail, animated: true)
-            } else {
-                print("Error launching email")
-            }
-        } else if contact.name == .linkedIn {
-            if let url = URL(string: "https://www.linkedin.com/in/tim-beals-a058b218/") {
-                UIApplication.shared.open(url)
-            }
-        } else if contact.name == .github {
-            if let url = URL(string: "https://github.com/timmybea") {
-                UIApplication.shared.open(url)
-            }
-        } else if contact.name == .mobile {
-            callNumber(phoneNumber: "5148168809")
-        }
-    }
-    
-    
-    private func callNumber(phoneNumber:String) {
-        
-        if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
-            
-            let application:UIApplication = UIApplication.shared
-            if (application.canOpenURL(phoneCallURL)) {
-                application.open(phoneCallURL, options: [:], completionHandler: nil)
-            }
-        }
-    }
-    
-    //MARK: dismiss email app
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
-    }
-    
-    //MARK: use the content offset of the collection view to move the white horizontal view of the menu bar
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let scrollPosition = scrollView.contentOffset.x / 4
-        let multiplier = menuBar.collectionView.frame.width / scrollView.frame.width
-        let leftAnchorX = scrollPosition * multiplier
-        menuBar.horizontalViewLeftAnchor?.constant = leftAnchorX
-    }
-    
-    private func setTitleFor(index: Int) {
-        let heading = "\(headings[index])"
-        titleLabel.text = heading
-    }
-
-
-    
-    //MARK: Auto rotate options
-    override var shouldAutorotate: Bool {
-        return true
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        
-        return [.portrait, .landscape]
-    }
-    
-    //MARK: orientation change methods
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
-        setupFooterLabel()
-        setupMenuBar(withSize: size)
-        
-        setCollectionViewFrame(withSize: size)
-        
-        setTitleLabelPosition(withSize: size)
-        
-        if let delegate = self.homeViewControllerDelegate {
-            delegate.viewControllerDidChangeOrientation()
-        }
-        
-        if contactsLauncher.isContactsLaunched {
-            contactsLauncher.redrawContacts(withSize: size)
-        }
-    }
-    
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        collectionView.collectionViewLayout.invalidateLayout()
-
-        DispatchQueue.main.async {
-            self.scrollToItemAt(index: self.pageTracker)
-            self.collectionView.reloadData() //fires the dequeue reusable cell method
-        }
-    }
 }
 //MARK: UIViewController Life-Cycle Methods
 extension HomeViewController {
@@ -175,7 +77,6 @@ extension HomeViewController {
         setupMenuBar(withSize: CGSize(width: view.bounds.width, height: view.bounds.height))
         setupCollectionView()
     }
-    
 }
 
 
@@ -240,7 +141,6 @@ extension HomeViewController {
         view.addConstraints(footerVertical)
     }
 
-    //MARK: Orientation UI Change
     private func setCollectionViewFrame(withSize size: CGSize) {
         collectionView.frame = CGRect(x: 0, y: menuHeight + navHeight + statusHeight, width: size.width, height: size.height - menuHeight - navHeight - statusHeight)
     }
@@ -248,7 +148,7 @@ extension HomeViewController {
 }
 
 //MARK: CollectionView Delegate and Datasource
-extension HomeViewController : UICollectionViewDelegateAndDatasource {
+extension HomeViewController : UICollectionViewDelegateAndDatasource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return NavigationItem.orderedHeadings().count
@@ -264,7 +164,7 @@ extension HomeViewController : UICollectionViewDelegateAndDatasource {
         }
         
         if let currentCell = cell as? ProjectsCell {
-            self.homeViewControllerDelegate = currentCell
+            self.delegate = currentCell
         }
         
         return cell
@@ -273,6 +173,18 @@ extension HomeViewController : UICollectionViewDelegateAndDatasource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollPosition = scrollView.contentOffset.x / 4
+        let multiplier = menuBar.collectionView.frame.width / scrollView.frame.width
+        let leftAnchorX = scrollPosition * multiplier
+        setMenuBarLeftAnchor(to: leftAnchorX)
+    }
+    
+    private func setMenuBarLeftAnchor(to constant: CGFloat) {
+        menuBar.horizontalViewLeftAnchor?.constant = constant
+    }
+    
 }
 
 //MARK: MenuBarDelegate
@@ -285,4 +197,92 @@ extension HomeViewController : MenuBarDelegate {
         setTitleFor(index: index)
     }
 
+    private func setTitleFor(index: Int) {
+        titleLabel.text = headings[index]
+    }
+}
+
+
+//MARK: Contact Menu
+extension HomeViewController : MFMailComposeViewControllerDelegate {
+    @objc private func handleContact() {
+        contactsLauncher.launchContacts()
+    }
+    
+    func pushToContact(contact: Contact) {
+        if contact.name == .email {
+            if MFMailComposeViewController.canSendMail() {
+                let mail = MFMailComposeViewController()
+                mail.mailComposeDelegate = self
+                mail.setToRecipients(["tim.beals@gmail.com"])
+                mail.setSubject("Message From iOSDeveloper App")
+                present(mail, animated: true)
+            } else {
+                print("Error launching email")
+            }
+        } else if contact.name == .linkedIn {
+            if let url = URL(string: "https://www.linkedin.com/in/tim-beals-a058b218/") {
+                UIApplication.shared.open(url)
+            }
+        } else if contact.name == .github {
+            if let url = URL(string: "https://github.com/timmybea") {
+                UIApplication.shared.open(url)
+            }
+        } else if contact.name == .mobile {
+            callNumber(phoneNumber: "5148168809")
+        }
+    }
+    
+    
+    private func callNumber(phoneNumber:String) {
+        
+        if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+            
+            let application:UIApplication = UIApplication.shared
+            if (application.canOpenURL(phoneCallURL)) {
+                application.open(phoneCallURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    //MARK: dismiss email app
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+}
+
+//MARK: Orientation Change Overrides
+extension HomeViewController {
+
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return [.portrait, .landscape]
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        setupFooterLabel()
+        setupMenuBar(withSize: size)
+        setCollectionViewFrame(withSize: size)
+        setTitleLabelPosition(withSize: size)
+        
+        self.delegate?.viewControllerDidChangeOrientation()
+
+        if contactsLauncher.isContactsLaunched {
+            contactsLauncher.redrawContacts(withSize: size)
+        }
+        
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        collectionView.collectionViewLayout.invalidateLayout()
+        
+        DispatchQueue.main.async {
+            self.scrollToItemAt(index: self.pageTracker)
+            self.collectionView.reloadData()
+        }
+    }    
 }
