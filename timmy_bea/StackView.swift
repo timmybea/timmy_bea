@@ -28,14 +28,14 @@ class StackView: UIView, UIScrollViewDelegate {
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = ColorManager.customSand()
+        imageView.tintColor = UIColor.Theme.customSand.color
         return imageView
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = FontManager.AvenirNextDBold(size: FontManager.sizeHeader)
-        label.textColor = ColorManager.customSand()
+        label.font = UIFont.Theme.header.font
+        label.textColor = UIColor.Theme.customSand.color
         label.textAlignment = .center
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
@@ -44,8 +44,8 @@ class StackView: UIView, UIScrollViewDelegate {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = ColorManager.customSand()
-        label.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
+        label.textColor = UIColor.Theme.customSand.color
+        label.font = UIFont.Theme.subHeader.font
         label.textAlignment = .center
         return label
     }()
@@ -161,24 +161,24 @@ class StackView: UIView, UIScrollViewDelegate {
             let style = NSMutableParagraphStyle()
             style.alignment = NSTextAlignment.justified
             
-            attributedString.append(NSAttributedString(string: career.description, attributes: [NSAttributedStringKey.font: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand(), NSAttributedStringKey.paragraphStyle: style]))
+            attributedString.append(NSAttributedString(string: career.description, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color, NSAttributedStringKey.paragraphStyle: style]))
             
-            attributedString.append(NSAttributedString(string: "\n\nEducation", attributes: [NSAttributedStringKey.font: FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
+            attributedString.append(NSAttributedString(string: "\n\nEducation", attributes: [NSAttributedStringKey.font: UIFont.Theme.subHeader.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
             
             for qualification in career.education {
-                attributedString.append(NSAttributedString(string: "\n\(qualification.institution!) - \(qualification.role!) \(qualification.date!)", attributes: [NSAttributedStringKey.font: FontManager.AvenirNextRegular(size: FontManager.sizeFootnote), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
+                attributedString.append(NSAttributedString(string: "\n\(qualification.institution!) - \(qualification.role!) \(qualification.date!)", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
             }
             
             if career.relatedRoles.count > 0 {
                 
-                attributedString.append(NSAttributedString(string: "\n\nRelated Work", attributes: [NSAttributedStringKey.font: FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
+                attributedString.append(NSAttributedString(string: "\n\nRelated Work", attributes: [NSAttributedStringKey.font: UIFont.Theme.subHeader.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
                 
                 for role in career.relatedRoles {
-                    attributedString.append(NSAttributedString(string: "\n\(role.institution!) - \(role.role!) \(role.date!)", attributes: [NSAttributedStringKey.font: FontManager.AvenirNextRegular(size: FontManager.sizeFootnote), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
+                    attributedString.append(NSAttributedString(string: "\n\(role.institution!) - \(role.role!) \(role.date!)", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
                 }
             }
             
-            attributedString.append(NSAttributedString(string: "\n\nReferences available by request", attributes: [NSAttributedStringKey.font: FontManager.AvenirNextItalic(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
+            attributedString.append(NSAttributedString(string: "\n\nReferences available by request", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
         }
         return attributedString
     }

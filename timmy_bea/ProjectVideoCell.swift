@@ -29,8 +29,8 @@ class ProjectVideoCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = FontManager.AvenirNextDBold(size: FontManager.sizeHeader)
-        label.textColor = ColorManager.customSand()
+        label.font = UIFont.Theme.header.font
+        label.textColor = UIColor.Theme.customSand.color
         label.textAlignment = .left
         label.backgroundColor = UIColor.clear
         return label
@@ -39,8 +39,8 @@ class ProjectVideoCell: UICollectionViewCell {
     private let completedLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
-        label.font = FontManager.AvenirNextMedium(size: FontManager.sizeBodyText)
-        label.textColor = ColorManager.customSand()
+        label.font = UIFont.Theme.bodyText.font
+        label.textColor = UIColor.Theme.customSand.color
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,7 +48,7 @@ class ProjectVideoCell: UICollectionViewCell {
     
     private let separatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = ColorManager.customSand()
+        view.backgroundColor = UIColor.Theme.customSand.color
         return view
     }()
     
@@ -61,16 +61,16 @@ class ProjectVideoCell: UICollectionViewCell {
     private let shortDescLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
-        label.textColor = ColorManager.customSand()
-        label.font = FontManager.AvenirNextRegular(size: FontManager.sizeBodyText)
+        label.textColor = UIColor.Theme.customSand.color
+        label.font = UIFont.Theme.bodyText.font
         return label
     }()
     
     private let longDescTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = UIColor.clear
-        textView.textColor = ColorManager.customSand()
-        textView.font = FontManager.AvenirNextRegular(size: FontManager.sizeBodyText)
+        textView.textColor = UIColor.Theme.customSand.color
+        textView.font = UIFont.Theme.bodyText.font
         return textView
     }()
     
@@ -79,7 +79,7 @@ class ProjectVideoCell: UICollectionViewCell {
         let image = UIImage(named: "git_pos")
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = ColorManager.customSand()
+        button.tintColor = UIColor.Theme.customSand.color
         return button
     }()
     

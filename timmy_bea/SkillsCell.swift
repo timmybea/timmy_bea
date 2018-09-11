@@ -12,11 +12,11 @@ import Lottie
 class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
     
     private let animationView: LOTAnimationView = {
-        let view = LOTAnimationView.animationNamed("skills_v29")
-        view?.backgroundColor = UIColor.clear
-        view?.loopAnimation = true
-        view?.contentMode = .scaleAspectFill
-        return view!
+        let view = LOTAnimationView(name: "skills_v29")
+        view.backgroundColor = UIColor.clear
+        view.loopAnimation = true
+        view.contentMode = .scaleAspectFill
+        return view
     }()
     
     private var screenSize = ScreenSize()
@@ -101,7 +101,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
                 label.text = skill.title
                 
                 let underline = UIView(frame: CGRect(x: 0, y: 0, width: skill.underline, height: 2))
-                underline.backgroundColor = ColorManager.customSand()
+                underline.backgroundColor = UIColor.Theme.customSand.color
                 underline.center.x = label.center.x
                 
 
@@ -114,7 +114,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
                 
                 if i == 0 {
                     textView.textAlignment = .center
-                    textView.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
+                    textView.font = UIFont.Theme.subHeader.font
                 }
                 
                 scrollView.addSubview(label)
@@ -132,7 +132,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
                 label.text = skill.title
 
                 let underline = UIView(frame: CGRect(x: 0, y: 0, width: skill.underline, height: 2))
-                underline.backgroundColor = ColorManager.customSand()
+                underline.backgroundColor = UIColor.Theme.customSand.color
                 underline.center.x = label.center.x
                 underline.center.y = label.center.y + space
 
@@ -142,7 +142,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
 
                 if i == 0 {
                     textView.textAlignment = .center
-                    textView.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
+                    textView.font = UIFont.Theme.subHeader.font
                 }
                 
                 scrollView.addSubview(label)
@@ -155,8 +155,8 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
     
     private func createTitleLabel() -> UILabel {
         let label = UILabel()
-        label.font = FontManager.AvenirNextDBold(size: FontManager.sizeHeader)
-        label.textColor = ColorManager.customSand()
+        label.font = UIFont.Theme.subHeader.font
+        label.textColor = UIColor.Theme.customSand.color
         label.textAlignment = .center
         return label
     }
@@ -165,8 +165,8 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
         let textView = UITextView()
         textView.backgroundColor = UIColor.clear
         textView.textAlignment = .justified
-        textView.textColor = ColorManager.customSand()
-        textView.font = FontManager.AvenirNextMedium(size: FontManager.sizeSubHeader)
+        textView.textColor = UIColor.Theme.customSand.color
+        textView.font = UIFont.Theme.subHeader.font
         textView.isEditable = false
         return textView
     }

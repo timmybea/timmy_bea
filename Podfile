@@ -1,4 +1,4 @@
-# Uncomment the next line to define a global platform for your project
+pod 'lottie-ios', '~> 2.1'# Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
 target 'timmy_bea' do
@@ -6,6 +6,5 @@ target 'timmy_bea' do
   use_frameworks!
 
   # Pods for timmy_bea
-  pod 'lottie-ios', '~> 1.0'
-
+  pod 'lottie-ios', '~> 2.1'
 end

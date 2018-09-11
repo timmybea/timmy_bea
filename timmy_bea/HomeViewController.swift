@@ -38,14 +38,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor.white
         titleLabel.text = "Skills"
-        titleLabel.font = FontManager.AvenirNextRegular(size: FontManager.sizeNavText)
+        titleLabel.font = UIFont.Theme.navText.font
         return titleLabel
     }()
     
     private let footerLabel: UILabel = {
         let label = UILabel()
         label.text = "Tim Beals • iOS Developer"
-        label.font = FontManager.AvenirNextRegular(size: FontManager.sizeSubHeader)
+        label.font = UIFont.Theme.subHeader.font
         return label
     }()
     
@@ -119,7 +119,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     private func setupNavBar() {
-        self.navigationController?.navigationBar.backgroundColor = ColorManager.whiteNavBar()
+        self.navigationController?.navigationBar.backgroundColor = UIColor.Theme.customWhite.color
 
         navigationController?.view.addSubview(titleLabel)
         
@@ -127,7 +127,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         let contactImage = UIImage(named: "contact")?.withRenderingMode(.alwaysTemplate)
         let contactBarButton = UIBarButtonItem(image: contactImage, style: .plain, target: self, action: #selector(handleContact))
-        contactBarButton.tintColor = ColorManager.customDarkBlue()
+        contactBarButton.tintColor = UIColor.Theme.customDarkBlue.color
         navigationItem.rightBarButtonItems = [contactBarButton]
     }
     
@@ -204,7 +204,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         if UIDevice.current.orientation.isPortrait {
             height += CGFloat(20.0)
             
-            footerLabel.textColor = ColorManager.customPeach()
+            footerLabel.textColor = UIColor.Theme.customPeach.color
             footerLabel.textAlignment = .center
             footerH = NSLayoutConstraint.constraintsWithFormat(format: "H:|[v0]|", views: footerLabel)
             footerV = NSLayoutConstraint.constraintsWithFormat(format: "V:[v0]-8-|", views: footerLabel)
@@ -213,7 +213,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             
         } else {
             height = navLandscapeHeight
-            footerLabel.textColor = ColorManager.customDarkBlue()
+            footerLabel.textColor = UIColor.Theme.customDarkBlue.color
             footerLabel.textAlignment = .right
             footerH = NSLayoutConstraint.constraintsWithFormat(format: "H:[v0]-24-|", views: footerLabel)
             footerV = NSLayoutConstraint.constraintsWithFormat(format: "V:|-60-[v0]", views: footerLabel)

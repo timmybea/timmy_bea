@@ -25,7 +25,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     private let whiteView: UIView = {
         let view = UIView()
-        view.backgroundColor = ColorManager.whiteNavBar()
+        view.backgroundColor = UIColor.Theme.customWhite.color
         return view
     }()
     
@@ -89,7 +89,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
         let name = self.iconNames[indexPath.item]
         cell.imageView.image = UIImage(named: name)?.withRenderingMode(.alwaysTemplate)
-        cell.tintColor = ColorManager.customDarkBlue()
+        cell.tintColor = UIColor.Theme.customDarkBlue.color
         return cell
     }
     

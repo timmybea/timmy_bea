@@ -59,7 +59,8 @@ struct Device {
     }
     
     static var SIMULATOR_OR_DEVICE: String {
-        #if (arch(i386) || arch(x86_64)) && os(iOS)
+        #if targetEnvironment(simulator)
+//        #if (arch(i386) || arch(x86_64)) && os(iOS)
             return "Simulator"
         #else
             return "Device"

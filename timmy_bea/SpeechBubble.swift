@@ -23,8 +23,8 @@ class SpeechBubble: UIView, CAAnimationDelegate {
         let textView = UITextView()
         textView.backgroundColor = UIColor.clear
         textView.textAlignment = .justified
-        textView.textColor = ColorManager.customDarkBlue()
-        textView.font = FontManager.AvenirNextMedium(size: FontManager.sizeHeader)
+        textView.textColor = UIColor.Theme.customDarkBlue.color
+        textView.font = UIFont.Theme.subHeader.font
         textView.isEditable = false
         return textView
     }()

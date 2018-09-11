@@ -15,6 +15,7 @@
 		B018DE1A1E9412BD00B6B2D3 /* Career.swift in Sources */ = {isa = PBXBuildFile; fileRef = B018DE191E9412BD00B6B2D3 /* Career.swift */; };
 		B029A2B51E83775400500C95 /* skills_v29.json in Resources */ = {isa = PBXBuildFile; fileRef = B029A2B41E83775400500C95 /* skills_v29.json */; };
 		B04FE7C61E982EC600BC6532 /* CircleMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */; };
+		B0987680214834F900503EF1 /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B098767F214834F900503EF1 /* UIExtensions.swift */; };
 		B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */; };
 		B09D46BD1E90BBCB0018FA65 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46BC1E90BBCB0018FA65 /* StackView.swift */; };
 		B0BE17B21E8426DF0039778D /* ProjectsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BE17B11E8426DF0039778D /* ProjectsCell.swift */; };
@@ -26,7 +27,7 @@
 		B0CC0D501E709913006E3D36 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC0D4F1E709913006E3D36 /* HomeViewController.swift */; };
 		B0CC0D551E709913006E3D36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0CC0D541E709913006E3D36 /* Assets.xcassets */; };
 		B0CC0D581E709913006E3D36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0CC0D561E709913006E3D36 /* LaunchScreen.storyboard */; };
-		B0CC0D641E7115F4006E3D36 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC0D631E7115F4006E3D36 /* Helpers.swift */; };
+		B0CC0D641E7115F4006E3D36 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC0D631E7115F4006E3D36 /* Theme.swift */; };
 		B0CC0D661E7119CE006E3D36 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC0D651E7119CE006E3D36 /* MenuBar.swift */; };
 		B0CC0D681E711A9B006E3D36 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CC0D671E711A9B006E3D36 /* MenuCell.swift */; };
 		B0DEFD6F1E8B3E8A000D1721 /* VideoLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DEFD6E1E8B3E8A000D1721 /* VideoLauncher.swift */; };
@@ -46,6 +47,7 @@
 		B018DE191E9412BD00B6B2D3 /* Career.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Career.swift; sourceTree = "<group>"; };
 		B029A2B41E83775400500C95 /* skills_v29.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skills_v29.json; sourceTree = "<group>"; };
 		B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMaskView.swift; sourceTree = "<group>"; };
+		B098767F214834F900503EF1 /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
 		B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		B09D46BC1E90BBCB0018FA65 /* StackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
 		B0BE17B11E8426DF0039778D /* ProjectsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsCell.swift; sourceTree = "<group>"; };
@@ -59,7 +61,7 @@
 		B0CC0D541E709913006E3D36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B0CC0D571E709913006E3D36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B0CC0D591E709913006E3D36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B0CC0D631E7115F4006E3D36 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		B0CC0D631E7115F4006E3D36 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		B0CC0D651E7119CE006E3D36 /* MenuBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		B0CC0D671E711A9B006E3D36 /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		B0DEFD6E1E8B3E8A000D1721 /* VideoLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoLauncher.swift; sourceTree = "<group>"; };
@@ -136,8 +138,9 @@
 		B0CC0D5F1E709926006E3D36 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				B0CC0D631E7115F4006E3D36 /* Helpers.swift */,
+				B0CC0D631E7115F4006E3D36 /* Theme.swift */,
 				B0156E431E9D423600A966BB /* Device.swift */,
+				B098767F214834F900503EF1 /* UIExtensions.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -334,7 +337,7 @@
 				B0CC0D501E709913006E3D36 /* HomeViewController.swift in Sources */,
 				B0DEFD6F1E8B3E8A000D1721 /* VideoLauncher.swift in Sources */,
 				B0CC0D681E711A9B006E3D36 /* MenuCell.swift in Sources */,
-				B0CC0D641E7115F4006E3D36 /* Helpers.swift in Sources */,
+				B0CC0D641E7115F4006E3D36 /* Theme.swift in Sources */,
 				B0CC0D661E7119CE006E3D36 /* MenuBar.swift in Sources */,
 				B0BE17B41E8427460039778D /* EducationCell.swift in Sources */,
 				B0BE17B61E84276E0039778D /* AboutCell.swift in Sources */,
@@ -347,6 +350,7 @@
 				B04FE7C61E982EC600BC6532 /* CircleMaskView.swift in Sources */,
 				B0BE17BA1E8441740039778D /* Project.swift in Sources */,
 				B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */,
+				B0987680214834F900503EF1 /* UIExtensions.swift in Sources */,
 				B0156E441E9D423600A966BB /* Device.swift in Sources */,
 				B01679471E92CB0100CAB4F5 /* ContactsLauncher.swift in Sources */,
 			);
@@ -476,15 +480,16 @@
 			baseConfigurationReference = F3B7356EEDCA8D942AC3EF44 /* Pods-timmy_bea.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 2733C6P24Y;
 				INFOPLIST_FILE = timmy_bea/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tapp.timbeals.timmybea;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roobicreative.timmybea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9f6259be-b397-4106-8603-95c1a100f545";
-				PROVISIONING_PROFILE_SPECIFIER = "Tim Beals Provisioning Profile";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				PROVISIONING_PROFILE = "40f17cb5-d95e-44c6-a22a-1bd36bacd559";
+				PROVISIONING_PROFILE_SPECIFIER = TimmyBeaDevelopment;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -495,15 +500,16 @@
 			baseConfigurationReference = 5C344AF3DE2F7A1F84028909 /* Pods-timmy_bea.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 2733C6P24Y;
 				INFOPLIST_FILE = timmy_bea/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tapp.timbeals.timmybea;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roobicreative.timmybea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9f6259be-b397-4106-8603-95c1a100f545";
-				PROVISIONING_PROFILE_SPECIFIER = "Tim Beals Provisioning Profile";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				PROVISIONING_PROFILE = "40f17cb5-d95e-44c6-a22a-1bd36bacd559";
+				PROVISIONING_PROFILE_SPECIFIER = TimmyBeaDevelopment;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

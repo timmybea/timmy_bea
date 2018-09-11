@@ -70,16 +70,16 @@ class VideoLauncher: NSObject {
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.justified
         
-        attributedString.append(NSAttributedString(string: project.longDescription, attributes: [NSAttributedStringKey.font: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand(), NSAttributedStringKey.paragraphStyle: style]))
+        attributedString.append(NSAttributedString(string: project.longDescription, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color, NSAttributedStringKey.paragraphStyle: style]))
         
         style.alignment = NSTextAlignment.left
-        attributedString.append(NSAttributedString(string: "\n\nLanguages: ", attributes: [NSAttributedStringKey.font: FontManager.AvenirNextMedium(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand(), NSAttributedStringKey.paragraphStyle: style]))
+        attributedString.append(NSAttributedString(string: "\n\nLanguages: ", attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color, NSAttributedStringKey.paragraphStyle: style]))
         
-        attributedString.append(NSAttributedString(string: project.languages, attributes: [NSAttributedStringKey.font: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
+        attributedString.append(NSAttributedString(string: project.languages, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
         
-        attributedString.append(NSAttributedString(string: "\n\nFrameworks: ", attributes: [NSAttributedStringKey.font: FontManager.AvenirNextMedium(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
+        attributedString.append(NSAttributedString(string: "\n\nFrameworks: ", attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
         
-        attributedString.append(NSAttributedString(string: project.frameWorks, attributes: [NSAttributedStringKey.font: FontManager.AvenirNextRegular(size: FontManager.sizeBodyText), NSAttributedStringKey.foregroundColor: ColorManager.customSand()]))
+        attributedString.append(NSAttributedString(string: project.frameWorks, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
         
         longDescTextView.attributedText = attributedString
     }
@@ -123,7 +123,7 @@ class VideoLauncher: NSObject {
     
     private let blueView: UIView = {
         let view = UIView()
-        view.backgroundColor = ColorManager.customDarkBlue()
+        view.backgroundColor = UIColor.Theme.customDarkBlue.color
         view.alpha = 0.4
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
@@ -138,8 +138,8 @@ class VideoLauncher: NSObject {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = FontManager.AvenirNextDBold(size: FontManager.sizeHeader)
-        label.textColor = ColorManager.customSand()
+        label.font = UIFont.Theme.header.font
+        label.textColor = UIColor.Theme.customSand.color
         label.textAlignment = .left
         label.backgroundColor = UIColor.clear
         return label
@@ -148,8 +148,8 @@ class VideoLauncher: NSObject {
     private let completedLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
-        label.font = FontManager.AvenirNextMedium(size: FontManager.sizeBodyText)
-        label.textColor = ColorManager.customSand()
+        label.font = UIFont.Theme.bodyText.font
+        label.textColor = UIColor.Theme.customSand.color
         label.textAlignment = .right
         return label
     }()
@@ -157,9 +157,9 @@ class VideoLauncher: NSObject {
     private let longDescTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = UIColor.clear
-        textView.textColor = ColorManager.customSand()
+        textView.textColor = UIColor.Theme.customSand.color
         textView.textAlignment = .justified
-        textView.font = FontManager.AvenirNextRegular(size: FontManager.sizeBodyText)
+        textView.font = UIFont.Theme.bodyText.font
         return textView
     }()
     

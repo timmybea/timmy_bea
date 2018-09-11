@@ -36,13 +36,13 @@ class MenuCell: UICollectionViewCell {
     
     override var isHighlighted: Bool {
         didSet {
-            imageView.tintColor = isHighlighted ? UIColor.white : ColorManager.customDarkBlue()
+            imageView.tintColor = isHighlighted ? UIColor.white : UIColor.Theme.customDarkBlue.color
         }
     }
     
     override var isSelected: Bool {
         didSet {
-            imageView.tintColor = isSelected ? UIColor.white : ColorManager.customDarkBlue()
+            imageView.tintColor = isSelected ? UIColor.white : UIColor.Theme.customDarkBlue.color
         }
     }
 }

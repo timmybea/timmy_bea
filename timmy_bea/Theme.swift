@@ -8,87 +8,87 @@
 
 import UIKit
 
-struct ColorManager {
+//MARK: UIColor Extensions
+extension UIColor {
     
-    static func whiteNavBar() -> UIColor {
-        return UIColor(white: 200/255, alpha: 0.35)
-    }
-    
-    static func customDarkBlue() -> UIColor {
-        return UIColor(red: 2/255, green: 119/255, blue: 134/255, alpha: 1)
-    }
-    
-    static func customPeach() -> UIColor {
-        return UIColor(red: 226/255, green: 114/255, blue: 103/255, alpha: 1)
-    }
-    
-    static func customSand() -> UIColor {
-        return UIColor(red: 251/255, green: 221/255, blue: 189/255, alpha: 1)
-    }
-    
-    static func customStackRust() -> UIColor {
-        return UIColor(red: 208/255, green: 111/255, blue: 102/255, alpha: 0.87)
-    }
-    
-    static func customStackGreen() -> UIColor {
-        return UIColor(red: 90/255, green: 176/255, blue: 159/255, alpha: 0.87)
-    }
-    
-    static func customStackBlue() -> UIColor {
-        return UIColor(red: 59/255, green: 169/255, blue: 181/255, alpha: 0.87)
+    static func colorWithValues(red: Int, green: Int, blue: Int, alpha: CGFloat) -> UIColor {
+        return UIColor(red: CGFloat(red)/255, green: CGFloat(green)/255, blue: CGFloat(blue)/255, alpha: alpha)
     }
 }
 
-struct FontManager {
+extension UIColor {
     
-    static func AvenirNextULight(size: CGFloat) -> UIFont {
-        return UIFont(name: "AvenirNext-UltraLight", size: size)!
-    }
-
-    static func AvenirNextRegular(size: CGFloat) -> UIFont {
-        return UIFont(name: "AvenirNext-Regular", size: size)!
-    }
-
-    static func AvenirNextMedium(size: CGFloat) -> UIFont {
-        return UIFont(name: "AvenirNext-Medium", size: size)!
-    }
-
-    static func AvenirNextDBold(size: CGFloat) -> UIFont {
-        return UIFont(name: "AvenirNext-DemiBold", size: size)!
-    }
-    
-    static func AvenirNextItalic(size: CGFloat) -> UIFont {
-        return UIFont(name: "AvenirNext-Italic", size: size)!
-    }
-    
-    static func getTextSizes() {
+    enum Theme {
+        case customWhite
+        case customDarkBlue
+        case customPeach
+        case customSand
+        case customRust
+        case customGreen
+        case customBlue
         
-        if Device.isSize(height: .Inches_4_7) {
-            
-            sizeNavText = 20
-            sizeHeader = 18
-            sizeSubHeader = 14
-            sizeBodyText = 12
-            sizeFootnote = 11
-            
-        } else if Device.isSize(height: .Inches_4) {
-            
-            sizeNavText = 18
-            sizeHeader = 14
-            sizeSubHeader = 12
-            sizeBodyText = 10
-            sizeFootnote = 9
+        var color: UIColor {
+            switch self {
+            case .customWhite:      return UIColor(white: 200/255, alpha: 0.35)
+            case .customDarkBlue:   return UIColor.colorWithValues(red: 2, green: 119, blue: 134, alpha: 1)
+            case .customPeach:      return UIColor.colorWithValues(red: 226, green: 114, blue: 103, alpha: 1)
+            case .customSand:       return UIColor.colorWithValues(red: 251, green: 221, blue: 189, alpha: 1)
+            case .customRust:       return UIColor.colorWithValues(red: 208, green: 111, blue: 102, alpha: 0.87)
+            case .customGreen:      return UIColor.colorWithValues(red: 90, green: 176, blue: 159, alpha: 0.87)
+            case .customBlue:       return UIColor.colorWithValues(red: 90, green: 176, blue: 159, alpha: 0.87)
+            }
         }
     }
 
-    static var sizeNavText: CGFloat = 23
-    static var sizeHeader: CGFloat = 20
-    static var sizeSubHeader: CGFloat = 16
-    static var sizeBodyText: CGFloat = 14
-    static var sizeFootnote: CGFloat = 12
 }
 
+//MARK: UIFont Extensions
+extension UIFont {
+    
+    enum Theme {
+        
+        case navText
+        case header
+        case subHeader
+        case bodyText
+        case footNote
+        
+        var size: CGFloat {
+            switch self {
+            case .navText:      return Device.isSize(height: .Inches_4_7) ? 20 : 18
+            case .header:       return Device.isSize(height: .Inches_4_7) ? 18 : 14
+            case .subHeader:    return Device.isSize(height: .Inches_4_7) ? 14 : 12
+            case .bodyText:     return Device.isSize(height: .Inches_4_7) ? 12 : 10
+            case .footNote:     return Device.isSize(height: .Inches_4_7) ? 11 : 9
+            }
+        }
+        
+        var font: UIFont {
+            switch self {
+            case .navText:      return UIFont(name: FontFamily.demiBold.rawValue, size: size)!
+            case .header:       return UIFont(name: FontFamily.medium.rawValue, size: size)!
+            case .subHeader:    return UIFont(name: FontFamily.medium.rawValue, size: size)!
+            case .bodyText:     return UIFont(name: FontFamily.regular.rawValue, size: size)!
+            case .footNote:     return UIFont(name: FontFamily.regular.rawValue, size: size)!
+            }
+            
+        }
+        
+        private enum FontFamily: String {
+            case ultraLight = "AvenirNext-UltraLight"
+            case regular = "AvenirNext-Regular"
+            case medium = "AvenirNext-Medium"
+            case demiBold = "AvenirNext-DemiBold"
+            case italic = "AvenirNext-Italic"
+        }
+        
+    }
+    
+}
+
+
 extension UIView {
+    
     func addConstraintsWithFormat(format: String, views: UIView...) {
         var viewsDictionary = [String: UIView]()
         
@@ -99,8 +99,8 @@ extension UIView {
         }
         
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        
     }
+    
 }
 
 extension NSLayoutConstraint {
@@ -115,6 +115,7 @@ extension NSLayoutConstraint {
         }
         return constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary)
     }
+    
 }
 
 
@@ -148,7 +149,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     let blueView: UIView = {
         let view = UIView()
-        view.backgroundColor = ColorManager.customDarkBlue()
+        view.backgroundColor = UIColor.Theme.customDarkBlue.color
         view.alpha = 0.4
         return view
     }()

@@ -22,21 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let rootController = CustomNavigationController(rootViewController: HomeViewController())
         window?.rootViewController = rootController
         
-        //MARK: remove navigation bar shadow
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        UINavigationBar.appearance().barTintColor = ColorManager.whiteNavBar()
-
-        //MARK: custom status bar
+        UINavigationBar.setupCustomAppearance()
         application.statusBarStyle = .lightContent
-        
-        let statusBarBackgroundView = UIView()
-        statusBarBackgroundView.backgroundColor = UIColor.clear
-        window?.addSubview(statusBarBackgroundView)
-        window?.addConstraintsWithFormat(format: "H:|[v0]|", views: statusBarBackgroundView)
-        window?.addConstraintsWithFormat(format: "V:|[v0(20)]", views: statusBarBackgroundView)
-        
-        FontManager.getTextSizes()
         
         return true
     }

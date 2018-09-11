@@ -20,10 +20,10 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = ColorManager.customSand()
+        label.textColor = UIColor.Theme.customSand.color
         label.text = "Drag to view"
         label.textAlignment = .center
-        label.font = FontManager.AvenirNextRegular(size: FontManager.sizeSubHeader)
+        label.font = UIFont.Theme.subHeader.font
         return label
     }()
     
