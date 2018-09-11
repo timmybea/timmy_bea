@@ -23,9 +23,38 @@ extension UINavigationBar {
 //MARK: UIImage Extension
 extension UIImage {
     
-    enum Theme: String {
-        case backgroundGradient = "background_gradient"
-        case contact = "contact"
+    enum Theme {
+        case backgroundGradient
+        case contact
+        case phone
+        case email
+        case linkedIn
+        case github
+        case cancel
+        
+        var name: String {
+            switch self {
+            case .backgroundGradient:    return "background_gradient"
+            case .phone:                 return "phone"
+            case .contact:               return "contact"
+            case .email:                 return "contact_email"
+            case .linkedIn:              return "contact_linkedIn"
+            case .github:                return "contact_git"
+            case .cancel:                return "contact_cancel"
+            }
+        }
+        
+        var image: UIImage {
+            switch self {
+            case .backgroundGradient:   return UIImage(named: self.name)!
+            case .phone:                return UIImage(named: self.name)!
+            case .contact:              return UIImage(named: self.name)!
+            case .email:                return UIImage(named: self.name)!
+            case .linkedIn:             return UIImage(named: self.name)!
+            case .github:               return UIImage(named: self.name)!
+            case .cancel:               return UIImage(named: self.name)!
+            }
+        }
     }
     
 }

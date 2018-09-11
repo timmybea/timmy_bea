@@ -10,10 +10,10 @@ import UIKit
 
 class ContactsCell: UICollectionViewCell {
     
-    var contact: Contact? {
+    var contactOption: ContactOption? {
         didSet {
-            nameLabel.text = contact?.name.rawValue
-            iconImageView.image = UIImage(named: (contact?.imageName)!)?.withRenderingMode(.alwaysTemplate)
+            nameLabel.text = contactOption?.name
+            iconImageView.image = contactOption?.image
         }
     }
     

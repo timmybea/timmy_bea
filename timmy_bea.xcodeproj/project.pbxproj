@@ -19,6 +19,7 @@
 		B0987682214837F300503EF1 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0987681214837F300503EF1 /* CustomNavigationController.swift */; };
 		B0987684214845AA00503EF1 /* NavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0987683214845AA00503EF1 /* NavigationItem.swift */; };
 		B098768621485EAF00503EF1 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B098768521485EAF00503EF1 /* Protocols.swift */; };
+		B09876882148712200503EF1 /* ContactOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09876872148712200503EF1 /* ContactOption.swift */; };
 		B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */; };
 		B09D46BD1E90BBCB0018FA65 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46BC1E90BBCB0018FA65 /* StackView.swift */; };
 		B0BE17B21E8426DF0039778D /* ProjectsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BE17B11E8426DF0039778D /* ProjectsCell.swift */; };
@@ -54,6 +55,7 @@
 		B0987681214837F300503EF1 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		B0987683214845AA00503EF1 /* NavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItem.swift; sourceTree = "<group>"; };
 		B098768521485EAF00503EF1 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		B09876872148712200503EF1 /* ContactOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactOption.swift; sourceTree = "<group>"; };
 		B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		B09D46BC1E90BBCB0018FA65 /* StackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
 		B0BE17B11E8426DF0039778D /* ProjectsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsCell.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				B018DE191E9412BD00B6B2D3 /* Career.swift */,
 				B0156E211E9C0CDC00A966BB /* AboutInfo.swift */,
 				B0987683214845AA00503EF1 /* NavigationItem.swift */,
+				B09876872148712200503EF1 /* ContactOption.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				B0156E201E9AFF2000A966BB /* SpeechBubble.swift in Sources */,
 				B0BE17B21E8426DF0039778D /* ProjectsCell.swift in Sources */,
 				B04FE7C61E982EC600BC6532 /* CircleMaskView.swift in Sources */,
+				B09876882148712200503EF1 /* ContactOption.swift in Sources */,
 				B0BE17BA1E8441740039778D /* Project.swift in Sources */,
 				B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */,
 				B0987680214834F900503EF1 /* UIExtensions.swift in Sources */,

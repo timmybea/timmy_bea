@@ -18,7 +18,7 @@ protocol HomeViewControllerDelegate {
 class HomeViewController: UIViewController {
 
     //MARK: UI Properties
-    private var backgroundImage = UIImageView.createWith(imageName: UIImage.Theme.backgroundGradient.rawValue, contentMode: .scaleAspectFill)
+    private var backgroundImage = UIImageView.createWith(imageName: UIImage.Theme.backgroundGradient.name, contentMode: .scaleAspectFill)
     
     lazy var menuBar: MenuBar = {
         return MenuBar.create(in: self)
@@ -54,12 +54,6 @@ class HomeViewController: UIViewController {
     var delegate: HomeViewControllerDelegate?
     
     var pageTracker: Int = 0
-    
-    lazy var contactsLauncher: ContactsLauncher = {
-        let launcher = ContactsLauncher()
-        launcher.homeController = self
-        return launcher
-    }()
     
 }
 //MARK: UIViewController Life-Cycle Methods
@@ -106,7 +100,7 @@ extension HomeViewController {
         navigationController?.view.addSubview(titleLabel)
         setTitleLabelPosition(withSize: view.frame.size)
         
-        let contactImage = UIImage(named: UIImage.Theme.contact.rawValue)?.withRenderingMode(.alwaysTemplate)
+        let contactImage = UIImage.Theme.contact.image.withRenderingMode(.alwaysTemplate)
         let contactBarButton = UIBarButtonItem(image: contactImage, style: .plain, target: self, action: #selector(handleContact))
         contactBarButton.tintColor = UIColor.Theme.customDarkBlue.color
         navigationItem.rightBarButtonItems = [contactBarButton]
@@ -204,13 +198,15 @@ extension HomeViewController : MenuBarDelegate {
 
 
 //MARK: Contact Menu
-extension HomeViewController : MFMailComposeViewControllerDelegate {
+extension HomeViewController : ContactsLauncherDelegate, MFMailComposeViewControllerDelegate {
+    
     @objc private func handleContact() {
-        contactsLauncher.launchContacts()
+        ContactsLauncher.shared.delegate = self
+        ContactsLauncher.shared.launchContacts()
     }
     
-    func pushToContact(contact: Contact) {
-        if contact.name == .email {
+    func pushToContact(contact: ContactOption) {
+        if contact == .email {
             if MFMailComposeViewController.canSendMail() {
                 let mail = MFMailComposeViewController()
                 mail.mailComposeDelegate = self
@@ -220,15 +216,15 @@ extension HomeViewController : MFMailComposeViewControllerDelegate {
             } else {
                 print("Error launching email")
             }
-        } else if contact.name == .linkedIn {
+        } else if contact == .linkedIn {
             if let url = URL(string: "https://www.linkedin.com/in/tim-beals-a058b218/") {
                 UIApplication.shared.open(url)
             }
-        } else if contact.name == .github {
+        } else if contact == .github {
             if let url = URL(string: "https://github.com/timmybea") {
                 UIApplication.shared.open(url)
             }
-        } else if contact.name == .mobile {
+        } else if contact == .mobile {
             callNumber(phoneNumber: "5148168809")
         }
     }
@@ -271,8 +267,8 @@ extension HomeViewController {
         
         self.delegate?.viewControllerDidChangeOrientation()
 
-        if contactsLauncher.isContactsLaunched {
-            contactsLauncher.redrawContacts(withSize: size)
+        if ContactsLauncher.shared.isContactsLaunched {
+            ContactsLauncher.shared.redrawContacts(withSize: size)
         }
         
     }
