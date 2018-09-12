@@ -12,11 +12,7 @@ class MenuCell: UICollectionViewCell {
 
     let imageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFit)
     
-//    let imageView: UIImageView = {
-//        let iv = UIImageView()
-//        iv.contentMode = .scaleAspectFit
-//        return iv
-//    }()
+    private let iconSize: CGFloat = 26.0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,18 +24,16 @@ class MenuCell: UICollectionViewCell {
     }
     
     private func setupCell() {
+        self.tintColor = UIColor.Theme.customDarkBlue.color
         
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(imageView)
-        addConstraintsWithFormat(format: "H:[v0(26)]", views: imageView)
-        addConstraintsWithFormat(format: "V:[v0(26)]", views: imageView)
-        addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
-    }
-    
-    override var isHighlighted: Bool {
-        didSet {
-            imageView.tintColor = isHighlighted ? UIColor.white : UIColor.Theme.customDarkBlue.color
-        }
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: iconSize),
+            imageView.widthAnchor.constraint(equalToConstant: iconSize)
+            ])
     }
     
     override var isSelected: Bool {

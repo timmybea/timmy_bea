@@ -24,7 +24,7 @@ class HomeViewController: UIViewController {
         return MenuBar.create(in: self)
     }()
     
-    private let headings = NavigationItem.orderedHeadings()
+//    private let navigationItems = NavigationItem.orderedItems()
     
     private var titleLabel = UILabel.createLabelWith(text: NavigationItem.skills.heading, color: UIColor.white, font: UIFont.Theme.navText.font)
 
@@ -38,17 +38,8 @@ class HomeViewController: UIViewController {
         return UICollectionView.horizontalPagingCollectionView(in: self)
     }()
     
-    //MARK: Non-UI Properties
-    private var navHeight: CGFloat {
-        return self.navigationController!.navigationBar.bounds.height
-    }
-    
     private var menuHeight: CGFloat {
         return menuBar.frame.height
-    }
-    
-    private var statusHeight: CGFloat {
-        return UIDevice.current.orientation.isPortrait ? 20.0 : 0.0
     }
     
     var delegate: HomeViewControllerDelegate?
@@ -66,13 +57,12 @@ extension HomeViewController {
         view.addSubview(footerLabel)
         
         setupBackgroundView()
-        setupFooterLabel()
         setupNavBar()
         setupMenuBar(withSize: CGSize(width: view.bounds.width, height: view.bounds.height))
+        setupFooterLabel()
         setupCollectionView()
     }
 }
-
 
 //MARK: UI Layout
 extension HomeViewController {
@@ -108,12 +98,12 @@ extension HomeViewController {
     
     private func setTitleLabelPosition(withSize size: CGSize) {
         let labelX: CGFloat = -13.0 + (min(size.width, size.height) / 8)
-        let labelY: CGFloat = 10 + statusHeight
+        let labelY: CGFloat = 10 + UIScreen.safeAreaTop
         titleLabel.frame = CGRect(x: labelX, y: labelY, width: 250, height: 25)
     }
 
     private func setupMenuBar(withSize size: CGSize) {
-        menuBar.frame = CGRect(x: 0, y: navHeight + statusHeight, width: size.width, height: 50)
+        menuBar.frame = CGRect(x: 0, y: UINavigationController.navBarHeight + UIScreen.safeAreaTop, width: size.width, height: 50)
     }
     
     private func setupFooterLabel() {
@@ -136,7 +126,11 @@ extension HomeViewController {
     }
 
     private func setCollectionViewFrame(withSize size: CGSize) {
-        collectionView.frame = CGRect(x: 0, y: menuHeight + navHeight + statusHeight, width: size.width, height: size.height - menuHeight - navHeight - statusHeight)
+        
+        collectionView.frame = CGRect(x: 0,
+                                      y: menuHeight + UINavigationController.navBarHeight + UIScreen.safeAreaTop,
+                                      width: size.width,
+                                      height: size.height - menuHeight - UINavigationController.navBarHeight - UIScreen.safeAreaTop)
     }
     
 }
@@ -145,13 +139,14 @@ extension HomeViewController {
 extension HomeViewController : UICollectionViewDelegateAndDatasource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return NavigationItem.orderedHeadings().count
+        return NavigationItem.orderedItems().count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cellIDs: [String] = NavigationItem.orderedCellIDs()
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIDs[indexPath.row], for: indexPath)
+        let cellID = NavigationItem.orderedItems()[indexPath.row].cellID
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
         
         if let currentCell = cell as? CustomCollectionViewCell {
             currentCell.redrawCell()
@@ -192,7 +187,7 @@ extension HomeViewController : MenuBarDelegate {
     }
 
     private func setTitleFor(index: Int) {
-        titleLabel.text = headings[index]
+        titleLabel.text = NavigationItem.orderedItems()[index].heading
     }
 }
 
@@ -270,7 +265,6 @@ extension HomeViewController {
         if ContactsLauncher.shared.isContactsLaunched {
             ContactsLauncher.shared.redrawContacts(withSize: size)
         }
-        
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {

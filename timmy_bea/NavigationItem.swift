@@ -6,7 +6,7 @@
 //  Copyright © 2018 Tim Beals. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum NavigationItem {
     
@@ -30,18 +30,27 @@ enum NavigationItem {
         }
     }
     
-    static func orderedHeadings() -> [String] {
-        return [NavigationItem.skills.heading,
-                NavigationItem.projects.heading,
-                NavigationItem.education_work.heading,
-                NavigationItem.about.heading]
+    var iconImage: UIImage {
+        switch self {
+        case .skills:           return UIImage.Theme.skills.image
+        case .projects:         return UIImage.Theme.projects.image
+        case .education_work:   return UIImage.Theme.education.image
+        case .about :           return UIImage.Theme.about.image
+        }
     }
     
-    static func orderedCellIDs() -> [String] {
-        return [NavigationItem.skills.cellID,
-                NavigationItem.projects.cellID,
-                NavigationItem.education_work.cellID,
-                NavigationItem.about.cellID]
+    static func orderedItems() -> [NavigationItem] {
+        return [NavigationItem.skills,
+                NavigationItem.projects,
+                NavigationItem.education_work,
+                NavigationItem.about]
     }
+    
+//    static func orderedCellIDs() -> [String] {
+//        return [NavigationItem.skills.cellID,
+//                NavigationItem.projects.cellID,
+//                NavigationItem.education_work.cellID,
+//                NavigationItem.about.cellID]
+//    }
     
 }

@@ -23,6 +23,7 @@ extension UINavigationBar {
 //MARK: UIImage Extension
 extension UIImage {
     
+    //["skills", "projects", "education", "about"]
     enum Theme {
         case backgroundGradient
         case contact
@@ -31,6 +32,10 @@ extension UIImage {
         case linkedIn
         case github
         case cancel
+        case skills
+        case projects
+        case education
+        case about
         
         var name: String {
             switch self {
@@ -41,6 +46,10 @@ extension UIImage {
             case .linkedIn:              return "contact_linkedIn"
             case .github:                return "contact_git"
             case .cancel:                return "contact_cancel"
+            case .skills:                 return "skills"
+            case .projects:               return "projects"
+            case .education:              return "education"
+            case .about:                  return "about"
             }
         }
         
@@ -53,6 +62,10 @@ extension UIImage {
             case .linkedIn:             return UIImage(named: self.name)!
             case .github:               return UIImage(named: self.name)!
             case .cancel:               return UIImage(named: self.name)!
+            case .skills:               return UIImage(named: self.name)!
+            case .projects:             return UIImage(named: self.name)!
+            case .education:            return UIImage(named: self.name)!
+            case .about:                return UIImage(named: self.name)!
             }
         }
     }
@@ -107,3 +120,36 @@ extension UICollectionView {
     }
     
 }
+
+extension UINavigationController {
+    
+    static var navBarHeight: CGFloat {
+        return UIDevice.current.orientation.isPortrait ? 44 : landscapeHeight
+    }
+    
+    private static var landscapeHeight: CGFloat {
+        return Device.IS_5_5_INCHES() ? 44 : 32
+    }
+    
+}
+
+extension UIScreen {
+    
+    static var statusHeight: CGFloat {
+        if Device.isPhone() {
+            return UIDevice.current.orientation.isPortrait ? 20.0 : 0.0
+        } else {
+            return 0.0
+        }
+    }
+
+    static var safeAreaTop: CGFloat {
+        if Device.isIphoneX() {
+            return UIDevice.current.orientation.isPortrait ? 44 : 0.0
+        } else {
+            return statusHeight
+        }
+    }
+    
+}
+

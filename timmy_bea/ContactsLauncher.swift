@@ -8,11 +8,12 @@
 
 import UIKit
 
+//MARK: Contacts Launcher Delegate
 protocol ContactsLauncherDelegate {
     func pushToContact(contact: ContactOption)
 }
 
-class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class ContactsLauncher: NSObject {
     
     //MARK: UI Properties
     private let blackView = UIView()
@@ -45,79 +46,9 @@ class ContactsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
         collectionView.register(ContactsCell.self, forCellWithReuseIdentifier: cellId)
     }
     
-    @objc private func dismissNoSetting() {
-        handleDismiss(contact: contactsArray[3])
-    }
-    
-    private func handleDismiss(contact: ContactOption) {
-        
-        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            self.blackView.alpha = 0
-            if let window = UIApplication.shared.keyWindow {
-                self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: 0)
-            }
-        }) { (completed: Bool) in
-            if contact != ContactOption.cancel{
-                self.delegate?.pushToContact(contact: contact)
-            }
-
-//            if contact.name != .cancel {//
-//                self.homeController?.pushToContact(contact: contact)
-//            }
-        }
-        isContactsLaunched = false
-    }
-    
-    //MARK: CollectionView delegate methods
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.contactsArray.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let contactOption = contactsArray[indexPath.item]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ContactsCell
-        cell.contactOption = contactOption
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: cellHeight)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let contact = contactsArray[indexPath.item]
-        
-        handleDismiss(contact: contact)
-    }
-    
-
-    
-    //MARK: Delegate method for device orientation change
-    func redrawContacts(withSize: CGSize) {
-        if isContactsLaunched {
-            if let window = UIApplication.shared.keyWindow {
-                let height: CGFloat = CGFloat(contactsArray.count) * cellHeight
-                let y = window.bounds.width - height
-                self.collectionView.frame = CGRect(x: 0, y: y, width: window.bounds.height, height: height)
-                
-                self.blackView.frame = CGRect(x: 0, y: 0, width: window.bounds.height, height: window.bounds.width)
-            }
-            
-            collectionView.collectionViewLayout.invalidateLayout()
-            
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
-    }
 }
 
-
+//MARK: Handle Launching
 extension ContactsLauncher {
     
     func launchContacts() {
@@ -145,4 +76,75 @@ extension ContactsLauncher {
         }
         
     }
+    
+    //MARK: Delegate method for device orientation change
+    func redrawContacts(withSize: CGSize) {
+        if isContactsLaunched {
+            if let window = UIApplication.shared.keyWindow {
+                let height: CGFloat = CGFloat(contactsArray.count) * cellHeight
+                let y = window.bounds.width - height
+                self.collectionView.frame = CGRect(x: 0, y: y, width: window.bounds.height, height: height)
+                
+                self.blackView.frame = CGRect(x: 0, y: 0, width: window.bounds.height, height: window.bounds.width)
+            }
+            
+            collectionView.collectionViewLayout.invalidateLayout()
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
+}
+
+//MARK: Handle Selection and Dismissal
+extension ContactsLauncher {
+    @objc private func dismissNoSetting() {
+        handleSelection(contactOption: ContactOption.cancel)
+    }
+    
+    private func handleSelection(contactOption: ContactOption) {
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.blackView.alpha = 0
+            if let window = UIApplication.shared.keyWindow {
+                self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: 0)
+            }
+        }) { (completed: Bool) in
+            if contactOption != ContactOption.cancel{
+                self.delegate?.pushToContact(contact: contactOption)
+            }
+        }
+        isContactsLaunched = false
+    }
+}
+
+//MARK: CollectionView delegate methods
+extension ContactsLauncher : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.contactsArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let contactOption = contactsArray[indexPath.item]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ContactsCell
+        cell.contactOption = contactOption
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: cellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let contactOption = contactsArray[indexPath.item]
+        handleSelection(contactOption: contactOption)
+    }
+
 }

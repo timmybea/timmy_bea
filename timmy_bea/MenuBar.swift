@@ -15,9 +15,11 @@ protocol MenuBarDelegate {
 
 class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
+    private var cellID = "menuCell"
+    
     static var menuBarHeight = 44
         
-    private let iconNames = ["skills", "projects", "education", "about"]
+//    private let iconNames = ["skills", "projects", "education", "about"]
     
     var delegate: MenuBarDelegate?
     
@@ -70,7 +72,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
             addConstraintsWithFormat(format: "H:|[v0(\(cvWidth))]", views: collectionView)
         }
         
-        collectionView.register(MenuCell.self, forCellWithReuseIdentifier: "menuCell")
+        collectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellID)
         
         //select the first tab when the vc loads
         let selectedPath = IndexPath(item: 0, section: 0)
@@ -100,11 +102,9 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "menuCell", for: indexPath) as! MenuCell
-        
-        let name = self.iconNames[indexPath.item]
-        cell.imageView.image = UIImage(named: name)?.withRenderingMode(.alwaysTemplate)
-        cell.tintColor = UIColor.Theme.customDarkBlue.color
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! MenuCell
+        cell.imageView.image = NavigationItem.orderedItems()[indexPath.row].iconImage.withRenderingMode(.alwaysTemplate)
+//        cell.tintColor = UIColor.Theme.customDarkBlue.color
         return cell
     }
     
