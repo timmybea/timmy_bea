@@ -31,15 +31,15 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        activityView.addSubview(titleLabel)
+        blueView.addSubview(titleLabel)
         
         layoutBackgroundViews()
         setupDynamicAnimator()
         
         careers = Career.getCareers()
         
-        let offset: CGFloat = (self.activityView.bounds.height - 30) / 3
-        var currentOrigin: CGFloat = (self.activityView.bounds.height - 55)
+        let offset: CGFloat = (self.blueView.bounds.height - 30) / 3
+        var currentOrigin: CGFloat = (self.blueView.bounds.height - 55)
         
         for career in careers {
             addStackViews(with: currentOrigin, career: career)
@@ -52,7 +52,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     }
     
     private func layoutBackgroundViews() {
-        let titleX = CGFloat((activityView.bounds.width - 130) / 2)
+        let titleX = CGFloat((blueView.bounds.width - 130) / 2)
         titleLabel.frame = CGRect(x: titleX, y: 4, width: 130, height: 20)
     }
     
@@ -67,9 +67,9 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     
     private func addStackViews(with offset: CGFloat, career: Career)  {
         
-        let stackView = StackView(frame: self.activityView.bounds)
+        let stackView = StackView(frame: self.blueView.bounds)
 
-        activityView.addSubview(stackView)
+        blueView.addSubview(stackView)
         stackView.career = career
         
         stackView.frame = updateStackViewFrame(stackView: stackView, offset: offset)
@@ -95,7 +95,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     }
     
     private func updateStackViewFrame(stackView: StackView, offset: CGFloat) -> CGRect {
-        return activityView.bounds.offsetBy(dx: 0, dy: activityView.bounds.height - offset)
+        return blueView.bounds.offsetBy(dx: 0, dy: blueView.bounds.height - offset)
     }
     
     
@@ -134,7 +134,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
 
         if viewHasNearedSnapPosition {
             if !isViewSnapped {
-                var snapPosition = activityView.center
+                var snapPosition = blueView.center
                 snapPosition.y += 30
                 
                 snap = UISnapBehavior(item: dragView, snapTo: snapPosition)
@@ -188,8 +188,8 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         isViewSnapped = false
         setupDynamicAnimator()
         
-        let offset: CGFloat = (self.activityView.bounds.height - 30) / 3
-        var initialOffset: CGFloat = (self.activityView.bounds.height - 55)
+        let offset: CGFloat = (self.blueView.bounds.height - 30) / 3
+        var initialOffset: CGFloat = (self.blueView.bounds.height - 55)
         
         for career in careers {
             addStackViews(with: initialOffset, career: career)

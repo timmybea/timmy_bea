@@ -36,7 +36,7 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     }
 
     private func setupCollectionView() {
-        activityView.addSubview(collectionView)
+        blueView.addSubview(collectionView)
         collectionView.register(ProjectVideoCell.self, forCellWithReuseIdentifier: projectVideoCellID)
         projectDataSource = Project.getProjectArray()
         
@@ -55,7 +55,7 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     }
     
     private func setCVFrame() {
-        collectionView.frame.size = self.activityView.bounds.size
+        collectionView.frame.size = self.blueView.bounds.size
     }
     
     //MARK: CollectionView
@@ -82,11 +82,11 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         var screenSize = ScreenSize()
         
         if UIApplication.shared.statusBarOrientation.isPortrait {
-            screenSize.width = Int(self.activityView.bounds.width) - 16
+            screenSize.width = Int(self.blueView.bounds.width) - 16
             let height  = 20 + pad + screenSize.height + pad + 24 + 30 + pad + 2
             return CGSize(width: collectionView.frame.width, height: CGFloat(height))
         } else {
-            screenSize.width = Int((self.activityView.bounds.width - 16) / 2)
+            screenSize.width = Int((self.blueView.bounds.width - 16) / 2)
             return CGSize(width: collectionView.frame.width, height: CGFloat(screenSize.height + 10))
         }
     }

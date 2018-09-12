@@ -17,6 +17,7 @@ class SpeechBubble: UIView, CAAnimationDelegate {
     }
     
     private var stretchLayer: CALayer?
+    
     private var tailLayer: CALayer?
     
     private var textView: UITextView = {

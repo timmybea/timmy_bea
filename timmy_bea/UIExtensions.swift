@@ -119,6 +119,15 @@ extension UICollectionView {
         return cv
     }
     
+    static func defaultCollectionView(in delegate: UICollectionViewDelegateAndDatasource) -> UICollectionView {
+        let layout = UICollectionViewFlowLayout()
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = UIColor.clear
+        cv.delegate = delegate
+        cv.dataSource = delegate
+        return cv
+    }
+    
 }
 
 extension UINavigationController {

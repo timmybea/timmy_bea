@@ -34,11 +34,11 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        activityView.addSubview(circleMaskView)
+        blueView.addSubview(circleMaskView)
         
         circleMaskView.circleMaskViewDelegate = self
         
-        activityView.addSubview(speechBubble)
+        blueView.addSubview(speechBubble)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -50,11 +50,11 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
         speechBubble.displayText = aboutInfo[currentInfoIndex]
         
         if UIApplication.shared.statusBarOrientation == .portrait {
-            let circleMaskX = (activityView.frame.width / 3) - (circleMaskView.frame.width / 2)
-            let circleMaskY = activityView.bounds.height - circleMaskView.frame.height - CGFloat(pad)
+            let circleMaskX = (blueView.frame.width / 3) - (circleMaskView.frame.width / 2)
+            let circleMaskY = blueView.bounds.height - circleMaskView.frame.height - CGFloat(pad)
             circleMaskView.frame.origin = CGPoint(x: circleMaskX, y: circleMaskY)
             
-            speechBubble.frame = CGRect(x: pad, y: pad, width: Int(activityView.bounds.width) - (2 * pad), height: Int(activityView.bounds.height - circleMaskView.frame.height) - (3 * pad))
+            speechBubble.frame = CGRect(x: pad, y: pad, width: Int(blueView.bounds.width) - (2 * pad), height: Int(blueView.bounds.height - circleMaskView.frame.height) - (3 * pad))
             
             let origin = CGPoint(x: circleMaskX + circleMaskView.frame.width - 12, y: speechBubble.frame.height)
             speechBubble.setupTailLayer(origin: origin, portrait: true)
@@ -64,7 +64,7 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
             circleMaskView.frame.origin = CGPoint(x: pad, y: pad)
             
             let speechBubbleX: CGFloat = CGFloat(2 * pad) + circleMaskView.frame.width
-            speechBubble.frame = CGRect(x: speechBubbleX, y: CGFloat(pad), width: activityView.bounds.width - speechBubbleX - CGFloat(pad), height: activityView.bounds.height - CGFloat(2 * pad))
+            speechBubble.frame = CGRect(x: speechBubbleX, y: CGFloat(pad), width: blueView.bounds.width - speechBubbleX - CGFloat(pad), height: blueView.bounds.height - CGFloat(2 * pad))
             
             
             let origin = CGPoint(x: 0, y: circleMaskView.frame.height - 12)

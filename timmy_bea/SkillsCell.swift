@@ -30,7 +30,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.activityView.addSubview(animationView)
+        self.blueView.addSubview(animationView)
         positionAnimationView()
         
         setupScrollView()
@@ -43,12 +43,12 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
     private func positionAnimationView() {
         
         if UIApplication.shared.statusBarOrientation.isPortrait {
-            screenSize.width = Int(activityView.bounds.width)
+            screenSize.width = Int(blueView.bounds.width)
             
             animationView.frame = CGRect(x: 0, y: 20, width: screenSize.width, height: screenSize.height)
         } else {
-            screenSize.width = Int(activityView.bounds.width * 0.44)
-            let positionY: Int = (Int(activityView.bounds.height) - screenSize.height) / 2
+            screenSize.width = Int(blueView.bounds.width * 0.44)
+            let positionY: Int = (Int(blueView.bounds.height) - screenSize.height) / 2
             animationView.frame = CGRect(x: 0, y: positionY, width: screenSize.width, height: screenSize.height)
         }
     }
@@ -61,17 +61,17 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
     }
     
     private func setupScrollView() {
-        activityView.addSubview(scrollView)
+        blueView.addSubview(scrollView)
         scrollView.delegate = self
         positionScrollView()
     }
     
     private func positionScrollView() {
         if UIApplication.shared.statusBarOrientation.isPortrait {
-            scrollView.frame = self.activityView.bounds
+            scrollView.frame = self.blueView.bounds
         } else {
-            let width = Int(self.activityView.bounds.width) - screenSize.width
-            scrollView.frame = CGRect(x: screenSize.width, y: 0, width: width, height: Int(activityView.bounds.height))
+            let width = Int(self.blueView.bounds.width) - screenSize.width
+            scrollView.frame = CGRect(x: screenSize.width, y: 0, width: width, height: Int(blueView.bounds.height))
         }
         setupScrollViewContents()
     }

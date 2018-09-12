@@ -12,6 +12,7 @@
 		B0156E441E9D423600A966BB /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0156E431E9D423600A966BB /* Device.swift */; };
 		B01679471E92CB0100CAB4F5 /* ContactsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */; };
 		B01679491E92CB4500CAB4F5 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01679481E92CB4500CAB4F5 /* ContactsCell.swift */; };
+		B017783C214995220000D8C5 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B017783B214995220000D8C5 /* CustomCollectionViewCell.swift */; };
 		B018DE1A1E9412BD00B6B2D3 /* Career.swift in Sources */ = {isa = PBXBuildFile; fileRef = B018DE191E9412BD00B6B2D3 /* Career.swift */; };
 		B029A2B51E83775400500C95 /* skills_v29.json in Resources */ = {isa = PBXBuildFile; fileRef = B029A2B41E83775400500C95 /* skills_v29.json */; };
 		B04FE7C61E982EC600BC6532 /* CircleMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */; };
@@ -48,6 +49,7 @@
 		B0156E431E9D423600A966BB /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLauncher.swift; sourceTree = "<group>"; };
 		B01679481E92CB4500CAB4F5 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsCell.swift; sourceTree = "<group>"; };
+		B017783B214995220000D8C5 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		B018DE191E9412BD00B6B2D3 /* Career.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Career.swift; sourceTree = "<group>"; };
 		B029A2B41E83775400500C95 /* skills_v29.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skills_v29.json; sourceTree = "<group>"; };
 		B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMaskView.swift; sourceTree = "<group>"; };
@@ -106,8 +108,20 @@
 				B0BE17B11E8426DF0039778D /* ProjectsCell.swift */,
 				B0BE17B31E8427460039778D /* EducationCell.swift */,
 				B0BE17B51E84276E0039778D /* AboutCell.swift */,
+				B017783B214995220000D8C5 /* CustomCollectionViewCell.swift */,
 			);
 			name = MenuCells;
+			sourceTree = "<group>";
+		};
+		B017783A214994320000D8C5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				B018DE191E9412BD00B6B2D3 /* Career.swift */,
+				B0156E211E9C0CDC00A966BB /* AboutInfo.swift */,
+				B0F97CFF1E7648F6003A0F79 /* Skill.swift */,
+				B0BE17B91E8441740039778D /* Project.swift */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		B0CC0D411E709913006E3D36 = {
@@ -184,10 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				B0CC0D4D1E709913006E3D36 /* AppDelegate.swift */,
-				B0F97CFF1E7648F6003A0F79 /* Skill.swift */,
-				B0BE17B91E8441740039778D /* Project.swift */,
-				B018DE191E9412BD00B6B2D3 /* Career.swift */,
-				B0156E211E9C0CDC00A966BB /* AboutInfo.swift */,
+				B017783A214994320000D8C5 /* Data */,
 				B0987683214845AA00503EF1 /* NavigationItem.swift */,
 				B09876872148712200503EF1 /* ContactOption.swift */,
 			);
@@ -223,7 +234,6 @@
 				B0CC0D471E709913006E3D36 /* Frameworks */,
 				B0CC0D481E709913006E3D36 /* Resources */,
 				4B79B3D6A7FA3753245D94A1 /* [CP] Embed Pods Frameworks */,
-				B0586116AA575069789CD2BA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -308,7 +318,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-timmy_bea/Pods-timmy_bea-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-timmy_bea/Pods-timmy_bea-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -317,22 +327,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timmy_bea/Pods-timmy_bea-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B0586116AA575069789CD2BA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-timmy_bea/Pods-timmy_bea-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-timmy_bea/Pods-timmy_bea-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -357,6 +352,7 @@
 				B0987684214845AA00503EF1 /* NavigationItem.swift in Sources */,
 				B0CC0D4E1E709913006E3D36 /* AppDelegate.swift in Sources */,
 				B0987682214837F300503EF1 /* CustomNavigationController.swift in Sources */,
+				B017783C214995220000D8C5 /* CustomCollectionViewCell.swift in Sources */,
 				B09D46BD1E90BBCB0018FA65 /* StackView.swift in Sources */,
 				B0BE17B81E843A870039778D /* ProjectVideoCell.swift in Sources */,
 				B0156E221E9C0CDC00A966BB /* AboutInfo.swift in Sources */,

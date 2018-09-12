@@ -46,11 +46,4 @@ enum NavigationItem {
                 NavigationItem.about]
     }
     
-//    static func orderedCellIDs() -> [String] {
-//        return [NavigationItem.skills.cellID,
-//                NavigationItem.projects.cellID,
-//                NavigationItem.education_work.cellID,
-//                NavigationItem.about.cellID]
-//    }
-    
 }

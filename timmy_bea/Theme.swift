@@ -86,7 +86,7 @@ extension UIFont {
     
 }
 
-
+//MARK: UIView Extensions
 extension UIView {
     
     func addConstraintsWithFormat(format: String, views: UIView...) {
@@ -103,6 +103,7 @@ extension UIView {
     
 }
 
+//MARK: NSLayoutConstraint Extensions
 extension NSLayoutConstraint {
     
     class func constraintsWithFormat(format: String, views: UIView...) -> [NSLayoutConstraint] {
@@ -129,55 +130,6 @@ struct ScreenSize {
     }
     
     var height: Int = 100
-}
-
-
-class CustomCollectionViewCell: UICollectionViewCell {
-
-    func redrawCell() {
-        sizeForOrientation()
-    }
-    
-    let activityView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.clear
-        view.layer.cornerRadius = 8
-        view.layer.masksToBounds = true
-        return view
-    }()
-    
-    let blueView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.Theme.customDarkBlue.color
-        view.alpha = 0.4
-        return view
-    }()
-    
-    private func setupBackgroundView() {
-        
-        addSubview(activityView)
-        sizeForOrientation()
-        activityView.addSubview(blueView)
-    }
-    
-    private func sizeForOrientation() {
-        if UIApplication.shared.statusBarOrientation.isPortrait {
-            activityView.frame = CGRect(x: 24, y: 24, width: self.bounds.width - 48, height: self.bounds.height - 48 - 10)
-        } else {
-            activityView.frame = CGRect(x: 24, y: 24, width: self.bounds.width - 48, height: self.bounds.height - 48)
-        }
-        blueView.frame = activityView.bounds
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setupBackgroundView()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 
