@@ -23,9 +23,7 @@ class HomeViewController: UIViewController {
     lazy var menuBar: MenuBar = {
         return MenuBar.create(in: self)
     }()
-    
-//    private let navigationItems = NavigationItem.orderedItems()
-    
+        
     private var titleLabel = UILabel.createLabelWith(text: NavigationItem.skills.heading, color: UIColor.white, font: UIFont.Theme.navText.font)
 
     private let footerLabel = UILabel.createLabelWith(text: "Tim Beals • iOS Developer", color: UIColor.Theme.customDarkBlue.color, font: UIFont.Theme.subHeader.font)

@@ -52,21 +52,25 @@ extension UIFont {
         case subHeader
         case bodyText
         case footNote
+        case contact
         
         var size: CGFloat {
             switch self {
             case .navText:      return Device.isSizeOrLarger(height: .Inches_4_7) ? 20 : 18
-            case .header:       return Device.isSize(height: .Inches_4_7) ? 18 : 14
-            case .subHeader:    return Device.isSize(height: .Inches_4_7) ? 14 : 12
-            case .bodyText:     return Device.isSize(height: .Inches_4_7) ? 12 : 10
-            case .footNote:     return Device.isSize(height: .Inches_4_7) ? 11 : 9
+            case .header:       return Device.isSizeOrLarger(height: .Inches_4_7) ? 18 : 14
+            case .contact:      return Device.isSizeOrLarger(height: .Inches_4_7) ? 16 : 14
+            case .subHeader:    return Device.isSizeOrLarger(height: .Inches_4_7) ? 14 : 12
+            case .bodyText:     return Device.isSizeOrLarger(height: .Inches_4_7) ? 12 : 10
+            case .footNote:     return Device.isSizeOrLarger(height: .Inches_4_7) ? 11 : 9
+            
             }
         }
         
         var font: UIFont {
             switch self {
             case .navText:      return UIFont.systemFont(ofSize: size, weight: .medium)
-            case .header:       return UIFont.systemFont(ofSize: size, weight: .heavy)
+            case .header:       return UIFont.systemFont(ofSize: size, weight: .regular)
+            case .contact:      return UIFont.systemFont(ofSize: size, weight: .regular)
             case .subHeader:    return UIFont(name: FontFamily.medium.rawValue, size: size)!
             case .bodyText:     return UIFont(name: FontFamily.regular.rawValue, size: size)!
             case .footNote:     return UIFont(name: FontFamily.regular.rawValue, size: size)!

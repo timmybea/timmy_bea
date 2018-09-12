@@ -10,6 +10,7 @@ import UIKit
 
 class ContactsCell: UICollectionViewCell {
     
+    //MARK: UI Properties
     var contactOption: ContactOption? {
         didSet {
             nameLabel.text = contactOption?.name
@@ -19,7 +20,7 @@ class ContactsCell: UICollectionViewCell {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.Theme.bodyText.font
+        label.font = UIFont.Theme.contact.font
         label.textColor = UIColor.darkGray
         return label
     }()
@@ -30,6 +31,7 @@ class ContactsCell: UICollectionViewCell {
         return imageView
     }()
     
+    //MARK: Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -40,22 +42,26 @@ class ContactsCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupView() {
-        addSubview(nameLabel)
-        addSubview(iconImageView)
-        
-        addConstraintsWithFormat(format: "H:|-12-[v0(18)]-8-[v1]|", views: iconImageView, nameLabel)
-        addConstraintsWithFormat(format: "V:|[v0]|", views: nameLabel)
-        addConstraintsWithFormat(format: "V:[v0(18)]", views: iconImageView)
-        
-        addConstraint(NSLayoutConstraint(item: iconImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
-    }
-    
     override var isHighlighted: Bool {
         didSet {
             iconImageView.tintColor = isHighlighted ? UIColor.white : UIColor.darkGray
             nameLabel.textColor = isHighlighted ? UIColor.white : UIColor.darkGray
-            self.backgroundColor = isHighlighted ? UIColor.darkGray : UIColor.white
+            backgroundColor = isHighlighted ? UIColor.darkGray : UIColor.white
         }
+    }
+}
+
+//MARK: Subview layout
+extension ContactsCell {
+    
+    private func setupView() {
+        addSubview(nameLabel)
+        addSubview(iconImageView)
+        
+        addConstraintsWithFormat(format: "H:|-12-[v0(18)]-16-[v1]|", views: iconImageView, nameLabel)
+        addConstraintsWithFormat(format: "V:|[v0]|", views: nameLabel)
+        addConstraintsWithFormat(format: "V:[v0(18)]", views: iconImageView)
+        
+        addConstraint(NSLayoutConstraint(item: iconImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
     }
 }
