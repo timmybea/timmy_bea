@@ -26,7 +26,7 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
         return view
     }()
     
-    private var aboutInfo: [String] = [""] //AboutInfo.getAboutInfo()
+    private var aboutInfo: [About] = About.aboutData
     
     private func incrementInfoIndex() {
         currentInfoIndex = (currentInfoIndex < aboutInfo.count - 1) ? currentInfoIndex + 1 : 1
@@ -47,7 +47,7 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
     
     private func layoutViews() {
     
-        speechBubble.displayText = aboutInfo[currentInfoIndex]
+        speechBubble.displayText = aboutInfo[currentInfoIndex].text
         
         if UIApplication.shared.statusBarOrientation == .portrait {
             let circleMaskX = (blueView.frame.width / 3) - (circleMaskView.frame.width / 2)
@@ -81,7 +81,7 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
     //MARK: Circle mask view delegate method
     internal func viewWasTouched() {
         incrementInfoIndex()
-        speechBubble.displayText = self.aboutInfo[currentInfoIndex]
+        speechBubble.displayText = self.aboutInfo[currentInfoIndex].text
         speechBubble.animateBubbleChange()
     }
 }

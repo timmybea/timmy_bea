@@ -32,7 +32,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
             
-            print(String(data: data!, encoding: .utf8))
+            guard let data = data else { return }
+            guard let jsonContainer = JSONContainer.createContainer(from: data) else {
+                print("container not created")
+                return }
+            
+            About.getAboutObjects(from: jsonContainer)
+            Skill.getSkillObjects(from: jsonContainer)
+
+
         }
         
         return true

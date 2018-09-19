@@ -84,7 +84,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
         
         scrollView.contentSize = CGSize(width: scrollView.frame.width * 8, height: scrollView.frame.height)
         
-        let skillsArray = Skill.skillDataArray()
+        let skillsArray = Skill.skillData
         
         var space: CGFloat = 20
         
@@ -100,6 +100,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
                 label.frame = CGRect(x: scrollView.center.x + (CGFloat(i) * scrollView.frame.width) - CGFloat(130), y: scrollView.frame.height * CGFloat(0.45), width: 260, height: 50)
                 label.text = skill.title
                 
+//                let underline = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 2))
                 let underline = UIView(frame: CGRect(x: 0, y: 0, width: skill.underline, height: 2))
                 underline.backgroundColor = UIColor.Theme.customSand.color
                 underline.center.x = label.center.x
@@ -131,6 +132,7 @@ class SkillsCell: CustomCollectionViewCell, UIScrollViewDelegate {
                 label.frame = CGRect(x: labelX, y: 8, width: 260, height: 22)
                 label.text = skill.title
 
+//                let underline = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 2))
                 let underline = UIView(frame: CGRect(x: 0, y: 0, width: skill.underline, height: 2))
                 underline.backgroundColor = UIColor.Theme.customSand.color
                 underline.center.x = label.center.x

@@ -11,25 +11,32 @@ import Foundation
 struct JSONContainer : Decodable {
     
     let about: [About]
+    let skills: [Skill]
     
     enum JSONKeys: String, CodingKey {
-        case about
+        case about, skills
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: JSONKeys.self)
         
         var a = [About]()
+        var s = [Skill]()
         
         if let objects = try container.decodeIfPresent([About].self, forKey: .about) {
             a = objects
         }
+        
+        if let objects = try container.decodeIfPresent([Skill].self, forKey: .skills) {
+            s = objects
+        }
 
-        self.init(about: a)
+        self.init(about: a, skills: s)
     }
     
-    init(about: [About]) {
+    init(about: [About], skills: [Skill]) {
         self.about = about
+        self.skills = skills
     }
     
     static func createContainer(from json: Data) -> JSONContainer? {
