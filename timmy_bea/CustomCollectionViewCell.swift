@@ -44,7 +44,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
 extension CustomCollectionViewCell {
     
     private func sizeForOrientation() {
-        let height = UIApplication.shared.statusBarOrientation.isPortrait ? self.bounds.height - (2 * VerticalPad) : self.bounds.height - (2 * VerticalPad)
+        let height = UIApplication.shared.statusBarOrientation.isPortrait ? self.bounds.height - (2 * VerticalPad) - 12 : self.bounds.height - (2 * VerticalPad)
         blueView.frame = CGRect(x: VerticalPad, y: VerticalPad, width: self.bounds.width - (2 * VerticalPad), height: height)
     }
     

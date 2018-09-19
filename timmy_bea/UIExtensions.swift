@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 //MARK: UINavigationBar Extension
 extension UINavigationBar {
@@ -159,6 +160,54 @@ extension UIScreen {
             return statusHeight
         }
     }
+
+}
+
+extension MFMailComposeViewController {
+    
+    enum MessageComponent: String {
+        case recipient = "tbeals@roobicreative.com"
+        case subject = "Message From iOSDeveloper App"
+    }
+    
+    static func launchNewMessage(in vc: UIViewController) {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.setToRecipients([MessageComponent.recipient.rawValue])
+            mail.setSubject(MessageComponent.subject.rawValue)
+            vc.present(mail, animated: true)
+        } else {
+            if let vc = vc as? UIAlertControllerDelegate {
+                UIAlertController.presentAlert(in: vc, title: "Could not launch email", message: "Please try again later", options: ["OK"], completion: nil)
+            }
+        }
+    }
     
 }
 
+
+protocol UIAlertControllerDelegate {
+    func selectedOption(_ option: String)
+}
+
+extension UIAlertController {
+    
+    static func presentAlert(in delegate: UIAlertControllerDelegate, title: String, message: String?, options: [String]?, completion: (() -> ())?) {
+        
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            if let options = options {
+                for option in options {
+                    let action = UIAlertAction(title: option, style: .default) { (action) in
+                        delegate.selectedOption(action.title!)
+                    }
+                    alert.addAction(action)
+                }
+            }
+        if let vc = delegate as? UIViewController {
+            vc.present(alert, animated: true) {
+                completion?()
+            }
+        }
+    }
+    
+}

@@ -26,7 +26,7 @@ class AboutCell: CustomCollectionViewCell, CircleMaskViewDelegate {
         return view
     }()
     
-    private var aboutInfo: [String] = AboutInfo.getAboutInfo()
+    private var aboutInfo: [String] = [""] //AboutInfo.getAboutInfo()
     
     private func incrementInfoIndex() {
         currentInfoIndex = (currentInfoIndex < aboutInfo.count - 1) ? currentInfoIndex + 1 : 1

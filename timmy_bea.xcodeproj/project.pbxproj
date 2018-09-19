@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		B0156E201E9AFF2000A966BB /* SpeechBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0156E1F1E9AFF2000A966BB /* SpeechBubble.swift */; };
-		B0156E221E9C0CDC00A966BB /* AboutInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0156E211E9C0CDC00A966BB /* AboutInfo.swift */; };
+		B0156E221E9C0CDC00A966BB /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0156E211E9C0CDC00A966BB /* About.swift */; };
 		B0156E441E9D423600A966BB /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0156E431E9D423600A966BB /* Device.swift */; };
 		B01679471E92CB0100CAB4F5 /* ContactsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */; };
 		B01679491E92CB4500CAB4F5 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01679481E92CB4500CAB4F5 /* ContactsCell.swift */; };
 		B017783C214995220000D8C5 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B017783B214995220000D8C5 /* CustomCollectionViewCell.swift */; };
 		B018DE1A1E9412BD00B6B2D3 /* Career.swift in Sources */ = {isa = PBXBuildFile; fileRef = B018DE191E9412BD00B6B2D3 /* Career.swift */; };
 		B029A2B51E83775400500C95 /* skills_v29.json in Resources */ = {isa = PBXBuildFile; fileRef = B029A2B41E83775400500C95 /* skills_v29.json */; };
+		B041EFA12152CDA3000AED2E /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B041EFA02152CDA3000AED2E /* APIService.swift */; };
+		B041EFA32152CF06000AED2E /* JSONContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B041EFA22152CF06000AED2E /* JSONContainer.swift */; };
 		B04FE7C61E982EC600BC6532 /* CircleMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */; };
 		B0987680214834F900503EF1 /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B098767F214834F900503EF1 /* UIExtensions.swift */; };
 		B0987682214837F300503EF1 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0987681214837F300503EF1 /* CustomNavigationController.swift */; };
@@ -45,13 +47,15 @@
 		14256E79EA48DE8895A0A645 /* Pods_timmy_bea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_timmy_bea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C344AF3DE2F7A1F84028909 /* Pods-timmy_bea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-timmy_bea.release.xcconfig"; path = "Pods/Target Support Files/Pods-timmy_bea/Pods-timmy_bea.release.xcconfig"; sourceTree = "<group>"; };
 		B0156E1F1E9AFF2000A966BB /* SpeechBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubble.swift; sourceTree = "<group>"; };
-		B0156E211E9C0CDC00A966BB /* AboutInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutInfo.swift; sourceTree = "<group>"; };
+		B0156E211E9C0CDC00A966BB /* About.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		B0156E431E9D423600A966BB /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLauncher.swift; sourceTree = "<group>"; };
 		B01679481E92CB4500CAB4F5 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsCell.swift; sourceTree = "<group>"; };
 		B017783B214995220000D8C5 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		B018DE191E9412BD00B6B2D3 /* Career.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Career.swift; sourceTree = "<group>"; };
 		B029A2B41E83775400500C95 /* skills_v29.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skills_v29.json; sourceTree = "<group>"; };
+		B041EFA02152CDA3000AED2E /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		B041EFA22152CF06000AED2E /* JSONContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONContainer.swift; sourceTree = "<group>"; };
 		B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMaskView.swift; sourceTree = "<group>"; };
 		B098767F214834F900503EF1 /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
 		B0987681214837F300503EF1 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
@@ -117,9 +121,10 @@
 			isa = PBXGroup;
 			children = (
 				B018DE191E9412BD00B6B2D3 /* Career.swift */,
-				B0156E211E9C0CDC00A966BB /* AboutInfo.swift */,
+				B0156E211E9C0CDC00A966BB /* About.swift */,
 				B0F97CFF1E7648F6003A0F79 /* Skill.swift */,
 				B0BE17B91E8441740039778D /* Project.swift */,
+				B041EFA22152CF06000AED2E /* JSONContainer.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 				B0DEFD6E1E8B3E8A000D1721 /* VideoLauncher.swift */,
 				B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */,
 				B0987681214837F300503EF1 /* CustomNavigationController.swift */,
+				B041EFA02152CDA3000AED2E /* APIService.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -197,8 +203,8 @@
 		B0CC0D621E70992B006E3D36 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B0CC0D4D1E709913006E3D36 /* AppDelegate.swift */,
 				B017783A214994320000D8C5 /* Data */,
+				B0CC0D4D1E709913006E3D36 /* AppDelegate.swift */,
 				B0987683214845AA00503EF1 /* NavigationItem.swift */,
 				B09876872148712200503EF1 /* ContactOption.swift */,
 			);
@@ -319,10 +325,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-timmy_bea/Pods-timmy_bea-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Appz/Appz.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Appz.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +347,7 @@
 			files = (
 				B0F97D001E7648F6003A0F79 /* Skill.swift in Sources */,
 				B0F62FDB1E75EB9100F5917C /* SkillsCell.swift in Sources */,
+				B041EFA12152CDA3000AED2E /* APIService.swift in Sources */,
 				B01679491E92CB4500CAB4F5 /* ContactsCell.swift in Sources */,
 				B018DE1A1E9412BD00B6B2D3 /* Career.swift in Sources */,
 				B0CC0D501E709913006E3D36 /* HomeViewController.swift in Sources */,
@@ -355,10 +364,11 @@
 				B017783C214995220000D8C5 /* CustomCollectionViewCell.swift in Sources */,
 				B09D46BD1E90BBCB0018FA65 /* StackView.swift in Sources */,
 				B0BE17B81E843A870039778D /* ProjectVideoCell.swift in Sources */,
-				B0156E221E9C0CDC00A966BB /* AboutInfo.swift in Sources */,
+				B0156E221E9C0CDC00A966BB /* About.swift in Sources */,
 				B0156E201E9AFF2000A966BB /* SpeechBubble.swift in Sources */,
 				B0BE17B21E8426DF0039778D /* ProjectsCell.swift in Sources */,
 				B04FE7C61E982EC600BC6532 /* CircleMaskView.swift in Sources */,
+				B041EFA32152CF06000AED2E /* JSONContainer.swift in Sources */,
 				B09876882148712200503EF1 /* ContactOption.swift in Sources */,
 				B0BE17BA1E8441740039778D /* Project.swift in Sources */,
 				B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */,

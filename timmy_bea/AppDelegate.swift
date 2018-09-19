@@ -25,6 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupStatusBar(for: application)
         
+        APIService.fetchData(with: .json) { (data, error) in
+            
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            
+            print(String(data: data!, encoding: .utf8))
+        }
+        
         return true
     }
 

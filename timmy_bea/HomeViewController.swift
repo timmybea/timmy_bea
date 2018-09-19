@@ -190,8 +190,9 @@ extension HomeViewController : MenuBarDelegate {
 }
 
 
+//, MFMailComposeViewControllerDelegate
 //MARK: Contact Menu
-extension HomeViewController : ContactsLauncherDelegate, MFMailComposeViewControllerDelegate {
+extension HomeViewController : ContactsLauncherDelegate {
     
     @objc private func handleContact() {
         ContactsLauncher.shared.delegate = self
@@ -200,15 +201,7 @@ extension HomeViewController : ContactsLauncherDelegate, MFMailComposeViewContro
     
     func pushToContact(contact: ContactOption) {
         if contact == .email {
-            if MFMailComposeViewController.canSendMail() {
-                let mail = MFMailComposeViewController()
-                mail.mailComposeDelegate = self
-                mail.setToRecipients(["tim.beals@gmail.com"])
-                mail.setSubject("Message From iOSDeveloper App")
-                present(mail, animated: true)
-            } else {
-                print("Error launching email")
-            }
+            MFMailComposeViewController.launchNewMessage(in: self)
         } else if contact == .linkedIn {
             if let url = URL(string: "https://www.linkedin.com/in/tim-beals-a058b218/") {
                 UIApplication.shared.open(url)
@@ -273,4 +266,15 @@ extension HomeViewController {
             self.collectionView.reloadData()
         }
     }    
+}
+
+//MARK: AlertController Delegate
+extension HomeViewController : UIAlertControllerDelegate {
+    
+    func selectedOption(_ option: String) {
+        if option == "OK" {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
 }
