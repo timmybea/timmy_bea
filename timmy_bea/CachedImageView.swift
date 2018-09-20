@@ -11,13 +11,7 @@ import UIKit
 class CachedImageView: UIImageView {
     
     
-    var imageEndPoint: String? {
-        didSet {
-            if let endPoint = imageEndPoint {
-                loadImage(from: endPoint)
-            }
-        }
-    }
+    private var imageEndPoint: String?
     
     private let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
@@ -37,29 +31,38 @@ class CachedImageView: UIImageView {
             activityIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             ])
         
-        activityIndicatorView.startAnimating()
-        
-        if let endPoint = imageEndPoint {
-            loadImage(from: endPoint)
+        if self.image == nil {
+            activityIndicatorView.startAnimating()
         }
     }
     
-    private func loadImage(from endPoint: String) {
+    func loadImage(from endPoint: String, with renderingMode: UIImageRenderingMode?) {
+        
+        self.imageEndPoint = endPoint
+        
+        func setImage(_ image: UIImage) {
+            
+            var img = image
+            
+            if let rend = renderingMode {
+                img = img.withRenderingMode(rend)
+            }
+            
+            self.image = img
+            activityIndicatorView.stopAnimating()
+        }
         
         if let imageFromCache = UIImage.imageCache.object(forKey: endPoint as AnyObject) as? UIImage {
-            self.image = imageFromCache
-            activityIndicatorView.stopAnimating()
+            setImage(imageFromCache)
             return
         }
         
         UIImage.cacheImage(from: endPoint) { (image) in
             
-            guard let image = image else {
+            guard let imageFromCache = image else {
                 return
             }
-            
-            self.image = image
-            self.activityIndicatorView.stopAnimating()
+            setImage(imageFromCache)
         }
     }
     

@@ -24,12 +24,21 @@ class StackView: UIView, UIScrollViewDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private let logoImageView: UIImageView = {
-        let imageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFit)
-        imageView.tintColor = UIColor.Theme.customSand.color
-        return imageView
+
+    private let logoImageView: CachedImageView = {
+        let view = CachedImageView()
+        view.contentMode = .scaleAspectFit
+        view.backgroundColor = UIColor.clear
+        view.tintColor = UIColor.Theme.customSand.color
+        return view
     }()
+
+    
+//    private let logoImageView: UIImageView = {
+//        let imageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFit)
+//        imageView.tintColor = UIColor.Theme.customSand.color
+//        return imageView
+//    }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -77,7 +86,11 @@ class StackView: UIView, UIScrollViewDelegate {
     
     private func layoutFrames() {
         if let career = self.career {
-            logoImageView.image = UIImage(named: career.imageName)?.withRenderingMode(.alwaysTemplate)
+            
+            logoImageView.loadImage(from: career.imageName, with: .alwaysTemplate)
+            
+//            logoImageView.imageEndPoint = career.imageName
+//            logoImageView.image = UIImage(named: career.imageName)?.withRenderingMode(.alwaysTemplate)
             
             var currentX = pad
             var currentY = 16

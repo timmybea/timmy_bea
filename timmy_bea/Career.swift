@@ -83,16 +83,16 @@ struct Career : Decodable {
         self.relatedRoles = relatedRoles
         self.relatedURLs = relatedURLs
         
-        //cacheImage()
+        cacheImage()
     }
     
-//    private func cacheImage() {
-//
-//        UIImage.cacheImage(from: self.imageName) { (_) in
-//            //
-//        }
-//
-//    }
+    private func cacheImage() {
+
+        UIImage.cacheImage(from: self.imageName) { (_) in
+            //
+        }
+
+    }
     
     
 //    static func getCareers() -> [Career] {
