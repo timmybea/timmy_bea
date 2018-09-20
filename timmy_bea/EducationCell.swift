@@ -9,8 +9,10 @@
 import UIKit
 
 class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
-
+    
     private var stackViews = [StackView]()
+    private var stackViewColors: [UIColor.Theme] = [.customGreen, .customRust, .customBlue]
+    
     private var dynamicAnimator: UIDynamicAnimator!
     private var gravityBehavior: UIGravityBehavior!
     private var snap: UISnapBehavior?
@@ -36,13 +38,14 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         layoutBackgroundViews()
         setupDynamicAnimator()
         
-        careers = Career.getCareers()
+        careers = Career.careerData
+        
         
         let offset: CGFloat = (self.blueView.bounds.height - 30) / 3
         var currentOrigin: CGFloat = (self.blueView.bounds.height - 55)
         
-        for career in careers {
-            addStackViews(with: currentOrigin, career: career)
+        for (index, career) in careers.enumerated() {
+            addStackViews(with: currentOrigin, career: career, color: stackViewColors[index])
             currentOrigin -= offset
         }
     }
@@ -65,9 +68,10 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         dynamicAnimator.addBehavior(gravityBehavior)
     }
     
-    private func addStackViews(with offset: CGFloat, career: Career)  {
+    private func addStackViews(with offset: CGFloat, career: Career, color: UIColor.Theme)  {
         
         let stackView = StackView(frame: self.blueView.bounds)
+        stackView.backgroundColor = color.color
 
         blueView.addSubview(stackView)
         stackView.career = career
@@ -191,8 +195,8 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         let offset: CGFloat = (self.blueView.bounds.height - 30) / 3
         var initialOffset: CGFloat = (self.blueView.bounds.height - 55)
         
-        for career in careers {
-            addStackViews(with: initialOffset, career: career)
+        for (index, career) in careers.enumerated() {
+            addStackViews(with: initialOffset, career: career, color: stackViewColors[index])
             initialOffset -= offset
         }
     }

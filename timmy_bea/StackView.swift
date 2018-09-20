@@ -66,10 +66,7 @@ class StackView: UIView, UIScrollViewDelegate {
         layer.shadowOpacity = 0.5
         layer.shadowRadius = 3
         
-        if let career = self.career {
-            
-            self.backgroundColor = career.backgroundColor
-            
+        if self.career != nil {
             self.addSubview(logoImageView)
             self.addSubview(titleLabel)
             self.addSubview(subtitleLabel)
@@ -165,7 +162,7 @@ class StackView: UIView, UIScrollViewDelegate {
             attributedString.append(NSAttributedString(string: "\n\nEducation", attributes: [NSAttributedStringKey.font: UIFont.Theme.subHeader.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
             
             for qualification in career.education {
-                attributedString.append(NSAttributedString(string: "\n\(qualification.institution!) - \(qualification.role!) \(qualification.date!)", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
+                attributedString.append(NSAttributedString(string: "\n\(qualification.institution) - \(qualification.role) \(qualification.date)", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
             }
             
             if career.relatedRoles.count > 0 {
@@ -173,7 +170,7 @@ class StackView: UIView, UIScrollViewDelegate {
                 attributedString.append(NSAttributedString(string: "\n\nRelated Work", attributes: [NSAttributedStringKey.font: UIFont.Theme.subHeader.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
                 
                 for role in career.relatedRoles {
-                    attributedString.append(NSAttributedString(string: "\n\(role.institution!) - \(role.role!) \(role.date!)", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
+                    attributedString.append(NSAttributedString(string: "\n\(role.institution) - \(role.role) \(role.date)", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
                 }
             }
             
