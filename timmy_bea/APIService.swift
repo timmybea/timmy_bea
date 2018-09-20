@@ -13,19 +13,22 @@ struct APIService {
     static fileprivate let baseURL: String = "https://timmybea.github.io/timmybeaAPI/"
     
     enum APIURL {
-        case json
+        case objectJson
+        case careerJson
         case image(endPoint: String)
         
         var path: String {
             switch self {
-            case .json: return APIService.baseURL + "dataObjects.json"
-            case .image(let endPoint): return APIService.baseURL + "personImage/" + endPoint
+            case .objectJson: return APIService.baseURL + "dataObjects.json"
+            case .careerJson: return APIService.baseURL + "careerData.json"
+            case .image(let endPoint): return APIService.baseURL + "images/" + endPoint
             }
         }
         
         var url: URL {
             switch self {
-            case .json: return URL(string: self.path)!
+            case .objectJson: return URL(string: self.path)!
+            case .careerJson: return URL(string: self.path)!
             case .image(_): return URL(string: self.path)!
             }
         }

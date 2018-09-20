@@ -25,24 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupStatusBar(for: application)
         
-        APIService.fetchData(with: .json) { (data, error) in
-            
-            guard error == nil else {
-                print(error!.localizedDescription)
-                return
-            }
-            
-            guard let data = data else { return }
-            guard let jsonContainer = JSONContainer.createContainer(from: data) else {
-                print("container not created")
-                return }
-            
-            About.getAboutObjects(from: jsonContainer)
-            Skill.getSkillObjects(from: jsonContainer)
-
-
+        JSONContainer.getObjects(url: .objectJson) { (success) in
+            //
         }
         
+        JSONContainer.getObjects(url: .careerJson) { (success) in
+            print("Career Build success: \(success))")
+        }
+
         return true
     }
 

@@ -38,7 +38,7 @@ struct CareerDetail : Decodable {
     }
 }
 
-struct Career {
+struct Career : Decodable {
 
     static var careerData = [Career]()
     
@@ -50,19 +50,60 @@ struct Career {
     let relatedRoles: [CareerDetail]
     let relatedURLs: [String]
     
+    enum CareerKeys: String, CodingKey {
+        case title
+        case subtitle
+        case description
+        case imageName
+        case education
+        case relatedRoles
+        case relatedURLs
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CareerKeys.self)
+        
+        let title: String = try container.decode(String.self, forKey: .title)
+        let subtitle: String = try container.decode(String.self, forKey: .subtitle)
+        let description: String = try container.decode(String.self, forKey: .description)
+        let imageName: String = try container.decode(String.self, forKey: .imageName)
+        let education: [CareerDetail] = try container.decode([CareerDetail].self, forKey: .education)
+        let relatedRoles: [CareerDetail] = try container.decode([CareerDetail].self, forKey: .relatedRoles)
+        let relatedURLs: [String] = (try? container.decode([String].self, forKey: .relatedRoles)) ?? []
+        
+        self.init(title: title, subtitle: subtitle, description: description, imageName: imageName, educaton: education, relatedRoles: relatedRoles, relatedURLs: relatedURLs)
+    }
+    
+    init(title: String, subtitle: String, description: String, imageName: String, educaton: [CareerDetail], relatedRoles: [CareerDetail], relatedURLs: [String]) {
+        self.title = title
+        self.subtitle = subtitle
+        self.description = description
+        self.imageName = imageName
+        self.education = educaton
+        self.relatedRoles = relatedRoles
+        self.relatedURLs = relatedURLs
+        
+        //cacheImage()
+    }
+    
+//    private func cacheImage() {
+//
+//        UIImage.cacheImage(from: self.imageName) { (_) in
+//            //
+//        }
+//
+//    }
     
     
-    
-
 //    static func getCareers() -> [Career] {
 //
-        let musEdOne = CareerDetail(institution: "Victoria University of Wellington", role: "BA Media Studies", date: "(2001 - 2004)")
-        let musEdTwo = CareerDetail(institution: "Victoria University of Wellington", role: "BMus Music Composition", date: "(2001 - 2004)")
-        let musRoleOne = CareerDetail(institution: "LOOP Recordings", role: "Promoter", date: "(2001 - 2004)")
-        let musRoleTwo = CareerDetail(institution: "Freelance", role: "Musician", date: "(2005 - 2009)")
-        let musRoleThree = CareerDetail(institution: "Freelance", role: "Music Teacher", date: "(2007 - 2009)")
-
-        let musician = Career(title: "Musician & Music Teacher (New Zealand)", subtitle: "2004 - 2009", description: "I completed two degrees in Wellington, New Zealand to pursue my passion of music. In the years that followed, I worked as a promoter for an independent record label, as an independent musician touring internationally and publishing my own sound recordings, and also as a private teacher for cello and bass. Predominantly working as a freelancer, I learned a tremendous amount about managing projects and seeing them through to completion.", imageName: "logo_VUW", education: [musEdOne, musEdTwo], relatedRoles: [musRoleOne, musRoleTwo, musRoleThree], relatedURLs: [], backgroundColor: UIColor.Theme.customGreen.color)
+//        let musEdOne = CareerDetail(institution: "Victoria University of Wellington", role: "BA Media Studies", date: "(2001 - 2004)")
+//        let musEdTwo = CareerDetail(institution: "Victoria University of Wellington", role: "BMus Music Composition", date: "(2001 - 2004)")
+//        let musRoleOne = CareerDetail(institution: "LOOP Recordings", role: "Promoter", date: "(2001 - 2004)")
+//        let musRoleTwo = CareerDetail(institution: "Freelance", role: "Musician", date: "(2005 - 2009)")
+//        let musRoleThree = CareerDetail(institution: "Freelance", role: "Music Teacher", date: "(2007 - 2009)")
+//
+//        let musician = Career(title: "Musician & Music Teacher (New Zealand)", subtitle: "2004 - 2009", description: "I completed two degrees in Wellington, New Zealand to pursue my passion of music. In the years that followed, I worked as a promoter for an independent record label, as an independent musician touring internationally and publishing my own sound recordings, and also as a private teacher for cello and bass. Predominantly working as a freelancer, I learned a tremendous amount about managing projects and seeing them through to completion.", imageName: "logo_VUW", education: [musEdOne, musEdTwo], relatedRoles: [musRoleOne, musRoleTwo, musRoleThree], relatedURLs: [], backgroundColor: UIColor.Theme.customGreen.color)
 //
 //        let teachEdOne = CareerDetail(institution: "ILAC", role: "TESOL Certificate", date: "(2010)")
 //        let teachEdTwo = CareerDetail(institution: "ILAC", role: "TESOL Instruction Certificate", date: "(2014)")

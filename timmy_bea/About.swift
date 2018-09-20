@@ -29,11 +29,3 @@ struct About : Decodable {
         self.text = text
     }
 }
-
-extension About {
-    
-    static func getAboutObjects(from container: JSONContainer) {
-        self.aboutData = container.about
-    }
-    
-}

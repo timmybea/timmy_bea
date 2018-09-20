@@ -73,6 +73,40 @@ extension UIImage {
     
 }
 
+extension UIImage {
+    
+    static let imageCache = NSCache<AnyObject, AnyObject>()
+    
+    static func cacheImage(from endPoint: String, completion: @escaping (UIImage?) -> ()) {
+        
+        var output: UIImage? = nil
+        
+        APIService.fetchData(with: .image(endPoint: endPoint)) { (data, error) in
+            
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            
+            guard let currData = data else {
+                return
+            }
+            
+            guard let image = UIImage(data: currData) else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                imageCache.setObject(image, forKey: endPoint as AnyObject)
+            }
+            
+            output = image
+            
+        }
+        completion(output)
+    }
+}
+
 //MARK: UIImageView Extension
 extension UIImageView {
 

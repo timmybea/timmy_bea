@@ -36,10 +36,3 @@ struct Skill : Decodable {
         self.bodyText = bodyText
     }
 }
-
-extension Skill {
-    
-    static func getSkillObjects(from container: JSONContainer) {
-        self.skillData = container.skills
-    }
-}
