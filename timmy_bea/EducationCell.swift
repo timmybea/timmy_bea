@@ -17,7 +17,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     
     private var isDragging = false
     private var previousPosition: CGPoint?
-    private var isViewSnapped = false
+//    private var isViewSnapped = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,13 +27,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         
         self.dynamicAnimatorService = DynamicAnimatorService(in: self)
         
-        let offset: CGFloat = (self.blueView.bounds.height - 30) / 3
-        var currentOrigin: CGFloat = (self.blueView.bounds.height - 55)
-        
-        for (index, career) in Career.careerData.enumerated() {
-            addStackViews(with: currentOrigin, career: career, color: stackViewColors[index])
-            currentOrigin -= offset
-        }
+        createStackViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -92,7 +86,8 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
                 previousPosition = currentPosition
             } else if panRecognizer.state == .ended && isDragging {
                 
-                snap(dragView: dragView)
+                dynamicAnimatorService.snap(dragView: dragView)
+//                snap(dragView: dragView)
                 
                 dynamicAnimatorService.updateItem(using: dragView)
                 isDragging = false
@@ -100,53 +95,53 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         }
     }
     
-    private func snap(dragView: UIView) {
-        
-        let viewHasNearedSnapPosition = dragView.frame.origin.y < 60
-
-        if viewHasNearedSnapPosition {
-            if !isViewSnapped {
-                var snapPosition = blueView.center
-                snapPosition.y += 30
-                
-                dynamicAnimatorService.addSnapBehavior(to: dragView, position: snapPosition)
-                
-                changeStackViewAlpha(currentView: dragView)
-                
-                isViewSnapped = true
-            }
-        } else {
-            if isViewSnapped {
-                dynamicAnimatorService.removeSnapBehavior()
-                changeStackViewAlpha(currentView: dragView)
-                isViewSnapped = false
-            }
-        }
-    }
+//    private func snap(dragView: UIView) {
+//
+//        let viewHasNearedSnapPosition = dragView.frame.origin.y < 60
+//
+//        if viewHasNearedSnapPosition {
+//            if !isViewSnapped {
+//                var snapPosition = blueView.center
+//                snapPosition.y += 30
+//
+//                dynamicAnimatorService.addSnapBehavior(to: dragView, position: snapPosition)
+//
+//                changeStackViewAlpha(currentView: dragView)
+//
+//                isViewSnapped = true
+//            }
+//        } else {
+//            if isViewSnapped {
+//                dynamicAnimatorService.removeSnapBehavior()
+//                changeStackViewAlpha(currentView: dragView)
+//                isViewSnapped = false
+//            }
+//        }
+//    }
     
-    private func changeStackViewAlpha(currentView: UIView) {
-        
-        if isViewSnapped {
-            for stackView in stackViews {
-                if stackView == currentView {
-                    UIView.animate(withDuration: 0.5, animations: {
-                        stackView.mainTextView.alpha = 0
-                    })
-                }
-                stackView.alpha = 1
-            }
-        } else {
-            for stackView in stackViews {
-                if stackView != currentView {
-                    stackView.alpha = 0
-                } else {
-                    UIView.animate(withDuration: 0.5, animations: {
-                        stackView.mainTextView.alpha = 1
-                    })
-                }
-            }
-        }
-    }
+//    private func changeStackViewAlpha(currentView: UIView) {
+//
+//        if isViewSnapped {
+//            for stackView in stackViews {
+//                if stackView == currentView {
+//                    UIView.animate(withDuration: 0.5, animations: {
+//                        stackView.mainTextView.alpha = 0
+//                    })
+//                }
+//                stackView.alpha = 1
+//            }
+//        } else {
+//            for stackView in stackViews {
+//                if stackView != currentView {
+//                    stackView.alpha = 0
+//                } else {
+//                    UIView.animate(withDuration: 0.5, animations: {
+//                        stackView.mainTextView.alpha = 1
+//                    })
+//                }
+//            }
+//        }
+//    }
     
     private func removeAllSubviews() {
         for subview in blueView.subviews {
@@ -165,9 +160,14 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
             stackView.removeFromSuperview()
         }
         
-        isViewSnapped = false
+//        isViewSnapped = false
         dynamicAnimatorService.resetDynamicAnimator()
         
+        createStackViews()
+        
+    }
+    
+    private func createStackViews() {
         let offset: CGFloat = (self.blueView.bounds.height - 30) / 3
         var initialOffset: CGFloat = (self.blueView.bounds.height - 55)
         

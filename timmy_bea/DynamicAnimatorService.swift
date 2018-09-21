@@ -8,19 +8,23 @@
 
 import UIKit
 
-struct DynamicAnimatorService {
+class DynamicAnimatorService {
     
     private var dynamicAnimator: UIDynamicAnimator!
     private var gravityBehavior: UIGravityBehavior!
     private var snap: UISnapBehavior?
-    private var referenceView: UIView
+    private var referenceView: CustomCollectionViewCell
+    
+    private var isViewSnapped = false
 
-    init(in referenceView: UIView) {
+    init(in referenceView: CustomCollectionViewCell) {
         self.referenceView = referenceView
         resetDynamicAnimator()
     }
     
-    mutating func resetDynamicAnimator() {
+    func resetDynamicAnimator() {
+        isViewSnapped = false
+        
         dynamicAnimator = UIDynamicAnimator(referenceView: referenceView)
         gravityBehavior = UIGravityBehavior()
         gravityBehavior.magnitude = 4
@@ -28,7 +32,6 @@ struct DynamicAnimatorService {
     }
     
     func addBehaviors(to stackView: StackView) {
-        
         addCollisionBehavior(to: stackView)
         gravityBehavior.addItem(stackView)
     }
@@ -49,7 +52,7 @@ struct DynamicAnimatorService {
         dynamicAnimator.updateItem(usingCurrentState: currentState)
     }
     
-    mutating func addSnapBehavior(to item: UIDynamicItem, position: CGPoint) {
+    func addSnapBehavior(to item: UIDynamicItem, position: CGPoint) {
         snap = UISnapBehavior(item: item, snapTo: position)
         dynamicAnimator.addBehavior(snap!)
     }
@@ -59,4 +62,55 @@ struct DynamicAnimatorService {
             dynamicAnimator.removeBehavior(snap)
         }
     }
+    
+    func snap(dragView: UIView) {
+        
+        let viewHasNearedSnapPosition = dragView.frame.origin.y < 60
+        
+        if viewHasNearedSnapPosition {
+            if !isViewSnapped {
+                
+                var snapPosition = referenceView.blueView.center
+//                blueView.center
+                snapPosition.y += 30
+                
+                addSnapBehavior(to: dragView, position: snapPosition)
+                
+//                changeStackViewAlpha(currentView: dragView)
+                
+                isViewSnapped = true
+            }
+        } else {
+            if isViewSnapped {
+                removeSnapBehavior()
+//                changeStackViewAlpha(currentView: dragView)
+                isViewSnapped = false
+            }
+        }
+    }
+    
+//    private func changeStackViewAlpha(currentView: UIView) {
+//
+//        if isViewSnapped {
+//            for stackView in stackViews {
+//                if stackView == currentView {
+//                    UIView.animate(withDuration: 0.5, animations: {
+//                        stackView.mainTextView.alpha = 0
+//                    })
+//                }
+//                stackView.alpha = 1
+//            }
+//        } else {
+//            for stackView in stackViews {
+//                if stackView != currentView {
+//                    stackView.alpha = 0
+//                } else {
+//                    UIView.animate(withDuration: 0.5, animations: {
+//                        stackView.mainTextView.alpha = 1
+//                    })
+//                }
+//            }
+//        }
+//    }
+    
 }
