@@ -36,31 +36,24 @@ class StackViewController {
         switch panRecognizer.state {
         case .began:
             let isTouchNearTop = panRecognizer.location(in: dragView).y < 60
-            
-            if isTouchNearTop {
-                isDragging = true
-                previousPosition = currentPosition
-            }
+            guard isTouchNearTop else { return }
+            isDragging = true
+            previousPosition = currentPosition
         case .changed:
-            if isDragging {
-                if let previousPosition = previousPosition {
-                    let offset = previousPosition.y - currentPosition.y
-                    dragView.center = CGPoint(x: dragView.center.x, y: dragView.center.y - offset)
-                }
-                previousPosition = currentPosition
-
-            }
+            guard isDragging else { return }
+            guard let prev = previousPosition else { return }
+            let offset = prev.y - currentPosition.y
+            dragView.center = CGPoint(x: dragView.center.x, y: dragView.center.y - offset)
+            previousPosition = currentPosition
         case .ended:
-            if isDragging {
-                dynamicAnimatorService.snap(dragView: dragView)
-                dynamicAnimatorService.updateItem(using: dragView)
-                isDragging = false
-            }
+            guard isDragging else { return }
+            dynamicAnimatorService.snap(dragView: dragView)
+            dynamicAnimatorService.updateItem(using: dragView)
+            isDragging = false
         default:
             return
         }
     }
-        
 }
 
 //MARK: Methods
