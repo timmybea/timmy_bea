@@ -8,15 +8,16 @@
 
 import UIKit
 
-class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
+class EducationCell: CustomCollectionViewCell {
     
-    var dynamicAnimatorService: DynamicAnimatorService!
+//    var dynamicAnimatorService: DynamicAnimatorService!
+    var stackViewController: StackViewController!
     
-    private var stackViews = [StackView]()
-    private var stackViewColors: [UIColor.Theme] = [.customGreen, .customRust, .customDarkBlue]
-    
-    private var isDragging = false
-    private var previousPosition: CGPoint?
+//    private var stackViews = [StackView]()
+//    private var stackViewColors: [UIColor.Theme] = [.customGreen, .customRust, .customDarkBlue]
+//
+//    private var isDragging = false
+//    private var previousPosition: CGPoint?
 //    private var isViewSnapped = false
     
     override init(frame: CGRect) {
@@ -24,10 +25,11 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         
         
         createTitleLabel()
+        stackViewController = StackViewController(referenceView: self)
         
-        self.dynamicAnimatorService = DynamicAnimatorService(in: self)
+//        self.dynamicAnimatorService = DynamicAnimatorService(in: self)
         
-        createStackViews()
+//        createStackViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,59 +43,58 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         blueView.addSubview(titleLabel)
     }
     
-    private func addStackViews(with offset: CGFloat, career: Career, color: UIColor.Theme)  {
-        
-        let stackView = StackView(frame: self.blueView.bounds)
-        
-        stackView.backgroundColor = color.color
-
-        blueView.addSubview(stackView)
-        stackView.career = career
-        
-        stackView.frame = updateStackViewFrame(stackView: stackView, offset: offset)
-        
-        //pan Gesture
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(panRecognizer:)))
-        stackView.addGestureRecognizer(panGesture)
-        
-        dynamicAnimatorService.addBehaviors(to: stackView)
-        
-        stackViews.append(stackView)
-    }
+//    private func addStackViews(with offset: CGFloat, career: Career, color: UIColor.Theme)  {
+//
+//        let stackView = StackView(frame: self.blueView.bounds)
+//
+//        stackView.backgroundColor = color.color
+//
+//        blueView.addSubview(stackView)
+//        stackView.career = career
+//
+//        stackView.frame = updateStackViewFrame(stackView: stackView, offset: offset)
+//
+//        //pan Gesture
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(panRecognizer:)))
+//        stackView.addGestureRecognizer(panGesture)
+//
+//        dynamicAnimatorService.addBehaviors(to: stackView)
+//
+//        stackViews.append(stackView)
+//    }
     
-    private func updateStackViewFrame(stackView: StackView, offset: CGFloat) -> CGRect {
-        return blueView.bounds.offsetBy(dx: 0, dy: blueView.bounds.height - offset)
-    }
+//    private func updateStackViewFrame(stackView: StackView, offset: CGFloat) -> CGRect {
+//        return blueView.bounds.offsetBy(dx: 0, dy: blueView.bounds.height - offset)
+//    }
     
     
-    @objc private func handlePan(panRecognizer: UIPanGestureRecognizer) {
-        
-        let currentPosition = panRecognizer.location(in: self)
-        
-        if let dragView = panRecognizer.view {
-            if panRecognizer.state == .began {
-                let isTouchNearTop = panRecognizer.location(in: dragView).y < 60
-                
-                if isTouchNearTop {
-                    isDragging = true
-                    previousPosition = currentPosition
-                }
-            } else if panRecognizer.state == .changed && isDragging {
-                if let previousPosition = previousPosition {
-                    let offset = previousPosition.y - currentPosition.y
-                    dragView.center = CGPoint(x: dragView.center.x, y: dragView.center.y - offset)
-                }
-                previousPosition = currentPosition
-            } else if panRecognizer.state == .ended && isDragging {
-                
-                dynamicAnimatorService.snap(dragView: dragView)
-//                snap(dragView: dragView)
-                
-                dynamicAnimatorService.updateItem(using: dragView)
-                isDragging = false
-            }
-        }
-    }
+//    @objc private func handlePan(panRecognizer: UIPanGestureRecognizer) {
+//
+//        let currentPosition = panRecognizer.location(in: self)
+//
+//        if let dragView = panRecognizer.view {
+//            if panRecognizer.state == .began {
+//                let isTouchNearTop = panRecognizer.location(in: dragView).y < 60
+//
+//                if isTouchNearTop {
+//                    isDragging = true
+//                    previousPosition = currentPosition
+//                }
+//            } else if panRecognizer.state == .changed && isDragging {
+//                if let previousPosition = previousPosition {
+//                    let offset = previousPosition.y - currentPosition.y
+//                    dragView.center = CGPoint(x: dragView.center.x, y: dragView.center.y - offset)
+//                }
+//                previousPosition = currentPosition
+//            } else if panRecognizer.state == .ended && isDragging {
+//
+//                dynamicAnimatorService.snap(dragView: dragView)
+//
+//                dynamicAnimatorService.updateItem(using: dragView)
+//                isDragging = false
+//            }
+//        }
+//    }
     
 //    private func snap(dragView: UIView) {
 //
@@ -156,24 +157,27 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         
         createTitleLabel()
 
-        for stackView in stackViews {
-            stackView.removeFromSuperview()
-        }
+        stackViewController.removeStackViews()
+//        for stackView in stackViews {
+//            stackView.removeFromSuperview()
+//        }
         
 //        isViewSnapped = false
-        dynamicAnimatorService.resetDynamicAnimator()
+        stackViewController.dynamicAnimatorService.resetDynamicAnimator()
+//        dynamicAnimatorService.resetDynamicAnimator()
         
-        createStackViews()
+        stackViewController.createStackViews()
+//        createStackViews()
         
     }
     
-    private func createStackViews() {
-        let offset: CGFloat = (self.blueView.bounds.height - 30) / 3
-        var initialOffset: CGFloat = (self.blueView.bounds.height - 55)
-        
-        for (index, career) in Career.careerData.enumerated() {
-            addStackViews(with: initialOffset, career: career, color: stackViewColors[index])
-            initialOffset -= offset
-        }
-    }
+//    private func createStackViews() {
+//        let offset: CGFloat = (self.blueView.bounds.height - 30) / 3
+//        var initialOffset: CGFloat = (self.blueView.bounds.height - 55)
+//
+//        for (index, career) in Career.careerData.enumerated() {
+//            addStackViews(with: initialOffset, career: career, color: stackViewColors[index])
+//            initialOffset -= offset
+//        }
+//    }
 }

@@ -8,16 +8,24 @@
 
 import UIKit
 
-class DynamicAnimatorService {
+protocol DynamicAnimatorServiceDelegate {
+    func currentView(_ view: UIView, isSnapped: Bool)
+}
+
+class DynamicAnimatorService : NSObject, UICollisionBehaviorDelegate {
+    
+    var delegate: DynamicAnimatorServiceDelegate?
     
     private var dynamicAnimator: UIDynamicAnimator!
     private var gravityBehavior: UIGravityBehavior!
     private var snap: UISnapBehavior?
-    private var referenceView: CustomCollectionViewCell
+    private var referenceView: CustomCollectionViewCell!
     
     private var isViewSnapped = false
 
     init(in referenceView: CustomCollectionViewCell) {
+        super.init()
+        
         self.referenceView = referenceView
         resetDynamicAnimator()
     }
@@ -76,21 +84,22 @@ class DynamicAnimatorService {
                 
                 addSnapBehavior(to: dragView, position: snapPosition)
                 
-//                changeStackViewAlpha(currentView: dragView)
+                changeStackViewAlpha(currentView: dragView)
                 
                 isViewSnapped = true
             }
         } else {
             if isViewSnapped {
                 removeSnapBehavior()
-//                changeStackViewAlpha(currentView: dragView)
+                changeStackViewAlpha(currentView: dragView)
                 isViewSnapped = false
             }
         }
     }
     
-//    private func changeStackViewAlpha(currentView: UIView) {
-//
+    private func changeStackViewAlpha(currentView: UIView) {
+
+        self.delegate?.currentView(currentView, isSnapped: isViewSnapped)
 //        if isViewSnapped {
 //            for stackView in stackViews {
 //                if stackView == currentView {
@@ -111,6 +120,6 @@ class DynamicAnimatorService {
 //                }
 //            }
 //        }
-//    }
+    }
     
 }
