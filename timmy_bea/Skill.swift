@@ -8,10 +8,13 @@
 
 import UIKit
 
+protocol SkillDelegate {
+    func dataReceived()
+}
+
+//MARK: Properties and init
 struct Skill : Decodable {
     
-    static var skillData = [Skill]()
-
     let title: String
     let underline: CGFloat
     let bodyText: String
@@ -35,4 +38,17 @@ struct Skill : Decodable {
         self.underline = underline
         self.bodyText = bodyText
     }
+}
+
+//MARK: Static interface
+extension Skill {
+    
+    static var delegate: SkillDelegate?
+    
+    static var skillData = [Skill]() {
+        didSet {
+            delegate?.dataReceived()
+        }
+    }
+
 }

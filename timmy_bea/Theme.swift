@@ -35,7 +35,7 @@ extension UIColor {
             case .customSand:       return UIColor.colorWithValues(red: 251, green: 221, blue: 189, alpha: 1)
             case .customRust:       return UIColor.colorWithValues(red: 208, green: 111, blue: 102, alpha: 0.87)
             case .customGreen:      return UIColor.colorWithValues(red: 90, green: 176, blue: 159, alpha: 0.87)
-            case .customBlue:       return UIColor.colorWithValues(red: 90, green: 176, blue: 159, alpha: 0.87)
+            case .customBlue:       return UIColor.colorWithValues(red: 75, green: 103, blue: 146, alpha: 0.87)
             }
         }
     }
@@ -57,11 +57,11 @@ extension UIFont {
         var size: CGFloat {
             switch self {
             case .navText:      return Device.isSizeOrLarger(height: .Inches_4_7) ? 20 : 18
-            case .header:       return Device.isSizeOrLarger(height: .Inches_4_7) ? 18 : 14
+            case .header:       return Device.isSizeOrLarger(height: .Inches_4_7) ? 18 : 16
             case .contact:      return Device.isSizeOrLarger(height: .Inches_4_7) ? 16 : 14
-            case .subHeader:    return Device.isSizeOrLarger(height: .Inches_4_7) ? 14 : 12
-            case .bodyText:     return Device.isSizeOrLarger(height: .Inches_4_7) ? 12 : 10
-            case .footNote:     return Device.isSizeOrLarger(height: .Inches_4_7) ? 11 : 9
+            case .subHeader:    return Device.isSizeOrLarger(height: .Inches_4_7) ? 18 : 14
+            case .bodyText:     return Device.isSizeOrLarger(height: .Inches_4_7) ? 16 : 14
+            case .footNote:     return Device.isSizeOrLarger(height: .Inches_4_7) ? 14 : 12
             
             }
         }
@@ -69,11 +69,11 @@ extension UIFont {
         var font: UIFont {
             switch self {
             case .navText:      return UIFont.systemFont(ofSize: size, weight: .medium)
-            case .header:       return UIFont.systemFont(ofSize: size, weight: .regular)
+            case .header:       return UIFont.systemFont(ofSize: size, weight: .heavy)
             case .contact:      return UIFont.systemFont(ofSize: size, weight: .regular)
-            case .subHeader:    return UIFont(name: FontFamily.medium.rawValue, size: size)!
-            case .bodyText:     return UIFont(name: FontFamily.regular.rawValue, size: size)!
-            case .footNote:     return UIFont(name: FontFamily.regular.rawValue, size: size)!
+            case .subHeader:    return UIFont.systemFont(ofSize: size, weight: .medium)
+            case .bodyText:     return UIFont.systemFont(ofSize: size, weight: .regular)
+            case .footNote:     return UIFont.systemFont(ofSize: size, weight: .light)
             }
             
         }

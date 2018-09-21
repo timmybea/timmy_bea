@@ -8,10 +8,9 @@
 
 import UIKit
 
+//MARK: Properties and init
 struct About : Decodable {
 
-    static var aboutData = [About]()
-    
     var text: String
     
     enum AboutKeys: String, CodingKey {
@@ -28,4 +27,11 @@ struct About : Decodable {
     init(text: String) {
         self.text = text
     }
+}
+
+//MARK: Static interface
+extension About {
+    
+    static var aboutData = [About]()
+    
 }

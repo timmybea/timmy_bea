@@ -18,20 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let rootController = CustomNavigationController(rootViewController: HomeViewController())
-        window?.rootViewController = rootController
+        window?.rootViewController = CustomNavigationController(rootViewController: HomeViewController())
     
         UINavigationBar.setupCustomAppearance()
         
         setupStatusBar(for: application)
         
-        JSONContainer.getObjects(url: .objectJson) { (success) in
-            //
-        }
-        
-        JSONContainer.getObjects(url: .careerJson) { (success) in
-            print("Career Build success: \(success))")
-        }
+        JSONContainer.getObjects(url: .objectJson) { (success) in }
+        JSONContainer.getObjects(url: .careerJson) { (success) in }
 
         return true
     }

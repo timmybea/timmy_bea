@@ -8,25 +8,26 @@
 
 import UIKit
 
+//MARK: Properties
 class MenuCell: UICollectionViewCell {
 
-    let imageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFit)
+    let imageView: UIImageView = {
+        let view = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFit)
+        view.tintColor = UIColor.Theme.customDarkBlue.color
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private let iconSize: CGFloat = 26.0
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupCell()
-    }
+}
+
+//MARK: Override methods
+extension MenuCell {
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupCell() {
-        self.tintColor = UIColor.Theme.customDarkBlue.color
+    override func layoutSubviews() {
+        imageView.removeFromSuperview()
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),

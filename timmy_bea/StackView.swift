@@ -32,13 +32,6 @@ class StackView: UIView, UIScrollViewDelegate {
         view.tintColor = UIColor.Theme.customSand.color
         return view
     }()
-
-    
-//    private let logoImageView: UIImageView = {
-//        let imageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFit)
-//        imageView.tintColor = UIColor.Theme.customSand.color
-//        return imageView
-//    }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -60,7 +53,7 @@ class StackView: UIView, UIScrollViewDelegate {
     
     let mainTextView: UITextView = {
         let textView = UITextView()
-        textView.textAlignment = .justified
+        textView.textAlignment = .center
         textView.isScrollEnabled = false
         textView.backgroundColor = UIColor.clear
         return textView
@@ -98,7 +91,7 @@ class StackView: UIView, UIScrollViewDelegate {
             if UIApplication.shared.statusBarOrientation.isPortrait {
                 let logoWidth = (Int(self.bounds.width) - (2 * pad)) / 3
                 logoImageView.frame = CGRect(x: currentX, y: currentY + pad, width: logoWidth, height: logoWidth / 2)
-                
+
                 currentX += Int(logoImageView.frame.width) + pad
                 let titleWidth = Int(self.bounds.width) - currentX - pad
                 titleLabel.frame = CGRect(x: currentX, y: currentY, width: titleWidth, height: 20)
@@ -106,21 +99,21 @@ class StackView: UIView, UIScrollViewDelegate {
                 titleLabel.sizeToFit()
                 let centerX = currentX + ((Int(self.bounds.width) - currentX - pad) / 2)
                 titleLabel.center.x = CGFloat(centerX)
-                
+
                 currentY += Int(titleLabel.frame.height) + 4
                 subtitleLabel.frame = CGRect(x: currentX, y: currentY, width: Int(titleLabel.frame.width), height: 16)
                 subtitleLabel.center.x = titleLabel.center.x
                 subtitleLabel.text = career.subtitle
-                
+
                 let yImage = (3 * pad) + Int(logoImageView.frame.height) + 4
                 let yText = currentY + Int(subtitleLabel.frame.height) + 4
-                
+
                 if yImage > yText {
                     currentY = yImage
                 } else {
                     currentY = yText
                 }
-                
+
                 mainTextView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (2 * pad), height: Int(self.bounds.height) - currentY - 40)
                 mainTextView.isScrollEnabled = false
                 
@@ -167,12 +160,15 @@ class StackView: UIView, UIScrollViewDelegate {
         
         if let career = self.career {
 
-            let style = NSMutableParagraphStyle()
-            style.alignment = NSTextAlignment.justified
+            let center = NSMutableParagraphStyle()
+            center.alignment = NSTextAlignment.center
             
-            attributedString.append(NSAttributedString(string: career.description, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color, NSAttributedStringKey.paragraphStyle: style]))
+            let left = NSMutableParagraphStyle()
+            left.alignment = NSTextAlignment.left
             
-            attributedString.append(NSAttributedString(string: "\n\nEducation", attributes: [NSAttributedStringKey.font: UIFont.Theme.subHeader.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
+            attributedString.append(NSAttributedString(string: career.description, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color, NSAttributedStringKey.paragraphStyle: center]))
+            
+            attributedString.append(NSAttributedString(string: "\n\nEducation", attributes: [NSAttributedStringKey.font: UIFont.Theme.subHeader.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color, NSAttributedStringKey.paragraphStyle: left]))
             
             for qualification in career.education {
                 attributedString.append(NSAttributedString(string: "\n\(qualification.institution) - \(qualification.role) \(qualification.date)", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))

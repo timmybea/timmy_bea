@@ -20,7 +20,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }()
 
     //MARK: Non-UI Properties
-    let VerticalPad: CGFloat = 24.0
+    let verticalPad: CGFloat = 24.0
     
     //MARK: Initializers
     override init(frame: CGRect) {
@@ -44,8 +44,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
 extension CustomCollectionViewCell {
     
     private func sizeForOrientation() {
-        let height = UIApplication.shared.statusBarOrientation.isPortrait ? self.bounds.height - (2 * VerticalPad) - 12 : self.bounds.height - (2 * VerticalPad)
-        blueView.frame = CGRect(x: VerticalPad, y: VerticalPad, width: self.bounds.width - (2 * VerticalPad), height: height)
+        let height = UIApplication.shared.statusBarOrientation.isPortrait ? self.bounds.height - (2 * verticalPad) - 12 : self.bounds.height - (2 * verticalPad)
+        blueView.frame = CGRect(x: verticalPad, y: verticalPad, width: self.bounds.width - (2 * verticalPad), height: height)
     }
     
 }

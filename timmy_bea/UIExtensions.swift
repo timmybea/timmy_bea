@@ -107,6 +107,21 @@ extension UIImage {
     }
 }
 
+//MARK: UIView Extension
+extension UIView {
+    
+    static func createAndPositionUnderline(beneath view: UIView) -> UIView {
+        let underline = UIView(frame: CGRect(x: 0,
+                                             y: view.frame.maxY + 2,
+                                             width: view.frame.width + 4,
+                                             height: 2))
+        underline.backgroundColor = UIColor.Theme.customSand.color
+        underline.center.x = view.center.x
+        return underline
+    }
+    
+}
+
 //MARK: UIImageView Extension
 extension UIImageView {
 
@@ -135,6 +150,24 @@ extension UILabel {
 
 }
 
+//MARK: UITextView Extension
+extension UITextView {
+    
+    static func createUneditableTextView(with text: String = "", color: UIColor = UIColor.white, font: UIFont = UIFont.Theme.subHeader.font) -> UITextView {
+        let textView = UITextView()
+        textView.backgroundColor = UIColor.clear
+        textView.textAlignment = .center
+        textView.textColor = color
+        textView.font = font
+        textView.text = text
+        textView.isEditable = false
+        return textView
+    }
+    
+}
+
+
+//MARK: UICollectionView Extension
 protocol UICollectionViewDelegateAndDatasource : UICollectionViewDataSource, UICollectionViewDelegate {}
 
 extension UICollectionView {
@@ -243,5 +276,11 @@ extension UIAlertController {
             }
         }
     }
+    
+}
+
+extension CGFloat {
+    
+    static let pad: CGFloat = 8.0
     
 }

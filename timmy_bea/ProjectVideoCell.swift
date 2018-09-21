@@ -105,22 +105,22 @@ class ProjectVideoCell: UICollectionViewCell {
             
             let titleLabelWidth: Int = (Int(self.bounds.size.width) - (pad * 2)) / 2
             titleLabel.frame = CGRect(x: pad, y: 0, width: titleLabelWidth, height: 20)
-            
+
             currentX += pad + Int(titleLabel.frame.width)
             completedLabel.frame = CGRect(x: currentX, y: 0, width: titleLabelWidth, height: 20)
 
             currentY += Int(titleLabel.frame.height) + pad
             thumbnailImageView.frame = CGRect(x: pad, y: currentY, width: screenSize.width, height: screenSize.height)
-            
+
             addSubview(shortDescLabel)
-            
+
             currentY += Int(screenSize.height + 4)
             shortDescLabel.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.size.width) - (pad * 2), height: 24)
-            
-            
+
+
             currentY += Int(shortDescLabel.frame.height) + 4
             gitHubButton.frame = CGRect(x: Int(self.bounds.width) - 30 - pad, y: currentY, width: 30, height: 30)
-            
+
             currentY += Int(gitHubButton.frame.height) + pad
             separatorView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (pad * 2), height: 2)
 

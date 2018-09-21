@@ -11,7 +11,7 @@ import UIKit
 class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     
     private var stackViews = [StackView]()
-    private var stackViewColors: [UIColor.Theme] = [.customGreen, .customRust, .customBlue]
+    private var stackViewColors: [UIColor.Theme] = [.customGreen, .customRust, .customDarkBlue]
     
     private var dynamicAnimator: UIDynamicAnimator!
     private var gravityBehavior: UIGravityBehavior!
@@ -71,6 +71,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     private func addStackViews(with offset: CGFloat, career: Career, color: UIColor.Theme)  {
         
         let stackView = StackView(frame: self.blueView.bounds)
+        
         stackView.backgroundColor = color.color
 
         blueView.addSubview(stackView)

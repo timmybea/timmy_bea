@@ -191,14 +191,14 @@ class VideoLauncher: NSObject {
         
         blueView.frame = activeView.bounds
         
-        currentY = pad
-        titleLabel.frame = CGRect(x: pad, y: currentY, width: (Int(blueView.frame.width) - (2 * pad)) / 2, height: 22)
+//        currentY = pad
+//        titleLabel.frame = CGRect(x: pad, y: currentY, width: (Int(blueView.frame.width) - (2 * pad)) / 2, height: 22)
         
         let currentX = Int(8 + titleLabel.frame.width)
         completedLabel.frame = CGRect(x: currentX, y: currentY, width: Int(titleLabel.frame.width), height: 22)
         
         currentY += Int(titleLabel.frame.height)
-        longDescTextView.frame = CGRect(x: 4, y: currentY, width: Int(blueView.frame.width) - (2 * 4), height: Int(blueView.frame.height) - currentY - pad)
+//        longDescTextView.frame = CGRect(x: 4, y: currentY, width: Int(blueView.frame.width) - (2 * 4), height: Int(blueView.frame.height) - currentY - pad)
         
         let dismissY: CGFloat = CGFloat(40 + screenSize.height)
         dismissTouchView.frame = CGRect(x: 0, y: dismissY, width: imageView.frame.width, height: imageView.frame.height - CGFloat(dismissY))

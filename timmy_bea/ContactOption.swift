@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: Enum
 enum ContactOption {
     case mobile
     case email

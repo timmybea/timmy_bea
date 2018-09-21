@@ -8,25 +8,8 @@
 
 import Foundation
 
+//MARK: Public init and enum
 struct JSONContainer : Decodable {
-    
-    static var about = [About]() {
-        didSet {
-            About.aboutData = about
-        }
-    }
-
-    static var skills = [Skill]() {
-        didSet {
-            Skill.skillData = skills
-        }
-    }
-    
-    static var careers = [Career]() {
-        didSet {
-            Career.careerData = careers
-        }
-    }
     
     enum JSONKeys: String, CodingKey {
         case about
@@ -47,6 +30,29 @@ struct JSONContainer : Decodable {
 
         if let objects = try container.decodeIfPresent([Career].self, forKey: .careers) {
             type(of: self).careers = objects
+        }
+    }
+
+}
+
+//Mark: Static interface
+extension JSONContainer {
+    
+    static var about = [About]() {
+        didSet {
+            About.aboutData = about
+        }
+    }
+    
+    static var skills = [Skill]() {
+        didSet {
+            Skill.skillData = skills
+        }
+    }
+    
+    static var careers = [Career]() {
+        didSet {
+            Career.careerData = careers
         }
     }
     
@@ -76,4 +82,5 @@ struct JSONContainer : Decodable {
             completion(success)
         }
     }
+    
 }

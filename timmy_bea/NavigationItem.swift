@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: Enum
 enum NavigationItem {
     
     case skills, projects, education_work, about
