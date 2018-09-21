@@ -8,10 +8,12 @@
 
 import UIKit
 
+//MARK: Delegate
 protocol DynamicAnimatorServiceDelegate {
     func currentView(_ view: UIView, isSnapped: Bool)
 }
 
+//MARK: Properties and init
 class DynamicAnimatorService : NSObject, UICollisionBehaviorDelegate {
     
     var delegate: DynamicAnimatorServiceDelegate?
@@ -20,7 +22,6 @@ class DynamicAnimatorService : NSObject, UICollisionBehaviorDelegate {
     private var gravityBehavior: UIGravityBehavior!
     private var snap: UISnapBehavior?
     private var referenceView: CustomCollectionViewCell!
-    
     private var isViewSnapped = false
 
     init(in referenceView: CustomCollectionViewCell) {
@@ -29,6 +30,10 @@ class DynamicAnimatorService : NSObject, UICollisionBehaviorDelegate {
         self.referenceView = referenceView
         resetDynamicAnimator()
     }
+}
+
+//MARK: Public methods
+extension DynamicAnimatorService {
     
     func resetDynamicAnimator() {
         isViewSnapped = false
@@ -44,18 +49,6 @@ class DynamicAnimatorService : NSObject, UICollisionBehaviorDelegate {
         gravityBehavior.addItem(stackView)
     }
     
-    private func addCollisionBehavior(to stackView: StackView) {
-
-        let collisionBehavior = UICollisionBehavior(items: [stackView])
-        
-        let boundaryY = stackView.frame.origin.y + stackView.frame.height
-        let boundaryStart = CGPoint(x: 0, y: boundaryY)
-        let boundaryEnd = CGPoint(x: stackView.frame.width, y: boundaryY)
-        collisionBehavior.addBoundary(withIdentifier: 1 as NSCopying, from: boundaryStart, to: boundaryEnd)
-        
-        dynamicAnimator.addBehavior(collisionBehavior)
-    }
-
     func updateItem(using currentState: UIDynamicItem) {
         dynamicAnimator.updateItem(usingCurrentState: currentState)
     }
@@ -72,20 +65,16 @@ class DynamicAnimatorService : NSObject, UICollisionBehaviorDelegate {
     }
     
     func snap(dragView: UIView) {
-        
         let viewHasNearedSnapPosition = dragView.frame.origin.y < 60
         
         if viewHasNearedSnapPosition {
             if !isViewSnapped {
                 
                 var snapPosition = referenceView.blueView.center
-//                blueView.center
                 snapPosition.y += 30
                 
                 addSnapBehavior(to: dragView, position: snapPosition)
-                
                 changeStackViewAlpha(currentView: dragView)
-                
                 isViewSnapped = true
             }
         } else {
@@ -96,30 +85,22 @@ class DynamicAnimatorService : NSObject, UICollisionBehaviorDelegate {
             }
         }
     }
+}
+
+//MARK: Private methods
+extension DynamicAnimatorService {
+    
+    private func addCollisionBehavior(to stackView: StackView) {
+        let collisionBehavior = UICollisionBehavior(items: [stackView])
+        let boundaryY = stackView.frame.origin.y + stackView.frame.height
+        let boundaryStart = CGPoint(x: 0, y: boundaryY)
+        let boundaryEnd = CGPoint(x: stackView.frame.width, y: boundaryY)
+        collisionBehavior.addBoundary(withIdentifier: 1 as NSCopying, from: boundaryStart, to: boundaryEnd)
+        dynamicAnimator.addBehavior(collisionBehavior)
+    }
     
     private func changeStackViewAlpha(currentView: UIView) {
-
         self.delegate?.currentView(currentView, isSnapped: isViewSnapped)
-//        if isViewSnapped {
-//            for stackView in stackViews {
-//                if stackView == currentView {
-//                    UIView.animate(withDuration: 0.5, animations: {
-//                        stackView.mainTextView.alpha = 0
-//                    })
-//                }
-//                stackView.alpha = 1
-//            }
-//        } else {
-//            for stackView in stackViews {
-//                if stackView != currentView {
-//                    stackView.alpha = 0
-//                } else {
-//                    UIView.animate(withDuration: 0.5, animations: {
-//                        stackView.mainTextView.alpha = 1
-//                    })
-//                }
-//            }
-//        }
     }
     
 }
