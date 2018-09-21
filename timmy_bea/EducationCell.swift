@@ -19,20 +19,11 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     private var previousPosition: CGPoint?
     private var isViewSnapped = false
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.Theme.customSand.color
-        label.text = "Drag to view"
-        label.textAlignment = .center
-        label.font = UIFont.Theme.subHeader.font
-        return label
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        blueView.addSubview(titleLabel)
         
-        layoutBackgroundViews()
+        
+        createTitleLabel()
         
         self.dynamicAnimatorService = DynamicAnimatorService(in: self)
         
@@ -49,9 +40,11 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func layoutBackgroundViews() {
+    private func createTitleLabel() {
+        let titleLabel = UILabel.createLabelWith(text: "Drag to view", color: UIColor.Theme.customSand.color)
         let titleX = CGFloat((blueView.bounds.width - 130) / 2)
         titleLabel.frame = CGRect(x: titleX, y: 4, width: 130, height: 20)
+        blueView.addSubview(titleLabel)
     }
     
     private func addStackViews(with offset: CGFloat, career: Career, color: UIColor.Theme)  {
@@ -155,9 +148,18 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         }
     }
     
+    private func removeAllSubviews() {
+        for subview in blueView.subviews {
+            subview.removeFromSuperview()
+        }
+    }
+    
     override func redrawCell() {
         super.redrawCell()
-        layoutBackgroundViews()
+        
+        removeAllSubviews()
+        
+        createTitleLabel()
 
         for stackView in stackViews {
             stackView.removeFromSuperview()
