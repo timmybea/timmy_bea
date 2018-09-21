@@ -10,12 +10,11 @@ import UIKit
 
 class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     
+    var dynamicAnimatorService: DynamicAnimatorService!
+    
     private var stackViews = [StackView]()
     private var stackViewColors: [UIColor.Theme] = [.customGreen, .customRust, .customDarkBlue]
     
-    private var dynamicAnimator: UIDynamicAnimator!
-    private var gravityBehavior: UIGravityBehavior!
-    private var snap: UISnapBehavior?
     private var isDragging = false
     private var previousPosition: CGPoint?
     private var isViewSnapped = false
@@ -29,22 +28,18 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         return label
     }()
     
-    private var careers = [Career]()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         blueView.addSubview(titleLabel)
         
         layoutBackgroundViews()
-        setupDynamicAnimator()
         
-        careers = Career.careerData
-        
+        self.dynamicAnimatorService = DynamicAnimatorService(in: self)
         
         let offset: CGFloat = (self.blueView.bounds.height - 30) / 3
         var currentOrigin: CGFloat = (self.blueView.bounds.height - 55)
         
-        for (index, career) in careers.enumerated() {
+        for (index, career) in Career.careerData.enumerated() {
             addStackViews(with: currentOrigin, career: career, color: stackViewColors[index])
             currentOrigin -= offset
         }
@@ -57,15 +52,6 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
     private func layoutBackgroundViews() {
         let titleX = CGFloat((blueView.bounds.width - 130) / 2)
         titleLabel.frame = CGRect(x: titleX, y: 4, width: 130, height: 20)
-    }
-    
-    private func setupDynamicAnimator() {
-        
-        dynamicAnimator = UIDynamicAnimator(referenceView: self)
-        
-        gravityBehavior = UIGravityBehavior()
-        gravityBehavior.magnitude = 4
-        dynamicAnimator.addBehavior(gravityBehavior)
     }
     
     private func addStackViews(with offset: CGFloat, career: Career, color: UIColor.Theme)  {
@@ -83,18 +69,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(panRecognizer:)))
         stackView.addGestureRecognizer(panGesture)
         
-        //collision behavior
-        let collisionBehavior = UICollisionBehavior(items: [stackView])
-        
-        //lower boundary
-        let boundaryY = stackView.frame.origin.y + stackView.frame.height
-        let boundaryStart = CGPoint(x: 0, y: boundaryY)
-        let boundaryEnd = CGPoint(x: stackView.frame.width, y: boundaryY)
-        collisionBehavior.addBoundary(withIdentifier: 1 as NSCopying, from: boundaryStart, to: boundaryEnd)
-        
-        dynamicAnimator.addBehavior(collisionBehavior)
-        
-        gravityBehavior.addItem(stackView)
+        dynamicAnimatorService.addBehaviors(to: stackView)
         
         stackViews.append(stackView)
     }
@@ -126,8 +101,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
                 
                 snap(dragView: dragView)
                 
-                dynamicAnimator.updateItem(usingCurrentState: dragView)
-                
+                dynamicAnimatorService.updateItem(using: dragView)
                 isDragging = false
             }
         }
@@ -142,8 +116,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
                 var snapPosition = blueView.center
                 snapPosition.y += 30
                 
-                snap = UISnapBehavior(item: dragView, snapTo: snapPosition)
-                dynamicAnimator.addBehavior(snap!)
+                dynamicAnimatorService.addSnapBehavior(to: dragView, position: snapPosition)
                 
                 changeStackViewAlpha(currentView: dragView)
                 
@@ -151,7 +124,7 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
             }
         } else {
             if isViewSnapped {
-                dynamicAnimator.removeBehavior(snap!)
+                dynamicAnimatorService.removeSnapBehavior()
                 changeStackViewAlpha(currentView: dragView)
                 isViewSnapped = false
             }
@@ -191,12 +164,12 @@ class EducationCell: CustomCollectionViewCell, UICollisionBehaviorDelegate {
         }
         
         isViewSnapped = false
-        setupDynamicAnimator()
+        dynamicAnimatorService.resetDynamicAnimator()
         
         let offset: CGFloat = (self.blueView.bounds.height - 30) / 3
         var initialOffset: CGFloat = (self.blueView.bounds.height - 55)
         
-        for (index, career) in careers.enumerated() {
+        for (index, career) in Career.careerData.enumerated() {
             addStackViews(with: initialOffset, career: career, color: stackViewColors[index])
             initialOffset -= offset
         }

@@ -15,6 +15,7 @@
 		B017783C214995220000D8C5 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B017783B214995220000D8C5 /* CustomCollectionViewCell.swift */; };
 		B018DE1A1E9412BD00B6B2D3 /* Career.swift in Sources */ = {isa = PBXBuildFile; fileRef = B018DE191E9412BD00B6B2D3 /* Career.swift */; };
 		B029A2B51E83775400500C95 /* skills_v29.json in Resources */ = {isa = PBXBuildFile; fileRef = B029A2B41E83775400500C95 /* skills_v29.json */; };
+		B02EC9EA215582F6004595E6 /* DynamicAnimatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02EC9E9215582F6004595E6 /* DynamicAnimatorService.swift */; };
 		B041EFA12152CDA3000AED2E /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B041EFA02152CDA3000AED2E /* APIService.swift */; };
 		B041EFA32152CF06000AED2E /* JSONContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B041EFA22152CF06000AED2E /* JSONContainer.swift */; };
 		B04FE7C61E982EC600BC6532 /* CircleMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */; };
@@ -55,6 +56,7 @@
 		B017783B214995220000D8C5 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		B018DE191E9412BD00B6B2D3 /* Career.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Career.swift; sourceTree = "<group>"; };
 		B029A2B41E83775400500C95 /* skills_v29.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skills_v29.json; sourceTree = "<group>"; };
+		B02EC9E9215582F6004595E6 /* DynamicAnimatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicAnimatorService.swift; sourceTree = "<group>"; };
 		B041EFA02152CDA3000AED2E /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		B041EFA22152CF06000AED2E /* JSONContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONContainer.swift; sourceTree = "<group>"; };
 		B04FE7C51E982EC600BC6532 /* CircleMaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMaskView.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				B01679461E92CB0100CAB4F5 /* ContactsLauncher.swift */,
 				B0987681214837F300503EF1 /* CustomNavigationController.swift */,
 				B041EFA02152CDA3000AED2E /* APIService.swift */,
+				B02EC9E9215582F6004595E6 /* DynamicAnimatorService.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				B01679491E92CB4500CAB4F5 /* ContactsCell.swift in Sources */,
 				B018DE1A1E9412BD00B6B2D3 /* Career.swift in Sources */,
 				B0CC0D501E709913006E3D36 /* HomeViewController.swift in Sources */,
+				B02EC9EA215582F6004595E6 /* DynamicAnimatorService.swift in Sources */,
 				B0DEFD6F1E8B3E8A000D1721 /* VideoLauncher.swift in Sources */,
 				B0CC0D681E711A9B006E3D36 /* MenuCell.swift in Sources */,
 				B0CC0D641E7115F4006E3D36 /* Theme.swift in Sources */,
