@@ -14,7 +14,7 @@ var pad: Int = 8
 class ProjectVideoCell: UICollectionViewCell {
 
     static let cellID = "projectVideoCell"
-
+    
     lazy var screenSize: ScreenSize = {
         var screenSize = ScreenSize()
         return screenSize
@@ -145,13 +145,13 @@ extension ProjectVideoCell {
 
     private func layoutTitleLabel(for isPortrait: Bool) {
         let x = isPortrait ? CGFloat.pad : thumbnailImageView.frame.maxX + CGFloat.pad
-        titleLabel.frame = CGRect(x: x, y: 0, width: getLabelWidth(), height: 20)
+        titleLabel.frame = CGRect(x: x, y: 0, width: getLabelWidth(), height: type(of: self).titleHeight)
     }
     
     private func layoutCompletedLabel() {
         let width = getLabelWidth()
         let x = self.bounds.width - width - CGFloat.pad
-        completedLabel.frame = CGRect(x: x, y: 0, width: width, height: 20)
+        completedLabel.frame = CGRect(x: x, y: 0, width: width, height: type(of: self).titleHeight)
     }
     
     private func layoutThumbnail(for isPortrait: Bool) {
@@ -160,14 +160,15 @@ extension ProjectVideoCell {
     }
     
     private func layoutSeparator() {
+        let height = type(of: self).separatorHeight
         separatorView.frame = CGRect(x: CGFloat.pad,
-                                     y: self.bounds.height - 2,
+                                     y: self.bounds.height - height,
                                      width: self.bounds.width - (2 * CGFloat.pad),
-                                     height: 2)
+                                     height: height)
     }
     
     private func layoutButton() {
-        let dimension: CGFloat = 30
+        let dimension = type(of: self).buttonHeight
         let x = self.bounds.width - CGFloat.pad - dimension
         let y = self.bounds.height - separatorView.frame.height - CGFloat.pad - dimension
         gitHubButton.frame = CGRect(x: x, y: y, width: dimension, height: dimension)
@@ -178,7 +179,7 @@ extension ProjectVideoCell {
             longDescTextView.removeFromSuperview()
             addSubview(shortDescLabel)
             let y = thumbnailImageView.frame.maxY + 4.0
-            shortDescLabel.frame = CGRect(x: CGFloat.pad, y: y, width: self.screenSize.width, height: 20.0)
+            shortDescLabel.frame = CGRect(x: CGFloat.pad, y: y, width: self.screenSize.width, height: type(of: self).descriptionHeight)
         } else {
             addSubview(longDescTextView)
             shortDescLabel.removeFromSuperview()
@@ -188,6 +189,19 @@ extension ProjectVideoCell {
             longDescTextView.frame = CGRect(x: x, y: y, width: screenSize.width, height: height)
         }
     }
+}
+
+extension ProjectVideoCell {
+    
+    static private let titleHeight: CGFloat = 20.0
+    static private let descriptionHeight: CGFloat = 24.0
+    static private let buttonHeight: CGFloat = 30.0
+    static private let separatorHeight: CGFloat = 2
+    
+    static var portraitStaticUIHeight: CGFloat {
+        return (3 * CGFloat.pad) + titleHeight + descriptionHeight + buttonHeight + separatorHeight + 4.0
+    }
+    
 }
 
 //MARK: Screen Size

@@ -17,7 +17,7 @@ protocol MenuBarDelegate {
 class MenuBar: UIView {
     
     //MARK: UI Properties
-    lazy var collectionView: UICollectionView = UICollectionView.defaultCollectionView(in: self)
+    lazy var collectionView: UICollectionView = UICollectionView.defaultCollectionView(in: self, with: .horizontal)
     
     private let horizontalView: UIView = {
         let horizontalView = UIView()

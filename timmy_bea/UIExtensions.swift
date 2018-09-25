@@ -215,8 +215,9 @@ extension UICollectionView {
         return cv
     }
     
-    static func defaultCollectionView(in delegate: UICollectionViewDelegateAndDatasource) -> UICollectionView {
+    static func defaultCollectionView(in delegate: UICollectionViewDelegateAndDatasource, with direction: UICollectionViewScrollDirection) -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = direction
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = UIColor.clear
         cv.delegate = delegate
