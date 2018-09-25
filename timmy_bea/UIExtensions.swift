@@ -25,7 +25,6 @@ extension UINavigationBar {
 //MARK: UIImage Extension
 extension UIImage {
     
-    //["skills", "projects", "education", "about"]
     enum Theme {
         case backgroundGradient
         case contact
@@ -147,6 +146,14 @@ extension UIView {
         underline.backgroundColor = UIColor.Theme.customSand.color
         underline.center.x = view.center.x
         return underline
+    }
+    
+    static func blueView() -> UIView {
+        let view = UIView()
+        view.backgroundColor = UIColor.Theme.customDarkBlue.color.withAlphaComponent(0.8)
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        return view
     }
     
 }

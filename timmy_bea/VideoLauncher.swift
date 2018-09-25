@@ -10,7 +10,7 @@ import UIKit
 
 class VideoLauncher: NSObject {
 
-    
+    //MARK: Non-UI Properties
     private var project: Project? {
         didSet {
             titleLabel.text = project?.title
@@ -18,7 +18,12 @@ class VideoLauncher: NSObject {
         }
     }
     
-    private var imageView: UIImageView = {
+    private var screenSize = ScreenSize()
+    
+    var isVideoLaunched = false
+    
+    //MARK: UIProperties
+    private var backgroundView: UIImageView = {
         let imageView = UIImageView.createWith(imageName: UIImage.Theme.backgroundGradient.name, contentMode: .scaleAspectFill)
         imageView.isUserInteractionEnabled = true
         return imageView
@@ -32,84 +37,114 @@ class VideoLauncher: NSObject {
     
     private var videoPlayerView: VideoPlayerView?
     
-    private var screenSize = ScreenSize()
+    private let blueView: UIView = UIView.blueView()
     
-    var isVideoLaunched = false
+    private let activeView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        return view
+    }()
+
+    private let titleLabel: UILabel = UILabel.createLabelWith(text: "title",
+                                                              color: UIColor.Theme.customSand.color,
+                                                              font: UIFont.Theme.header.font)
+    
+    private let completedLabel: UILabel = {
+        let label = UILabel.createLabelWith(text: "title",
+                                            color: UIColor.Theme.customSand.color,
+                                            font: UIFont.Theme.bodyText.font)
+        label.textAlignment = .right
+        return label
+    }()
+    
+    private let longDescTextView: UITextView = UITextView.createUneditableTextView(with: "description",
+                                                                                   color: UIColor.Theme.customSand.color,
+                                                                                   font: UIFont.Theme.bodyText.font)
+    
+    
+    private func layoutVideoPlayerView() {
+        
+        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let videoURL = self.project?.videoURL else { return }
+        backgroundView.frame = window.frame
+        screenSize.width = window.frame.width + 2
+        let isPortrait = UIApplication.shared.statusBarOrientation.isPortrait
+        let y: CGFloat = isPortrait ? 40 : 0
+        let frame = CGRect(x: 0, y: y, width: screenSize.width, height: screenSize.height)
+        videoPlayerView = VideoPlayerView(withFrame: frame, videoURLString: videoURL)
+        
+        backgroundView.addSubview(videoPlayerView!)
+        
+        setupVideoInfoViews()
+        
+        backgroundView.frame = CGRect(x: window.frame.width, y: window.frame.height, width: 0, height: 0)
+        window.addSubview(backgroundView)
+        
+        animate(isLaunch: true)
+
+    }
     
     func launchVideo(withProject project: Project) {
         self.project = project
         
-        if let window = UIApplication.shared.keyWindow {
-            imageView.frame = window.frame
-
-            screenSize.width = window.frame.width + 2
-            
-            if UIApplication.shared.statusBarOrientation.isPortrait {
-                let frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
-                videoPlayerView = VideoPlayerView(withFrame: frame, videoURLString: (self.project?.videoURL)!)
-            } else {
-                let frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-                videoPlayerView = VideoPlayerView(withFrame: frame, videoURLString: (self.project?.videoURL)!)
-            }
-            imageView.addSubview(videoPlayerView!)
-            setupVideoInfoViews()
-            
-            imageView.frame = CGRect(x: window.frame.width, y: window.frame.height, width: 0, height: 0)
-            window.addSubview(imageView)
-            
-            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.imageView.frame = window.frame
-            }, completion: { (true) in
-                self.isVideoLaunched = true
-            })
-        }
+        layoutVideoPlayerView()
      
-        let attributedString = NSMutableAttributedString()
         
-        let style = NSMutableParagraphStyle()
-        style.alignment = NSTextAlignment.justified
         
-        attributedString.append(NSAttributedString(string: project.longDescription, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color, NSAttributedStringKey.paragraphStyle: style]))
         
-        style.alignment = NSTextAlignment.left
-        attributedString.append(NSAttributedString(string: "\n\nLanguages: ", attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color, NSAttributedStringKey.paragraphStyle: style]))
         
-        attributedString.append(NSAttributedString(string: project.languages, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
         
-        attributedString.append(NSAttributedString(string: "\n\nFrameworks: ", attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
         
-        attributedString.append(NSAttributedString(string: project.frameworks, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
         
-        longDescTextView.attributedText = attributedString
+        let attributedParagraph = AttributedParagraph()
+        attributedParagraph.append(text: project.longDescription, font: UIFont.Theme.bodyText.font, alignment: .justified)
+        attributedParagraph.append(text: "\n\nLanguages: ", font: UIFont.Theme.subHeader.font, alignment: .left)
+        attributedParagraph.append(text: project.languages, font: UIFont.Theme.bodyText.font, alignment: .left)
+        attributedParagraph.append(text: "\n\nFrameworks: ", font: UIFont.Theme.subHeader.font, alignment: .left)
+        attributedParagraph.append(text: project.frameworks, font: UIFont.Theme.bodyText.font, alignment: .left)
+        
+
+        longDescTextView.attributedText = attributedParagraph.attributedText
     }
     
     @objc func handleDismiss() {
+        animate(isLaunch: false)
+    }
+    
+    private func animate(isLaunch: Bool) {
+        guard let window = UIApplication.shared.keyWindow else { return }
+        
         UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            
-            if let window = UIApplication.shared.keyWindow {
-                self.imageView.frame = CGRect(x: window.frame.width, y: window.frame.height, width: 0, height: 0)
-            }
+            let x = isLaunch ? 0 : window.frame.width
+            let y = isLaunch ? 0 : window.frame.height
+            let width = isLaunch ? window.frame.width : 0
+            let height = isLaunch ? window.frame.height : 0
+            self.backgroundView.frame = CGRect(x: x, y: y, width: width, height: height)
         }, completion: { (true) in
-            self.videoPlayerView = nil
-            self.isVideoLaunched = false
-            self.dismissTouchView.removeFromSuperview()
+            
+            self.videoPlayerView = isLaunch ? self.videoPlayerView : nil
+            self.isVideoLaunched = isLaunch ? true : false
+            if !isLaunch {
+                self.dismissTouchView.removeFromSuperview()
+            }
         })
     }
+    
 
     func redrawVideoScreen() {
         
         if UIApplication.shared.statusBarOrientation.isPortrait {
             if let window = UIApplication.shared.keyWindow {
-                imageView.frame = window.frame
-                screenSize.width = imageView.frame.width
+                backgroundView.frame = window.frame
+                screenSize.width = backgroundView.frame.width
                 videoPlayerView?.frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
                 videoPlayerView?.redrawLayers()
                 setupVideoInfoViews()
             }
         } else {
             if let window = UIApplication.shared.keyWindow {
-                imageView.frame = window.frame
-                screenSize.width = imageView.frame.width
+                backgroundView.frame = window.frame
+                screenSize.width = backgroundView.frame.width
                 videoPlayerView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
                 videoPlayerView?.redrawLayers()
                 setupVideoInfoViews()
@@ -118,58 +153,16 @@ class VideoLauncher: NSObject {
     }
     
     
-    //MARK: Setup of text view components
     
-    private let blueView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.Theme.customDarkBlue.color
-        view.alpha = 0.4
-        view.layer.cornerRadius = 8
-        view.layer.masksToBounds = true
-        return view
-    }()
-    
-    private let activeView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.clear
-        return view
-    }()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.Theme.header.font
-        label.textColor = UIColor.Theme.customSand.color
-        label.textAlignment = .left
-        label.backgroundColor = UIColor.clear
-        return label
-    }()
-    
-    private let completedLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = UIColor.clear
-        label.font = UIFont.Theme.bodyText.font
-        label.textColor = UIColor.Theme.customSand.color
-        label.textAlignment = .right
-        return label
-    }()
-    
-    private let longDescTextView: UITextView = {
-        let textView = UITextView()
-        textView.backgroundColor = UIColor.clear
-        textView.textColor = UIColor.Theme.customSand.color
-        textView.textAlignment = .justified
-        textView.font = UIFont.Theme.bodyText.font
-        return textView
-    }()
     
     private func setupVideoInfoViews() {
         if UIApplication.shared.statusBarOrientation.isPortrait {
-            imageView.addSubview(activeView)
+            backgroundView.addSubview(activeView)
             activeView.addSubview(blueView)
             activeView.addSubview(titleLabel)
             activeView.addSubview(completedLabel)
             activeView.addSubview(longDescTextView)
-            imageView.addSubview(dismissTouchView)
+            backgroundView.addSubview(dismissTouchView)
 
             layoutVideoInfoViews()
         } else {
@@ -186,22 +179,22 @@ class VideoLauncher: NSObject {
         
         var currentY = 40 + Int(screenSize.height) + 24
         
-        let activeHeight = Int(imageView.bounds.height) - currentY - 24
-        activeView.frame = CGRect(x: 24, y: currentY, width: Int(imageView.bounds.width) - 48, height: activeHeight)
+        let activeHeight = Int(backgroundView.bounds.height) - currentY - 24
+        activeView.frame = CGRect(x: 24, y: currentY, width: Int(backgroundView.bounds.width) - 48, height: activeHeight)
         
         blueView.frame = activeView.bounds
         
-//        currentY = pad
-//        titleLabel.frame = CGRect(x: pad, y: currentY, width: (Int(blueView.frame.width) - (2 * pad)) / 2, height: 22)
+        currentY = pad
+        titleLabel.frame = CGRect(x: pad, y: currentY, width: (Int(blueView.frame.width) - (2 * pad)) / 2, height: 22)
         
         let currentX = Int(8 + titleLabel.frame.width)
         completedLabel.frame = CGRect(x: currentX, y: currentY, width: Int(titleLabel.frame.width), height: 22)
         
         currentY += Int(titleLabel.frame.height)
-//        longDescTextView.frame = CGRect(x: 4, y: currentY, width: Int(blueView.frame.width) - (2 * 4), height: Int(blueView.frame.height) - currentY - pad)
+        longDescTextView.frame = CGRect(x: 4, y: currentY, width: Int(blueView.frame.width) - (2 * 4), height: Int(blueView.frame.height) - currentY - pad)
         
         let dismissY: CGFloat = CGFloat(40 + screenSize.height)
-        dismissTouchView.frame = CGRect(x: 0, y: dismissY, width: imageView.frame.width, height: imageView.frame.height - CGFloat(dismissY))
+        dismissTouchView.frame = CGRect(x: 0, y: dismissY, width: backgroundView.frame.width, height: backgroundView.frame.height - CGFloat(dismissY))
         dismissTouchView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDismiss)))
     }
 }

@@ -11,13 +11,15 @@ import UIKit
 //MARK: Properties, initializers
 class CustomCollectionViewCell: UICollectionViewCell {
 
-    let blueView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.Theme.customDarkBlue.color.withAlphaComponent(0.8)
-        view.layer.cornerRadius = 8
-        view.layer.masksToBounds = true
-        return view
-    }()
+    let blueView: UIView = UIView.blueView()
+    
+//    let blueView: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = UIColor.Theme.customDarkBlue.color.withAlphaComponent(0.8)
+//        view.layer.cornerRadius = 8
+//        view.layer.masksToBounds = true
+//        return view
+//    }()
 
     let verticalPad: CGFloat = 24.0
 
