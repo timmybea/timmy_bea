@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: Skill Delegate
 protocol SkillDelegate {
     func dataReceived()
 }
@@ -16,26 +17,23 @@ protocol SkillDelegate {
 struct Skill : Decodable {
     
     let title: String
-    let underline: CGFloat
     let bodyText: String
     
     enum SkillKeys: String, CodingKey {
-        case title, underline, bodyText
+        case title, bodyText
     }
     
     init(decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: SkillKeys.self)
         
         let title = try container.decode(String.self, forKey: .title)
-        let underline = try container.decode(CGFloat.self, forKey: .underline)
         let bodyText = try container.decode(String.self, forKey: .bodyText)
 
-        self.init(title: title, underline: underline, bodyText: bodyText)
+        self.init(title: title, bodyText: bodyText)
     }
     
-    init(title: String, underline: CGFloat, bodyText: String) {
+    init(title: String, bodyText: String) {
         self.title = title
-        self.underline = underline
         self.bodyText = bodyText
     }
 }
