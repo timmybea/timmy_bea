@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: Properties, initializer, overrides
 class ProjectsCell: CustomCollectionViewCell {
  
     lazy var videoLauncher: VideoLauncher = {
@@ -49,6 +50,11 @@ class ProjectsCell: CustomCollectionViewCell {
         }
     }
     
+}
+
+//MARK: Private interface
+extension ProjectsCell {
+    
     private func setupCollectionView() {
         blueView.addSubview(collectionView)
         collectionView.register(ProjectVideoCell.self, forCellWithReuseIdentifier: ProjectVideoCell.cellID)
@@ -60,7 +66,7 @@ class ProjectsCell: CustomCollectionViewCell {
         collectionView.frame.size = self.blueView.bounds.size
     }
     
-    func layoutAndReloadData() {
+    private func layoutAndReloadData() {
         collectionView.collectionViewLayout.invalidateLayout()
         DispatchQueue.main.async {
             self.collectionView.reloadData()

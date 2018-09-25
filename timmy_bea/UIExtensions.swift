@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import AVFoundation
 
 //MARK: UINavigationBar Extension
 extension UINavigationBar {
@@ -338,4 +339,36 @@ extension UIColor {
     static func colorWithValues(red: Int, green: Int, blue: Int, alpha: CGFloat) -> UIColor {
         return UIColor(red: CGFloat(red)/255, green: CGFloat(green)/255, blue: CGFloat(blue)/255, alpha: alpha)
     }
+}
+
+
+//MARK: String Extensions
+extension String {
+    
+    static func duration(from time: CMTime) -> String {
+        let totalSeconds = CMTimeGetSeconds(time)
+        let secondsText = String(format: "%02d", Int(totalSeconds) % 60)
+        let minutesText = String(format: "%02d", Int(totalSeconds) / 60)
+        return  "\(minutesText):\(secondsText)"
+    }
+
+}
+
+//MARK: Slider Extensions
+extension UISlider {
+    
+    func setSliderValue(for player: AVPlayer, progress: CMTime) {
+        guard let duration = player.currentItem?.duration else { return }
+        let totalSeconds = CMTimeGetSeconds(duration)
+        let progressSeconds = CMTimeGetSeconds(progress)
+        self.value = Float(progressSeconds / totalSeconds)
+    }
+}
+
+extension AVPlayer {
+    
+    enum observableKey: String {
+        case loadedTimeRanges = "currentItem.loadedTimeRanges"
+    }
+    
 }

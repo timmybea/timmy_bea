@@ -8,9 +8,9 @@
 
 import UIKit
 
+//MARK: Properties, initializers
 class CustomCollectionViewCell: UICollectionViewCell {
-    
-    //MARK: UI Properties
+
     let blueView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.Theme.customDarkBlue.color.withAlphaComponent(0.8)
@@ -19,10 +19,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
         return view
     }()
 
-    //MARK: Non-UI Properties
     let verticalPad: CGFloat = 24.0
-    
-    //MARK: Initializers
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -34,13 +32,12 @@ class CustomCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: Overrideable methods
     func redrawCell() {
         sizeForOrientation()
     }
 }
 
-//MARK: Subview Layout methods
+//MARK: Private interface
 extension CustomCollectionViewCell {
     
     private func sizeForOrientation() {

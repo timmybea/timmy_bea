@@ -11,6 +11,7 @@ import AVFoundation
 
 class VideoPlayerView: UIView {
     
+    //MARK: Properties
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     private var gradientLayer: CAGradientLayer?
@@ -33,38 +34,6 @@ class VideoPlayerView: UIView {
         button.addTarget(self, action: #selector(handlePausePlayTouch), for: .touchUpInside)
         return button
     }()
-    
-    @objc private func handleTapGesture() {
-        handlePausePlayTouch()
-    }
-    
-    @objc private func handlePausePlayTouch() {
-        if isSettingPlay {
-            player?.pause()
-            pausePlayButton.alpha = 1
-            let image = UIImage(named: "Play")
-            pausePlayButton.setImage(image, for: .normal)
-            isSettingPlay = false
-        } else {
-            player?.play()
-            pausePlayButton.alpha = 1
-            let image = UIImage(named: "Pause")
-            pausePlayButton.setImage(image, for: .normal)
-            isSettingPlay = true
-            fadeButton()
-        }
-    }
-    
-    private func fadeButton() {
-        let when = DispatchTime.now() + 2
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            UIView.animate(withDuration: 1, animations: {
-                if self.isSettingPlay {
-                    self.pausePlayButton.alpha = 0
-                }
-            })
-        }
-    }
     
     private let controlsContainerView: UIView = {
         let view = UIView()
@@ -102,6 +71,44 @@ class VideoPlayerView: UIView {
         return slider
     }()
     
+    //MARK: Initializer
+    init(withFrame frame: CGRect, videoURLString: String) {
+        super.init(frame: frame)
+        
+        setupGradientLayer()
+        backgroundColor = UIColor.black
+        
+        setupVideoPlayer(with: videoURLString)
+        
+        setupSubviews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: @objc methods
+    @objc private func handleTapGesture() {
+        handlePausePlayTouch()
+    }
+    
+    @objc private func handlePausePlayTouch() {
+        if isSettingPlay {
+            player?.pause()
+            pausePlayButton.alpha = 1
+            let image = UIImage(named: "Play")
+            pausePlayButton.setImage(image, for: .normal)
+            isSettingPlay = false
+        } else {
+            player?.play()
+            pausePlayButton.alpha = 1
+            let image = UIImage(named: "Pause")
+            pausePlayButton.setImage(image, for: .normal)
+            isSettingPlay = true
+            fadeButton()
+        }
+    }
+    
     @objc private func handleSliderChangedValue() {
         if let duration = player?.currentItem?.duration {
             let totalSeconds = CMTimeGetSeconds(duration)
@@ -109,111 +116,28 @@ class VideoPlayerView: UIView {
             let value = Float64(slider.value) * totalSeconds
             let seekTime = CMTime(value: Int64(value), timescale: 1)
             
-            player?.seek(to: seekTime, completionHandler: { (completedSeek) in
-                //
-            })
+            player?.seek(to: seekTime, completionHandler: { (_) in })
         }
     }
     
-    init(withFrame frame: CGRect, videoURLString: String) {
-        super.init(frame: frame)
-        
-        setupGradientLayer()
-        
-        backgroundColor = UIColor.black
-        setupVideoPlayer(withURLString: videoURLString)
-        
-        controlsContainerView.frame = self.bounds
-        self.addSubview(controlsContainerView)
-        
-        controlsContainerView.addSubview(activityIndicatorView)
-        activityIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        activityIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture)))
-        
-        controlsContainerView.addSubview(pausePlayButton)
-        pausePlayButton.isHidden = true
-        pausePlayButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        pausePlayButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        pausePlayButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        pausePlayButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        controlsContainerView.addSubview(videoLengthLabel)
-        videoLengthLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
-        videoLengthLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
-        videoLengthLabel.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        videoLengthLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
-        
-        controlsContainerView.addSubview(currentTimeLabel)
-        currentTimeLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
-        currentTimeLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
-        currentTimeLabel.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        currentTimeLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
-        
-        controlsContainerView.addSubview(slider)
-        slider.rightAnchor.constraint(equalTo: videoLengthLabel.leftAnchor).isActive = true
-        slider.leftAnchor.constraint(equalTo: currentTimeLabel.rightAnchor).isActive = true
-        slider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
-        slider.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    private func setupVideoPlayer(withURLString URLString: String) {
-        let videoURL = NSURL(string: URLString)
-        player = AVPlayer(url: videoURL! as URL)
-        playerLayer = AVPlayerLayer(player: player)
-        
-        self.layer.addSublayer(playerLayer!)
-        playerLayer?.frame = self.bounds
-        
-        player?.play()
-        
-        player?.addObserver(self, forKeyPath: "currentItem.loadedTimeRanges", options: .new, context: nil)
-        
-        //MARK:track progress of the video
-        let interval = CMTime(value: 1, timescale: 2)
-        player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { (progressTime) in
-            let seconds = CMTimeGetSeconds(progressTime)
-            let secondsString = String(format: "%02d", Int(seconds) % 60)
-            let minutesString = String(format: "%02d", Int(seconds) / 60)
-            self.currentTimeLabel.text = "\(minutesString):\(secondsString)"
-            
-            //slider value should move with current play time. Slider values between 0 - 1
-            if let duration = self.player?.currentItem?.duration {
-                let totalSeconds = CMTimeGetSeconds(duration)
-                
-                self.slider.value = Float(seconds / totalSeconds)
-            }
-        })
-    }
-    
-    func redrawLayers() {
-        playerLayer?.frame = self.bounds
-        gradientLayer?.frame = self.bounds
-    }
-    
-    //MARK: This function changes the play position of the video when the slider changes value
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "currentItem.loadedTimeRanges" {
-            activityIndicatorView.stopAnimating()
-            controlsContainerView.backgroundColor = UIColor.clear
-            pausePlayButton.isHidden = false
-            fadeButton()
-            
-            if let duration = player?.currentItem?.duration {
-                let totalSeconds = CMTimeGetSeconds(duration)
-                let secondsText = String(format: "%02d", Int(totalSeconds) % 60)
-                let minutesText = String(format: "%02d", Int(totalSeconds) / 60)
-                videoLengthLabel.text = "\(minutesText):\(secondsText)"
-            }
-        }
+        
+        guard keyPath == AVPlayer.observableKey.loadedTimeRanges.rawValue else { return }
+        
+        activityIndicatorView.stopAnimating()
+        controlsContainerView.backgroundColor = UIColor.clear
+        pausePlayButton.isHidden = false
+        fadeButton()
+        
+        guard let duration = player?.currentItem?.duration else { return }
+        
+        videoLengthLabel.text = String.duration(from: duration)
     }
+  
+}
+
+//MARK: UILayout
+extension VideoPlayerView {
     
     private func setupGradientLayer() {
         gradientLayer = CAGradientLayer()
@@ -222,4 +146,101 @@ class VideoPlayerView: UIView {
         gradientLayer?.locations = [0.9, 1.6]
         controlsContainerView.layer.addSublayer(gradientLayer!)
     }
+    
+    private func setupSubviews() {
+        
+        controlsContainerView.frame = self.bounds
+        self.addSubview(controlsContainerView)
+        
+        controlsContainerView.addSubview(activityIndicatorView)
+        NSLayoutConstraint.activate([
+            activityIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            activityIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            ])
+        
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture)))
+        
+        controlsContainerView.addSubview(pausePlayButton)
+        pausePlayButton.isHidden = true
+        NSLayoutConstraint.activate([
+            pausePlayButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            pausePlayButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            pausePlayButton.widthAnchor.constraint(equalToConstant: 50),
+            pausePlayButton.heightAnchor.constraint(equalToConstant: 50)
+            ])
+        
+        controlsContainerView.addSubview(videoLengthLabel)
+        NSLayoutConstraint.activate([
+            videoLengthLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8),
+            videoLengthLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2),
+            videoLengthLabel.widthAnchor.constraint(equalToConstant: 45),
+            videoLengthLabel.heightAnchor.constraint(equalToConstant: 22)
+            ])
+        
+        controlsContainerView.addSubview(currentTimeLabel)
+        NSLayoutConstraint.activate([
+            currentTimeLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8),
+            currentTimeLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2),
+            currentTimeLabel.widthAnchor.constraint(equalToConstant: 45),
+            currentTimeLabel.heightAnchor.constraint(equalToConstant: 22)
+            ])
+        
+        controlsContainerView.addSubview(slider)
+        NSLayoutConstraint.activate([
+            slider.rightAnchor.constraint(equalTo: videoLengthLabel.leftAnchor),
+            slider.leftAnchor.constraint(equalTo: currentTimeLabel.rightAnchor),
+            slider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2),
+            slider.heightAnchor.constraint(equalToConstant: 24)
+            ])
+    }
+    
+    func redrawLayers() {
+        playerLayer?.frame = self.bounds
+        gradientLayer?.frame = self.bounds
+    }
+    
+    private func fadeButton() {
+        let when = DispatchTime.now() + 2
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            UIView.animate(withDuration: 1, animations: {
+                if self.isSettingPlay {
+                    self.pausePlayButton.alpha = 0
+                }
+            })
+        }
+    }
+}
+
+//MARK: Player logic
+extension VideoPlayerView {
+    
+    private func setupVideoPlayer(with path: String) {
+        addPlayer(with: path)
+        
+        player?.play()
+        
+        player?.addObserver(self, forKeyPath: AVPlayer.observableKey.loadedTimeRanges.rawValue, options: .new, context: nil)
+        
+        trackVideoProgress()
+    }
+    
+    private func addPlayer(with urlPath: String) {
+        let videoURL = NSURL(string: urlPath)!
+        player = AVPlayer(url: videoURL as URL)
+        playerLayer = AVPlayerLayer(player: player)
+        
+        self.layer.addSublayer(playerLayer!)
+        playerLayer?.frame = self.bounds
+    }
+    
+    private func trackVideoProgress() {
+        let interval = CMTime(value: 1, timescale: 2)
+        player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { (progressTime) in
+            self.currentTimeLabel.text = String.duration(from: progressTime)
+            if let player = self.player {
+                self.slider.setSliderValue(for: player, progress: progressTime)
+            }
+        })
+    }
+
 }
