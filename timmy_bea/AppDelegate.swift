@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         JSONContainer.getObjects(url: .objectJson) { (success) in }
         JSONContainer.getObjects(url: .careerJson) { (success) in }
+        JSONContainer.getObjects(url: .projectJson) { (success) in }
 
         return true
     }

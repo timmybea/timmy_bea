@@ -84,18 +84,10 @@ struct Career : Decodable {
         self.relatedRoles = relatedRoles
         self.relatedURLs = relatedURLs
         
-        cacheImage()
+        cacheImage(from: imageName) { (_) in }
     }
     
 }
 
 //MARK: Private methods
-extension Career {
-    
-    private func cacheImage() {
-
-        UIImage.cacheImage(from: self.imageName) { (_) in  }
-        
-    }
-    
-}
+extension Career : ImageCachable { }

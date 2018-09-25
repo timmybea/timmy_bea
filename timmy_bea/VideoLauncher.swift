@@ -42,7 +42,7 @@ class VideoLauncher: NSObject {
         if let window = UIApplication.shared.keyWindow {
             imageView.frame = window.frame
 
-            screenSize.width = Int(window.frame.width) + 2
+            screenSize.width = window.frame.width + 2
             
             if UIApplication.shared.statusBarOrientation.isPortrait {
                 let frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
@@ -78,7 +78,7 @@ class VideoLauncher: NSObject {
         
         attributedString.append(NSAttributedString(string: "\n\nFrameworks: ", attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
         
-        attributedString.append(NSAttributedString(string: project.frameWorks, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
+        attributedString.append(NSAttributedString(string: project.frameworks, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
         
         longDescTextView.attributedText = attributedString
     }
@@ -101,7 +101,7 @@ class VideoLauncher: NSObject {
         if UIApplication.shared.statusBarOrientation.isPortrait {
             if let window = UIApplication.shared.keyWindow {
                 imageView.frame = window.frame
-                screenSize.width = Int(imageView.frame.width)
+                screenSize.width = imageView.frame.width
                 videoPlayerView?.frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
                 videoPlayerView?.redrawLayers()
                 setupVideoInfoViews()
@@ -109,7 +109,7 @@ class VideoLauncher: NSObject {
         } else {
             if let window = UIApplication.shared.keyWindow {
                 imageView.frame = window.frame
-                screenSize.width = Int(imageView.frame.width)
+                screenSize.width = imageView.frame.width
                 videoPlayerView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
                 videoPlayerView?.redrawLayers()
                 setupVideoInfoViews()
@@ -184,7 +184,7 @@ class VideoLauncher: NSObject {
     
     private func layoutVideoInfoViews() {
         
-        var currentY = 40 + screenSize.height + 24
+        var currentY = 40 + Int(screenSize.height) + 24
         
         let activeHeight = Int(imageView.bounds.height) - currentY - 24
         activeView.frame = CGRect(x: 24, y: currentY, width: Int(imageView.bounds.width) - 48, height: activeHeight)

@@ -93,9 +93,9 @@ extension SkillsCell {
     
     private func positionAnimationView() {
         let isPortrait = UIApplication.shared.statusBarOrientation.isPortrait
-        screenSize.width = isPortrait ? Int(blueView.bounds.width) : Int(blueView.bounds.width * 0.44)
-        let y: Int = isPortrait ? 20 : (Int(blueView.bounds.height) - screenSize.height) / 2
-        animationView.frame = CGRect(x: 0, y: y, width: screenSize.width, height: screenSize.height)
+        screenSize.width = isPortrait ? blueView.bounds.width : blueView.bounds.width * 0.44
+        let y: Int = isPortrait ? 20 : (Int(blueView.bounds.height) - Int(screenSize.height)) / 2
+        animationView.frame = CGRect(x: 0, y: y, width: Int(screenSize.width), height: Int(screenSize.height))
     }
     
     private func positionScrollView() {
@@ -103,8 +103,8 @@ extension SkillsCell {
         if UIApplication.shared.statusBarOrientation.isPortrait {
             scrollView.frame = self.blueView.bounds
         } else {
-            let width = Int(self.blueView.bounds.width) - screenSize.width
-            scrollView.frame = CGRect(x: screenSize.width, y: 0, width: width, height: Int(blueView.bounds.height))
+            let width = Int(self.blueView.bounds.width) - Int(screenSize.width)
+            scrollView.frame = CGRect(x: Int(screenSize.width), y: 0, width: width, height: Int(blueView.bounds.height))
         }
         setScrollViewContentSize()
         

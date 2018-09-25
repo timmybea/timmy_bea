@@ -15,10 +15,12 @@ struct APIService {
     enum APIURL {
         case objectJson
         case careerJson
+        case projectJson
         case image(endPoint: String)
         
         var path: String {
             switch self {
+            case .projectJson: return APIService.baseURL + "projectData.json"
             case .objectJson: return APIService.baseURL + "dataObjects.json"
             case .careerJson: return APIService.baseURL + "careerData.json"
             case .image(let endPoint): return APIService.baseURL + "images/" + endPoint
@@ -27,6 +29,7 @@ struct APIService {
         
         var url: URL {
             switch self {
+            case .projectJson: return URL(string: self.path)!
             case .objectJson: return URL(string: self.path)!
             case .careerJson: return URL(string: self.path)!
             case .image(_): return URL(string: self.path)!

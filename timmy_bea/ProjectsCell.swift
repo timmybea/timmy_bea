@@ -15,7 +15,13 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         return launcher
     }()
     
-    private var projectDataSource = [Project]()
+    private var projectDataSource = [Project]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -27,19 +33,17 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         return cv
     }()
     
-    private let projectVideoCellID = "projectVideoCell"
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setupCollectionView()
+        
+        projectDataSource = Project.projectData
     }
 
     private func setupCollectionView() {
         blueView.addSubview(collectionView)
-        collectionView.register(ProjectVideoCell.self, forCellWithReuseIdentifier: projectVideoCellID)
-        projectDataSource = Project.getProjectArray()
-        
+        collectionView.register(ProjectVideoCell.self, forCellWithReuseIdentifier: ProjectVideoCell.cellID)
         setCVFrame()
     }
     
@@ -69,9 +73,9 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: projectVideoCellID, for: indexPath) as! ProjectVideoCell
-        cell.project = projectDataSource[indexPath.item]
-        cell.redrawCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProjectVideoCell.cellID, for: indexPath) as! ProjectVideoCell
+        let project = projectDataSource[indexPath.item]
+        cell.setupCell(for: project)
         return cell
     }
 
@@ -82,11 +86,13 @@ class ProjectsCell: CustomCollectionViewCell, UICollectionViewDelegate, UICollec
         var screenSize = ScreenSize()
         
         if UIApplication.shared.statusBarOrientation.isPortrait {
-            screenSize.width = Int(self.blueView.bounds.width) - 16
-            let height  = 20 + pad + screenSize.height + pad + 24 + 30 + pad + 2
-            return CGSize(width: collectionView.frame.width, height: CGFloat(height))
+            screenSize.width = self.blueView.bounds.width - 16.0
+//            let height  = 20 + pad + screenSize.height + pad + 24 + 30 + pad + 2
+            
+            let height = (3 * CGFloat.pad) + CGFloat(20 + 24 + 30 + 2) + screenSize.height
+            return CGSize(width: collectionView.frame.width, height: height)
         } else {
-            screenSize.width = Int((self.blueView.bounds.width - 16) / 2)
+            screenSize.width = (self.blueView.bounds.width - 16) / 2
             return CGSize(width: collectionView.frame.width, height: CGFloat(screenSize.height + 10))
         }
     }

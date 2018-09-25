@@ -15,6 +15,7 @@ struct JSONContainer : Decodable {
         case about
         case skills
         case careers
+        case projects
     }
     
     init(from decoder: Decoder) throws {
@@ -30,6 +31,10 @@ struct JSONContainer : Decodable {
 
         if let objects = try container.decodeIfPresent([Career].self, forKey: .careers) {
             type(of: self).careers = objects
+        }
+        
+        if let objects = try container.decodeIfPresent([Project].self, forKey: .projects) {
+            type(of: self).projects = objects
         }
     }
 
@@ -53,6 +58,12 @@ extension JSONContainer {
     static var careers = [Career]() {
         didSet {
             Career.careerData = careers
+        }
+    }
+    
+    static var projects = [Project]() {
+        didSet {
+            Project.projectData = projects
         }
     }
     

@@ -10,155 +10,196 @@ import UIKit
 
 var pad: Int = 8
 
+//MARK: Properties and init method
 class ProjectVideoCell: UICollectionViewCell {
+
+    static let cellID = "projectVideoCell"
 
     lazy var screenSize: ScreenSize = {
         var screenSize = ScreenSize()
         return screenSize
     }()
     
-    var project: Project? {
-        didSet {
-            titleLabel.text = project?.title
-            completedLabel.text = project?.dateCompleted
-            shortDescLabel.text = project?.shortDescription
-            thumbnailImageView.image = UIImage(named: (project?.videoThumbnailName)!)
-            longDescTextView.text = project?.longDescription
-        }
-    }
+    
+    var project: Project?
     
     private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.Theme.header.font
-        label.textColor = UIColor.Theme.customSand.color
+        let label = UILabel.createLabelWith(text: "title",
+                                            color: UIColor.Theme.customSand.color,
+                                            font: UIFont.Theme.header.font)
         label.textAlignment = .left
-        label.backgroundColor = UIColor.clear
         return label
     }()
     
     private let completedLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = UIColor.clear
-        label.font = UIFont.Theme.bodyText.font
-        label.textColor = UIColor.Theme.customSand.color
+        let label = UILabel.createLabelWith(text: "completed",
+                                            color: UIColor.Theme.customSand.color,
+                                            font: UIFont.Theme.bodyText.font)
         label.textAlignment = .right
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    private let shortDescLabel: UILabel = UILabel.createLabelWith(text: "short description",
+                                                                  color: UIColor.Theme.customSand.color,
+                                                                  font: UIFont.Theme.bodyText.font)
+
+
+    private let thumbnailImageView = CachedImageView()
     
     private let separatorView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.Theme.customSand.color
         return view
     }()
-    
-    private let thumbnailImageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFill)
-    
-    private let shortDescLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = UIColor.clear
-        label.textColor = UIColor.Theme.customSand.color
-        label.font = UIFont.Theme.bodyText.font
-        return label
-    }()
-    
+
     private let longDescTextView: UITextView = {
         let textView = UITextView()
-        textView.backgroundColor = UIColor.clear
         textView.textColor = UIColor.Theme.customSand.color
         textView.font = UIFont.Theme.bodyText.font
+        textView.backgroundColor = UIColor.clear
         return textView
     }()
     
-    private let gitHubButton: UIButton = {
+    lazy var gitHubButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(named: "git_pos")
         button.setImage(image, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = UIColor.Theme.customSand.color
+        button.addTarget(self, action: #selector(launchGitHub(sender:)), for: .touchUpInside)
         return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        addSubview(titleLabel)
-        addSubview(completedLabel)
-        addSubview(separatorView)
-        addSubview(thumbnailImageView)
         
-        addSubview(gitHubButton)
-        gitHubButton.addTarget(self, action: #selector(launchGitHub), for: .touchUpInside)
-
+        addSubviews()
         redrawCell()
     }
-    
-    func redrawCell() {
-     
-        var currentY = 0
-        var currentX = 0
-        
-        if UIApplication.shared.statusBarOrientation.isPortrait {
-            
-            longDescTextView.removeFromSuperview()
-            screenSize.width = Int(self.bounds.size.width - 16)
-            
-            let titleLabelWidth: Int = (Int(self.bounds.size.width) - (pad * 2)) / 2
-            titleLabel.frame = CGRect(x: pad, y: 0, width: titleLabelWidth, height: 20)
 
-            currentX += pad + Int(titleLabel.frame.width)
-            completedLabel.frame = CGRect(x: currentX, y: 0, width: titleLabelWidth, height: 20)
-
-            currentY += Int(titleLabel.frame.height) + pad
-            thumbnailImageView.frame = CGRect(x: pad, y: currentY, width: screenSize.width, height: screenSize.height)
-
-            addSubview(shortDescLabel)
-
-            currentY += Int(screenSize.height + 4)
-            shortDescLabel.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.size.width) - (pad * 2), height: 24)
-
-
-            currentY += Int(shortDescLabel.frame.height) + 4
-            gitHubButton.frame = CGRect(x: Int(self.bounds.width) - 30 - pad, y: currentY, width: 30, height: 30)
-
-            currentY += Int(gitHubButton.frame.height) + pad
-            separatorView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (pad * 2), height: 2)
-
-        } else {
-            
-            shortDescLabel.removeFromSuperview()
-            screenSize.width = (Int(self.bounds.size.width) - (pad * 2)) / 2
-            
-            currentX += pad
-            thumbnailImageView.frame = CGRect(x: currentX, y: 0, width: screenSize.width, height: screenSize.height)
-            
-            currentX += screenSize.width + pad
-            titleLabel.frame = CGRect(x: currentX, y: 0, width: (screenSize.width - pad) / 2, height: 20)
-
-            addSubview(longDescTextView)
-
-            currentY += Int(titleLabel.frame.height) + pad
-            let descHeight = Int(self.bounds.height - titleLabel.bounds.height) - (pad * 3) - 32
-            longDescTextView.frame = CGRect(x: currentX, y: currentY, width: screenSize.width - pad, height: descHeight)
-            
-            currentY += Int(longDescTextView.frame.height) + pad
-            gitHubButton.frame = CGRect(x: Int(self.bounds.width) - 30 - pad, y: currentY, width: 30, height: 30)
-            
-            currentY += Int(gitHubButton.frame.height) + pad
-            separatorView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (pad * 2), height: 2)
-            
-            currentX += Int(titleLabel.frame.width)
-            completedLabel.frame = CGRect(x: currentX, y: 0, width: Int(titleLabel.frame.width), height: 20)
-        }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
+
     
-    @objc private func launchGitHub() {
+    @objc private func launchGitHub(sender: UIButton) {
         if let url = URL(string: (project?.gitHubURL)!) {
             UIApplication.shared.open(url)
         }
     }
+
+}
+
+//MARK: Subview layout
+extension ProjectVideoCell {
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }    
+    private func addSubviews() {
+        for subview in subviews {
+            subview.removeFromSuperview()
+        }
+        
+        addSubview(titleLabel)
+        addSubview(completedLabel)
+        addSubview(separatorView)
+        addSubview(thumbnailImageView)
+        addSubview(gitHubButton)
+    }
+    
+    func setupCell(for project: Project) {
+        self.project = project
+        
+        titleLabel.text = project.title
+        completedLabel.text = project.dateCompleted
+        shortDescLabel.text = project.shortDescription
+        thumbnailImageView.loadImage(from: project.videoThumbnailName, with: nil)
+        longDescTextView.text = project.longDescription
+        
+        redrawCell()
+    }
+    
+    private func redrawCell() {
+        
+        let isPortrait = UIApplication.shared.statusBarOrientation.isPortrait
+        screenSize.width = isPortrait ? self.bounds.size.width - (CGFloat.pad * 2) : (self.bounds.size.width - (CGFloat.pad * 2)) / 2
+        layoutSubviews(for: isPortrait)
+    }
+
+    
+    private func layoutSubviews(for isPortrait: Bool) {
+        if isPortrait {
+            layoutTitleLabel(for: isPortrait)
+            layoutCompletedLabel()
+            layoutThumbnail(for: isPortrait)
+        } else {
+            layoutThumbnail(for: isPortrait)
+            layoutTitleLabel(for: isPortrait)
+            layoutCompletedLabel()
+        }
+        layoutSeparator()
+        layoutButton()
+        layoutDescription(for: isPortrait)
+    }
+
+    private func getLabelWidth() -> CGFloat {
+        return (screenSize.width - (CGFloat.pad * 2.0)) / 2.0
+    }
+
+    private func layoutTitleLabel(for isPortrait: Bool) {
+        let x = isPortrait ? CGFloat.pad : thumbnailImageView.frame.maxX + CGFloat.pad
+        titleLabel.frame = CGRect(x: x, y: 0, width: getLabelWidth(), height: 20)
+    }
+    
+    private func layoutCompletedLabel() {
+        let width = getLabelWidth()
+        let x = self.bounds.width - width - CGFloat.pad
+        completedLabel.frame = CGRect(x: x, y: 0, width: width, height: 20)
+    }
+    
+    private func layoutThumbnail(for isPortrait: Bool) {
+        let y = isPortrait ? titleLabel.frame.maxY + CGFloat.pad : 0
+        thumbnailImageView.frame = CGRect(x: CGFloat.pad, y: y, width: screenSize.width, height: screenSize.height)
+    }
+    
+    private func layoutSeparator() {
+        separatorView.frame = CGRect(x: CGFloat.pad,
+                                     y: self.bounds.height - 2,
+                                     width: self.bounds.width - (2 * CGFloat.pad),
+                                     height: 2)
+    }
+    
+    private func layoutButton() {
+        let dimension: CGFloat = 30
+        let x = self.bounds.width - CGFloat.pad - dimension
+        let y = self.bounds.height - separatorView.frame.height - CGFloat.pad - dimension
+        gitHubButton.frame = CGRect(x: x, y: y, width: dimension, height: dimension)
+    }
+    
+    private func layoutDescription(for isPortrait: Bool) {
+        if isPortrait {
+            longDescTextView.removeFromSuperview()
+            addSubview(shortDescLabel)
+            let y = thumbnailImageView.frame.maxY + 4.0
+            shortDescLabel.frame = CGRect(x: CGFloat.pad, y: y, width: self.screenSize.width, height: 20.0)
+        } else {
+            addSubview(longDescTextView)
+            shortDescLabel.removeFromSuperview()
+            let x = titleLabel.frame.origin.x
+            let y = titleLabel.frame.maxY + CGFloat.pad
+            let height = self.bounds.height - y - gitHubButton.frame.height - CGFloat.pad - separatorView.frame.height
+            longDescTextView.frame = CGRect(x: x, y: y, width: screenSize.width, height: height)
+        }
+    }
+}
+
+//MARK: Screen Size
+struct ScreenSize {
+    
+    var width: CGFloat {
+        set {
+            height =  newValue * 0.5625
+        } get {
+            return height * 1.7777
+        }
+    }
+    
+    var height: CGFloat = 100.0
 }

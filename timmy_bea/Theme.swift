@@ -8,13 +8,6 @@
 
 import UIKit
 
-//MARK: UIColor Extensions
-extension UIColor {
-    
-    static func colorWithValues(red: Int, green: Int, blue: Int, alpha: CGFloat) -> UIColor {
-        return UIColor(red: CGFloat(red)/255, green: CGFloat(green)/255, blue: CGFloat(blue)/255, alpha: alpha)
-    }
-}
 
 extension UIColor {
     
@@ -90,50 +83,6 @@ extension UIFont {
     
 }
 
-//MARK: UIView Extensions
-extension UIView {
-    
-    func addConstraintsWithFormat(format: String, views: UIView...) {
-        var viewsDictionary = [String: UIView]()
-        
-        for (index, view) in views.enumerated() {
-            view.translatesAutoresizingMaskIntoConstraints = false
-            let key = "v\(index)"
-            viewsDictionary[key] = view
-        }
-        
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-    }
-    
-}
 
-//MARK: NSLayoutConstraint Extensions
-extension NSLayoutConstraint {
-    
-    class func constraintsWithFormat(format: String, views: UIView...) -> [NSLayoutConstraint] {
-        var viewsDictionary = [String: UIView]()
-        
-        for (index, view) in views.enumerated() {
-        view.translatesAutoresizingMaskIntoConstraints = false
-        let key = "v\(index)"
-        viewsDictionary[key] = view
-        }
-        return constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary)
-    }
-    
-}
-
-struct ScreenSize {
-    
-    var width: Int {
-        set {
-            height =  Int(Double(newValue) * 0.5625)
-        } get {
-            return Int(Double(height) * 1.7777)
-        }
-    }
-    
-    var height: Int = 100
-}
 
 

@@ -73,11 +73,23 @@ extension UIImage {
     
 }
 
+
+protocol ImageCachable {}
+
+extension ImageCachable {
+    
+    func cacheImage(from endpoint: String,completion: @escaping (UIImage?) -> ()) {
+        UIImage.cacheImage(from: endpoint) { (image) in
+            completion(image)
+        }
+    }
+}
+
 extension UIImage {
     
     static let imageCache = NSCache<AnyObject, AnyObject>()
     
-    static func cacheImage(from endPoint: String, completion: @escaping (UIImage?) -> ()) {
+     static func cacheImage(from endPoint: String, completion: @escaping (UIImage?) -> ()) {
         
         var output: UIImage? = nil
         
@@ -107,7 +119,23 @@ extension UIImage {
     }
 }
 
-//MARK: UIView Extension
+//MARK: UIView Extensions
+extension UIView {
+    
+    func addConstraintsWithFormat(format: String, views: UIView...) {
+        var viewsDictionary = [String: UIView]()
+        
+        for (index, view) in views.enumerated() {
+            view.translatesAutoresizingMaskIntoConstraints = false
+            let key = "v\(index)"
+            viewsDictionary[key] = view
+        }
+        
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+    }
+    
+}
+
 extension UIView {
     
     static func createAndPositionUnderline(beneath view: UIView) -> UIView {
@@ -210,6 +238,24 @@ extension UINavigationController {
     
 }
 
+
+
+//MARK: NSLayoutConstraint Extensions
+extension NSLayoutConstraint {
+    
+    class func constraintsWithFormat(format: String, views: UIView...) -> [NSLayoutConstraint] {
+        var viewsDictionary = [String: UIView]()
+        
+        for (index, view) in views.enumerated() {
+            view.translatesAutoresizingMaskIntoConstraints = false
+            let key = "v\(index)"
+            viewsDictionary[key] = view
+        }
+        return constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary)
+    }
+    
+}
+
 extension UIScreen {
     
     static var statusHeight: CGFloat {
@@ -283,4 +329,12 @@ extension CGFloat {
     
     static let pad: CGFloat = 8.0
     
+}
+
+//MARK: UIColor Extensions
+extension UIColor {
+    
+    static func colorWithValues(red: Int, green: Int, blue: Int, alpha: CGFloat) -> UIColor {
+        return UIColor(red: CGFloat(red)/255, green: CGFloat(green)/255, blue: CGFloat(blue)/255, alpha: alpha)
+    }
 }
