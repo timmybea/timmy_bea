@@ -8,21 +8,13 @@
 
 import UIKit
 
+//MARK: Properties and Initializer
 class StackView: UIView, UIScrollViewDelegate {
     
     var career:  Career? {
         didSet {
             setupSubviews()
         }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
- 
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     private let logoImageView: CachedImageView = {
@@ -58,98 +50,78 @@ class StackView: UIView, UIScrollViewDelegate {
         textView.backgroundColor = UIColor.clear
         return textView
     }()
+
+}
+
+//MARK: UI Layout
+extension StackView {
     
     private func setupSubviews() {
         
+        setupStackLayer()
+        addSubviews()
+        layoutFrames()
+    }
+    
+    private func setupStackLayer() {
         layer.cornerRadius = 8
-        
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 2, height: 2)
         layer.shadowOpacity = 0.5
         layer.shadowRadius = 3
-        
+    }
+    
+    private func addSubviews() {
         if self.career != nil {
             self.addSubview(logoImageView)
             self.addSubview(titleLabel)
             self.addSubview(subtitleLabel)
             self.addSubview(mainTextView)
         }
-        layoutFrames()
     }
     
     private func layoutFrames() {
-        if let career = self.career {
-            
-            logoImageView.loadImage(from: career.imageName, with: .alwaysTemplate) { }
-            
-            var currentX = pad
-            var currentY = 16
-            
-            if UIApplication.shared.statusBarOrientation.isPortrait {
-                let logoWidth = (Int(self.bounds.width) - (2 * pad)) / 3
-                logoImageView.frame = CGRect(x: currentX, y: currentY + pad, width: logoWidth, height: logoWidth / 2)
+        guard let career = self.career else { return }
+        
+        logoImageView.loadImage(from: career.imageName, with: .alwaysTemplate) { }
+        let isPortrait = UIApplication.isPortrait
+        
+        let logoX = isPortrait ? CGFloat.pad : (CGFloat.pad * 3.0)
+        let logoY: CGFloat = isPortrait ? CGFloat.pad * 2 : CGFloat.pad
+        let logoWidth = isPortrait ? (self.bounds.width - (2 * CGFloat.pad)) / 3 : (self.bounds.width - (2 * CGFloat.pad)) / 5
+        logoImageView.frame = CGRect(x: logoX, y: logoY, width: logoWidth, height: logoWidth / 2)
 
-                currentX += Int(logoImageView.frame.width) + pad
-                let titleWidth = Int(self.bounds.width) - currentX - pad
-                titleLabel.frame = CGRect(x: currentX, y: currentY, width: titleWidth, height: 20)
-                titleLabel.text = career.title
-                titleLabel.sizeToFit()
-                let centerX = currentX + ((Int(self.bounds.width) - currentX - pad) / 2)
-                titleLabel.center.x = CGFloat(centerX)
-
-                currentY += Int(titleLabel.frame.height) + 4
-                subtitleLabel.frame = CGRect(x: currentX, y: currentY, width: Int(titleLabel.frame.width), height: 16)
-                subtitleLabel.center.x = titleLabel.center.x
-                subtitleLabel.text = career.subtitle
-
-                let yImage = (3 * pad) + Int(logoImageView.frame.height) + 4
-                let yText = currentY + Int(subtitleLabel.frame.height) + 4
-
-                if yImage > yText {
-                    currentY = yImage
-                } else {
-                    currentY = yText
-                }
-
-                mainTextView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (2 * pad), height: Int(self.bounds.height) - currentY - 40)
-                mainTextView.isScrollEnabled = false
-                
-            } else {
-                
-                currentY = pad
-                
-                let logoWidth = (Int(self.bounds.width) - (2 * pad)) / 5
-                logoImageView.frame = CGRect(x: (pad * 3), y: currentY, width: logoWidth, height: logoWidth / 2)
-                
-                currentX += Int(logoImageView.frame.width) + pad
-                let titleWidth = Int(self.bounds.width) - currentX - pad
-                titleLabel.frame = CGRect(x: currentX, y: currentY, width: titleWidth, height: 20)
-                titleLabel.text = career.title
-                titleLabel.sizeToFit()
-                let centerX = currentX + ((Int(self.bounds.width) - currentX - pad) / 2)
-                titleLabel.center.x = CGFloat(centerX)
-                
-                currentY += Int(titleLabel.frame.height) + 4
-                subtitleLabel.frame = CGRect(x: currentX, y: currentY, width: Int(titleLabel.frame.width), height: 16)
-                subtitleLabel.center.x = titleLabel.center.x
-                subtitleLabel.text = career.subtitle
-                
-                let yImage = (3 * pad) + Int(logoImageView.frame.height) + 4
-                let yText = currentY + Int(subtitleLabel.frame.height) + 4
-                
-                if yImage > yText {
-                    currentY = yImage
-                } else {
-                    currentY = yText
-                }
-                
-                mainTextView.frame = CGRect(x: pad, y: currentY, width: Int(self.bounds.width) - (2 * pad), height: Int(self.bounds.height) - currentY - 40)
-                mainTextView.isScrollEnabled = true
-            }
-            mainTextView.attributedText = createAttributedString()
-            mainTextView.alpha = 0
-        }
+        
+        let titleX = logoImageView.frame.maxX + CGFloat.pad
+        let titleWidth = self.bounds.width - logoImageView.frame.maxX - (CGFloat.pad * 2)
+        titleLabel.frame = CGRect(x: titleX,
+                                  y: CGFloat.pad * 2,
+                                  width: titleWidth,
+                                  height: 20)
+        titleLabel.text = career.title
+        titleLabel.sizeToFit()
+        titleLabel.center.x = titleX + (titleWidth / 2)
+ 
+        subtitleLabel.frame = CGRect(x: titleX,
+                                     y: titleLabel.frame.maxY + 4.0,
+                                     width: titleWidth,
+                                     height: 18)
+        subtitleLabel.center.x = titleLabel.center.x
+        subtitleLabel.text = career.subtitle
+        
+        let textY = max(logoImageView.frame.maxY, subtitleLabel.frame.maxY) + CGFloat.pad
+        mainTextView.frame = CGRect(x: CGFloat.pad,
+                                    y: textY,
+                                    width: self.bounds.width - (2 * CGFloat.pad),
+                                    height: self.bounds.height - textY - 40.0)
+        mainTextView.isScrollEnabled = false
+        mainTextView.attributedText = createAttributedString()
+        mainTextView.alpha = 0
     }
+}
+
+//MARK: Text formatting
+extension StackView {
     
     private func createAttributedString() -> NSAttributedString {
         
@@ -171,4 +143,5 @@ class StackView: UIView, UIScrollViewDelegate {
         }
         return attributedParagraph.attributedText
     }
+
 }

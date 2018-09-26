@@ -381,3 +381,12 @@ extension AVPlayer {
     }
     
 }
+
+//MARK: UIApplication extension
+extension UIApplication {
+    
+    static var isPortrait: Bool {
+        return UIApplication.shared.statusBarOrientation.isPortrait
+    }
+    
+}

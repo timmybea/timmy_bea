@@ -194,6 +194,7 @@ extension ProjectVideoCell {
     }
 }
 
+//MARK: UI Dimensions
 extension ProjectVideoCell {
     
     static private let titleHeight: CGFloat = 20.0

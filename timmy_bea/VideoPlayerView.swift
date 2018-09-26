@@ -136,7 +136,7 @@ class VideoPlayerView: UIView {
   
 }
 
-//MARK: UILayout
+//MARK: UI Layout
 extension VideoPlayerView {
     
     private func setupGradientLayer() {

@@ -8,8 +8,8 @@
 
 import UIKit
 
-var currentInfoIndex = 0
 
+//MARK: Properties and initializer
 class AboutCell: CustomCollectionViewCell {
 
     private let speechBubble: SpeechBubble = {
@@ -23,6 +23,8 @@ class AboutCell: CustomCollectionViewCell {
     }()
     
     private var aboutInfo: [About] = About.aboutData
+    
+    private var currentInfoIndex = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
