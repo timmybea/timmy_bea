@@ -41,10 +41,8 @@ class ProjectsCell: CustomCollectionViewCell {
     override func redrawCell() {
         super.redrawCell()
         
-        
         setCollectionViewFrame()
         layoutAndReloadData()
-        
         if videoLauncher.isVideoLaunched {
             videoLauncher.redrawVideoScreen()
         }
@@ -58,7 +56,6 @@ extension ProjectsCell {
     private func setupCollectionView() {
         blueView.addSubview(collectionView)
         collectionView.register(ProjectVideoCell.self, forCellWithReuseIdentifier: ProjectVideoCell.cellID)
-        
         setCollectionViewFrame()
     }
     

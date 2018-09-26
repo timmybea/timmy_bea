@@ -113,18 +113,12 @@ extension SkillsCell {
     
     private func setupScrollViewContents() {
         removeSubviews(from: scrollView)
-        
-        
         let isPortrait = UIApplication.shared.statusBarOrientation.isPortrait
 
         for (i, skill) in Skill.skillData.enumerated() {
-            
             let label = createAndPositionLabel(title: skill.title, index: i, isPortrait: isPortrait)
-        
             let underline = UIView.createAndPositionUnderline(beneath: label)
-            
             let textView = createTextView(text: skill.bodyText, beneath: underline, index: i)
-            
             scrollView.addSubview(label)
             scrollView.addSubview(underline)
             scrollView.addSubview(textView)

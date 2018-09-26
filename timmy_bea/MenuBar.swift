@@ -17,7 +17,8 @@ protocol MenuBarDelegate {
 class MenuBar: UIView {
     
     //MARK: UI Properties
-    lazy var collectionView: UICollectionView = UICollectionView.defaultCollectionView(in: self, with: .horizontal)
+    
+    lazy var collectionView: UICollectionView = UICollectionView.defaultCollectionView(in: self, with: nil)
     
     private let horizontalView: UIView = {
         let horizontalView = UIView()
@@ -124,4 +125,5 @@ extension MenuBar : UICollectionViewDelegateAndDatasource, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
 }

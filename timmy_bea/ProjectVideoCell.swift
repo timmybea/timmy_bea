@@ -110,10 +110,11 @@ extension ProjectVideoCell {
         titleLabel.text = project.title
         completedLabel.text = project.dateCompleted
         shortDescLabel.text = project.shortDescription
-        thumbnailImageView.loadImage(from: project.videoThumbnailName, with: nil)
         longDescTextView.text = project.longDescription
-        
-        redrawCell()
+        thumbnailImageView.loadImage(from: project.videoThumbnailName, with: nil) {
+            self.layoutIfNeeded()
+        }
+        self.redrawCell()
     }
     
     private func redrawCell() {
@@ -155,6 +156,8 @@ extension ProjectVideoCell {
     }
     
     private func layoutThumbnail(for isPortrait: Bool) {
+        thumbnailImageView.backgroundColor = UIColor.lightGray
+        thumbnailImageView.contentMode = .scaleAspectFill
         let y = isPortrait ? titleLabel.frame.maxY + CGFloat.pad : 0
         thumbnailImageView.frame = CGRect(x: CGFloat.pad, y: y, width: screenSize.width, height: screenSize.height)
     }

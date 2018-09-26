@@ -60,6 +60,7 @@ extension HomeViewController {
         setupFooterLabel()
         setupCollectionView()
     }
+
 }
 
 //MARK: UI Layout

@@ -80,10 +80,7 @@ class StackView: UIView, UIScrollViewDelegate {
     private func layoutFrames() {
         if let career = self.career {
             
-            logoImageView.loadImage(from: career.imageName, with: .alwaysTemplate)
-            
-//            logoImageView.imageEndPoint = career.imageName
-//            logoImageView.image = UIImage(named: career.imageName)?.withRenderingMode(.alwaysTemplate)
+            logoImageView.loadImage(from: career.imageName, with: .alwaysTemplate) { }
             
             var currentX = pad
             var currentY = 16
@@ -156,35 +153,22 @@ class StackView: UIView, UIScrollViewDelegate {
     
     private func createAttributedString() -> NSAttributedString {
         
-        let attributedString = NSMutableAttributedString()
+        let attributedParagraph = AttributedParagraph()
+        guard let career = self.career else { return attributedParagraph.attributedText }
         
-        if let career = self.career {
-
-            let center = NSMutableParagraphStyle()
-            center.alignment = NSTextAlignment.center
-            
-            let left = NSMutableParagraphStyle()
-            left.alignment = NSTextAlignment.left
-            
-            attributedString.append(NSAttributedString(string: career.description, attributes: [NSAttributedStringKey.font: UIFont.Theme.bodyText.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color, NSAttributedStringKey.paragraphStyle: center]))
-            
-            attributedString.append(NSAttributedString(string: "\n\nEducation", attributes: [NSAttributedStringKey.font: UIFont.Theme.subHeader.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color, NSAttributedStringKey.paragraphStyle: left]))
-            
-            for qualification in career.education {
-                attributedString.append(NSAttributedString(string: "\n\(qualification.institution) - \(qualification.role) \(qualification.date)", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
-            }
-            
-            if career.relatedRoles.count > 0 {
-                
-                attributedString.append(NSAttributedString(string: "\n\nRelated Work", attributes: [NSAttributedStringKey.font: UIFont.Theme.subHeader.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
-                
-                for role in career.relatedRoles {
-                    attributedString.append(NSAttributedString(string: "\n\(role.institution) - \(role.role) \(role.date)", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
-                }
-            }
-            
-            attributedString.append(NSAttributedString(string: "\n\nReferences available by request", attributes: [NSAttributedStringKey.font: UIFont.Theme.footNote.font, NSAttributedStringKey.foregroundColor: UIColor.Theme.customSand.color]))
+        attributedParagraph.append(text: career.description, font: UIFont.Theme.bodyText.font, alignment: .center)
+        attributedParagraph.append(text: "\n\nEducation", font: UIFont.Theme.subHeader.font, alignment: .left)
+        for qualification in career.education {
+            attributedParagraph.append(text: "\n\(qualification.institution) - \(qualification.role) \(qualification.date)", font: UIFont.Theme.footNote.font, alignment: .left)
         }
-        return attributedString
+        if !career.relatedRoles.isEmpty {
+            attributedParagraph.append(text: "\n\nRelated Work", font: UIFont.Theme.subHeader.font, alignment: .left)
+            
+            for role in career.relatedRoles {
+                attributedParagraph.append(text: "\n\(role.institution) - \(role.role) \(role.date)", font: UIFont.Theme.footNote.font, alignment: .left)
+            }
+            attributedParagraph.append(text: "\n\nReferences available by request", font: UIFont.Theme.footNote.font, alignment: .left)
+        }
+        return attributedParagraph.attributedText
     }
 }

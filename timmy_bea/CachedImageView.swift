@@ -36,7 +36,7 @@ class CachedImageView: UIImageView {
         }
     }
     
-    func loadImage(from endPoint: String, with renderingMode: UIImageRenderingMode?) {
+    func loadImage(from endPoint: String, with renderingMode: UIImageRenderingMode?, completion: @escaping () ->()) {
         
         self.imageEndPoint = endPoint
         
@@ -48,8 +48,12 @@ class CachedImageView: UIImageView {
                 img = img.withRenderingMode(rend)
             }
             
-            self.image = img
-            activityIndicatorView.stopAnimating()
+            DispatchQueue.main.async {
+                self.image = img
+                self.activityIndicatorView.stopAnimating()
+                completion()
+            }
+
         }
         
         if let imageFromCache = UIImage.imageCache.object(forKey: endPoint as AnyObject) as? UIImage {
