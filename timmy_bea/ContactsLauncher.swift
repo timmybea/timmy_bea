@@ -30,8 +30,6 @@ class ContactsLauncher: NSObject {
     
     var delegate: ContactsLauncherDelegate?
     
-    private let cellId = "contactCellID"
-    
     private let cellHeight: CGFloat = 45
     
     private let contactsArray: [ContactOption] = ContactOption.allContactOptions()
@@ -43,7 +41,7 @@ class ContactsLauncher: NSObject {
         super.init()
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(ContactsCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(ContactsCell.self, forCellWithReuseIdentifier: ContactsCell.cellId)
     }
     
 }
@@ -129,7 +127,7 @@ extension ContactsLauncher : UICollectionViewDataSource, UICollectionViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let contactOption = contactsArray[indexPath.item]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ContactsCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContactsCell.cellId, for: indexPath) as! ContactsCell
         cell.contactOption = contactOption
         return cell
     }

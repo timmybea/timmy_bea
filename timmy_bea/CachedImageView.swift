@@ -8,8 +8,8 @@
 
 import UIKit
 
+//MARK: Properties and initializer
 class CachedImageView: UIImageView {
-    
     
     private var imageEndPoint: String?
     
@@ -36,6 +36,11 @@ class CachedImageView: UIImageView {
         }
     }
     
+}
+
+//MARK: load image method
+extension CachedImageView {
+    
     func loadImage(from endPoint: String, with renderingMode: UIImageRenderingMode?, completion: @escaping () ->()) {
         
         self.imageEndPoint = endPoint
@@ -53,7 +58,6 @@ class CachedImageView: UIImageView {
                 self.activityIndicatorView.stopAnimating()
                 completion()
             }
-
         }
         
         if let imageFromCache = UIImage.imageCache.object(forKey: endPoint as AnyObject) as? UIImage {
@@ -69,5 +73,4 @@ class CachedImageView: UIImageView {
             setImage(imageFromCache)
         }
     }
-    
 }

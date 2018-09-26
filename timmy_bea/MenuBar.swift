@@ -81,7 +81,10 @@ extension MenuBar {
         
         collectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellID)
         
-        //select the first tab when the vc loads
+        selectFirstTab()
+    }
+    
+    private func selectFirstTab() {
         let selectedPath = IndexPath(item: 0, section: 0)
         collectionView.selectItem(at: selectedPath, animated: false, scrollPosition: .centeredHorizontally)
     }

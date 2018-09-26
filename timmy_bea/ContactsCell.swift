@@ -8,22 +8,19 @@
 
 import UIKit
 
+//MARK: Properties and initializer
 class ContactsCell: UICollectionViewCell {
     
-    //MARK: UI Properties
+    static let cellId = "contactCellID"
+    
     var contactOption: ContactOption? {
         didSet {
             nameLabel.text = contactOption?.name
             iconImageView.image = contactOption?.image
         }
     }
-    
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.Theme.contact.font
-        label.textColor = UIColor.darkGray
-        return label
-    }()
+
+    private let nameLabel: UILabel = UILabel.createLabelWith(text: "", color: UIColor.darkGray, font: UIFont.Theme.contact.font)
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView.createWith(imageName: nil, contentMode: .scaleAspectFill)
@@ -31,7 +28,6 @@ class ContactsCell: UICollectionViewCell {
         return imageView
     }()
     
-    //MARK: Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         

@@ -8,10 +8,12 @@
 
 import UIKit
 
+//MARK: Delegate protocol
 protocol CircleMaskViewDelegate {
     func viewWasTouched()
 }
 
+//MARK: Properties and initializer
 class CircleMaskView: UIView {
     
     var circleMaskViewDelegate: CircleMaskViewDelegate?
@@ -44,11 +46,33 @@ class CircleMaskView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func addTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.performAnimations(recognizer:)))
+        self.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func performAnimations(recognizer: UITapGestureRecognizer) {
+        createAnimations()
+        if circleMaskViewDelegate != nil {
+            circleMaskViewDelegate?.viewWasTouched()
+        }
+    }
+}
+
+
+//MARK: Layout subviews,
+extension CircleMaskView {
+    
     private func addImageToContents() {
         let portrait = UIImage(named: "portrait_square")
         self.layer.contents = portrait?.cgImage
         self.layer.contentsGravity = kCAGravityResizeAspect
     }
+    
+}
+
+//MARK: Layer setup and animation
+extension CircleMaskView {
     
     private func addCircleMask() {
         circlePathLayer.frame = bounds
@@ -82,17 +106,5 @@ class CircleMaskView: UIView {
         wobbleAnimationGroup.repeatCount = 1
         wobbleAnimationGroup.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         circlePathLayer.add(wobbleAnimationGroup, forKey: nil)
-    }
-    
-    private func addTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.performAnimations(recognizer:)))
-        self.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc func performAnimations(recognizer: UITapGestureRecognizer) {
-        createAnimations()
-        if circleMaskViewDelegate != nil {
-            circleMaskViewDelegate?.viewWasTouched()
-        }
     }
 }

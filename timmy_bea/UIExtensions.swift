@@ -37,6 +37,8 @@ extension UIImage {
         case projects
         case education
         case about
+        case speechBubble
+        case tail
         
         var name: String {
             switch self {
@@ -51,23 +53,13 @@ extension UIImage {
             case .projects:               return "projects"
             case .education:              return "education"
             case .about:                  return "about"
+            case .speechBubble:          return "speech_bubble"
+            case .tail:                 return "tail"
             }
         }
         
         var image: UIImage {
-            switch self {
-            case .backgroundGradient:   return UIImage(named: self.name)!
-            case .phone:                return UIImage(named: self.name)!
-            case .contact:              return UIImage(named: self.name)!
-            case .email:                return UIImage(named: self.name)!
-            case .linkedIn:             return UIImage(named: self.name)!
-            case .github:               return UIImage(named: self.name)!
-            case .cancel:               return UIImage(named: self.name)!
-            case .skills:               return UIImage(named: self.name)!
-            case .projects:             return UIImage(named: self.name)!
-            case .education:            return UIImage(named: self.name)!
-            case .about:                return UIImage(named: self.name)!
-            }
+            return UIImage(named: self.name)!
         }
     }
     
@@ -237,6 +229,7 @@ extension UICollectionView {
     
 }
 
+//MARK: UINavigationController extension
 extension UINavigationController {
     
     static var navBarHeight: CGFloat {
@@ -302,31 +295,71 @@ extension MFMailComposeViewController {
             vc.present(mail, animated: true)
         } else {
             if let vc = vc as? UIAlertControllerDelegate {
-                UIAlertController.presentAlert(in: vc, title: "Could not launch email", message: "Please try again later", options: ["OK"], completion: nil)
+                UIAlertController.presentAlert(in: vc,
+                                               title: "Could not launch email",
+                                               message: "Please try again later",
+                                               options: [.ok],
+                                               completion: nil)
             }
         }
     }
     
 }
 
+extension UIAlertAction {
+    
+    enum OptionType {
+        case cancel
+        case ok
+        case delete
+        case option(name: String)
+        
+        var title: String {
+            switch self {
+            case .cancel: return "Cancel"
+            case .ok: return "OK"
+            case .delete: return "Delete"
+            case .option(let name): return name
+            }
+        }
+        
+        var style: UIAlertActionStyle {
+            switch self {
+            case .cancel: return .default
+            case .ok: return .default
+            case .delete: return .destructive
+            case .option(_): return .default
+            }
+        }
+        
+        func action(handler: @escaping (UIAlertAction) -> ()) -> UIAlertAction {
+            return UIAlertAction(title: self.title, style: self.style, handler: { (alert) in
+                handler(alert)
+            })
+        }
+    }
+
+}
 
 protocol UIAlertControllerDelegate {
-    func selectedOption(_ option: String)
+    
+    func selectedOption(_ option: UIAlertAction.OptionType)
+
 }
 
 extension UIAlertController {
     
-    static func presentAlert(in delegate: UIAlertControllerDelegate, title: String, message: String?, options: [String]?, completion: (() -> ())?) {
+    static func presentAlert(in delegate: UIAlertControllerDelegate, title: String, message: String?, options: [UIAlertAction.OptionType], completion: (() -> ())?) {
         
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            if let options = options {
-                for option in options {
-                    let action = UIAlertAction(title: option, style: .default) { (action) in
-                        delegate.selectedOption(action.title!)
-                    }
-                    alert.addAction(action)
-                }
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        for option in options {
+            let action = option.action { (_) in
+                delegate.selectedOption(option)
             }
+            alert.addAction(action)
+        }
+        
         if let vc = delegate as? UIViewController {
             vc.present(alert, animated: true) {
                 completion?()
@@ -389,4 +422,10 @@ extension UIApplication {
         return UIApplication.shared.statusBarOrientation.isPortrait
     }
     
+}
+
+//MARK: Scrollable protocol
+protocol Scrollable {
+    var pageTracker: Int { get set }
+    func scrollToItemAt(index: Int)
 }

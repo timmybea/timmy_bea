@@ -271,10 +271,13 @@ extension HomeViewController {
 
 //MARK: AlertController Delegate
 extension HomeViewController : UIAlertControllerDelegate {
-    
-    func selectedOption(_ option: String) {
-        if option == "OK" {
+
+    func selectedOption(_ option: UIAlertAction.OptionType) {
+        switch option {
+        case .ok:
             self.dismiss(animated: true, completion: nil)
+        default:
+            return
         }
     }
     

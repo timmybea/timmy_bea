@@ -24,7 +24,6 @@
 		B0987680214834F900503EF1 /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B098767F214834F900503EF1 /* UIExtensions.swift */; };
 		B0987682214837F300503EF1 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0987681214837F300503EF1 /* CustomNavigationController.swift */; };
 		B0987684214845AA00503EF1 /* NavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0987683214845AA00503EF1 /* NavigationItem.swift */; };
-		B098768621485EAF00503EF1 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B098768521485EAF00503EF1 /* Protocols.swift */; };
 		B09876882148712200503EF1 /* ContactOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09876872148712200503EF1 /* ContactOption.swift */; };
 		B09D46991E8CBE410018FA65 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */; };
 		B09D46BD1E90BBCB0018FA65 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09D46BC1E90BBCB0018FA65 /* StackView.swift */; };
@@ -67,7 +66,6 @@
 		B098767F214834F900503EF1 /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
 		B0987681214837F300503EF1 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		B0987683214845AA00503EF1 /* NavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItem.swift; sourceTree = "<group>"; };
-		B098768521485EAF00503EF1 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		B09876872148712200503EF1 /* ContactOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactOption.swift; sourceTree = "<group>"; };
 		B09D46981E8CBE410018FA65 /* VideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		B09D46BC1E90BBCB0018FA65 /* StackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 				B0CC0D631E7115F4006E3D36 /* Theme.swift */,
 				B0156E431E9D423600A966BB /* Device.swift */,
 				B098767F214834F900503EF1 /* UIExtensions.swift */,
-				B098768521485EAF00503EF1 /* Protocols.swift */,
 				B088BD13215AF30700531584 /* AttributedParagraph.swift */,
 			);
 			name = Helpers;
@@ -368,7 +365,6 @@
 				B0CC0D681E711A9B006E3D36 /* MenuCell.swift in Sources */,
 				B0CC0D641E7115F4006E3D36 /* Theme.swift in Sources */,
 				B0CC0D661E7119CE006E3D36 /* MenuBar.swift in Sources */,
-				B098768621485EAF00503EF1 /* Protocols.swift in Sources */,
 				B02EC9EC215592F8004595E6 /* StackViewController.swift in Sources */,
 				B0BE17B41E8427460039778D /* EducationCell.swift in Sources */,
 				B0BE17B61E84276E0039778D /* AboutCell.swift in Sources */,
