@@ -61,6 +61,21 @@ class VideoLauncher: NSObject {
                                                                                    color: UIColor.Theme.customSand.color,
                                                                                    font: UIFont.Theme.bodyText.font)
     
+    @objc func handleDismiss() {
+        animate(isLaunch: false)
+    }
+
+}
+
+
+//MARK: methods
+extension VideoLauncher {
+    
+    func launchVideo(withProject project: Project) {
+        self.project = project
+        layoutVideoPlayerView()
+        setTextForLongDescription(with: project)
+    }
     
     private func layoutVideoPlayerView() {
         
@@ -81,34 +96,17 @@ class VideoLauncher: NSObject {
         window.addSubview(backgroundView)
         
         animate(isLaunch: true)
-
+        
     }
     
-    func launchVideo(withProject project: Project) {
-        self.project = project
-        
-        layoutVideoPlayerView()
-     
-        
-        
-        
-        
-        
-        
-        
+    private func setTextForLongDescription(with project: Project) {
         let attributedParagraph = AttributedParagraph()
         attributedParagraph.append(text: project.longDescription, font: UIFont.Theme.bodyText.font, alignment: .justified)
         attributedParagraph.append(text: "\n\nLanguages: ", font: UIFont.Theme.subHeader.font, alignment: .left)
         attributedParagraph.append(text: project.languages, font: UIFont.Theme.bodyText.font, alignment: .left)
         attributedParagraph.append(text: "\n\nFrameworks: ", font: UIFont.Theme.subHeader.font, alignment: .left)
         attributedParagraph.append(text: project.frameworks, font: UIFont.Theme.bodyText.font, alignment: .left)
-        
-
         longDescTextView.attributedText = attributedParagraph.attributedText
-    }
-    
-    @objc func handleDismiss() {
-        animate(isLaunch: false)
     }
     
     private func animate(isLaunch: Bool) {
@@ -130,30 +128,21 @@ class VideoLauncher: NSObject {
         })
     }
     
-
     func redrawVideoScreen() {
+        let isPortrait = UIApplication.shared.statusBarOrientation.isPortrait
+        guard let window = UIApplication.shared.keyWindow else { return }
         
-        if UIApplication.shared.statusBarOrientation.isPortrait {
-            if let window = UIApplication.shared.keyWindow {
-                backgroundView.frame = window.frame
-                screenSize.width = backgroundView.frame.width
-                videoPlayerView?.frame = CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height)
-                videoPlayerView?.redrawLayers()
-                setupVideoInfoViews()
-            }
-        } else {
-            if let window = UIApplication.shared.keyWindow {
-                backgroundView.frame = window.frame
-                screenSize.width = backgroundView.frame.width
-                videoPlayerView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-                videoPlayerView?.redrawLayers()
-                setupVideoInfoViews()
-            }
-        }
+        backgroundView.frame = window.frame
+        screenSize.width = backgroundView.frame.width
+        let y: CGFloat = isPortrait ? 40 : 0
+        videoPlayerView?.frame = CGRect(x: 0,
+                                        y: y,
+                                        width: screenSize.width,
+                                        height: screenSize.height)
+        videoPlayerView?.redrawLayers()
+        setupVideoInfoViews()
+        
     }
-    
-    
-    
     
     private func setupVideoInfoViews() {
         if UIApplication.shared.statusBarOrientation.isPortrait {
@@ -163,7 +152,7 @@ class VideoLauncher: NSObject {
             activeView.addSubview(completedLabel)
             activeView.addSubview(longDescTextView)
             backgroundView.addSubview(dismissTouchView)
-
+            
             layoutVideoInfoViews()
         } else {
             activeView.removeFromSuperview()
@@ -177,24 +166,40 @@ class VideoLauncher: NSObject {
     
     private func layoutVideoInfoViews() {
         
-        var currentY = 40 + Int(screenSize.height) + 24
+        guard let playerView = videoPlayerView else { return }
+        let cellPad: CGFloat = 24.0
+        let y = playerView.frame.origin.y + screenSize.height + cellPad
+        let activeHeight = backgroundView.bounds.height - y - cellPad
         
-        let activeHeight = Int(backgroundView.bounds.height) - currentY - 24
-        activeView.frame = CGRect(x: 24, y: currentY, width: Int(backgroundView.bounds.width) - 48, height: activeHeight)
+        activeView.frame = CGRect(x: cellPad,
+                                  y: y,
+                                  width: backgroundView.bounds.width - (2 * cellPad),
+                                  height: activeHeight)
         
         blueView.frame = activeView.bounds
         
-        currentY = pad
-        titleLabel.frame = CGRect(x: pad, y: currentY, width: (Int(blueView.frame.width) - (2 * pad)) / 2, height: 22)
+        titleLabel.frame = CGRect(x: CGFloat.pad,
+                                  y: CGFloat.pad,
+                                  width: (blueView.frame.width - (2 * CGFloat.pad)) / 2,
+                                  height: 22)
         
-        let currentX = Int(8 + titleLabel.frame.width)
-        completedLabel.frame = CGRect(x: currentX, y: currentY, width: Int(titleLabel.frame.width), height: 22)
+        completedLabel.frame = CGRect(x: titleLabel.frame.maxX,
+                                      y: CGFloat.pad,
+                                      width: titleLabel.frame.width,
+                                      height: 22)
         
-        currentY += Int(titleLabel.frame.height)
-        longDescTextView.frame = CGRect(x: 4, y: currentY, width: Int(blueView.frame.width) - (2 * 4), height: Int(blueView.frame.height) - currentY - pad)
+        longDescTextView.frame = CGRect(x: 4,
+                                        y: titleLabel.frame.maxY,
+                                        width: blueView.frame.width - CGFloat(2 * 4),
+                                        height: blueView.frame.height - completedLabel.frame.maxY - CGFloat.pad)
         
-        let dismissY: CGFloat = CGFloat(40 + screenSize.height)
-        dismissTouchView.frame = CGRect(x: 0, y: dismissY, width: backgroundView.frame.width, height: backgroundView.frame.height - CGFloat(dismissY))
+        
+        let dismissY: CGFloat = playerView.frame.maxY
+        dismissTouchView.frame = CGRect(x: 0,
+                                        y: dismissY,
+                                        width: backgroundView.frame.width,
+                                        height: backgroundView.frame.height - dismissY)
         dismissTouchView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDismiss)))
     }
+    
 }
