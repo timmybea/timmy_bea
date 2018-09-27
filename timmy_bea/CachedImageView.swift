@@ -20,7 +20,6 @@ class CachedImageView: UIImageView {
     }()
     
     override func layoutSubviews() {
-        self.contentMode = .scaleAspectFit
         self.layer.masksToBounds = true
         
         activityIndicatorView.removeFromSuperview()

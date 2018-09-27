@@ -87,13 +87,17 @@ extension SpeechBubble {
         
         tailLayer = CALayer()
         let longSide = calculateLongSide()
-        let isPortrait = UIApplication.isPortrait
+        let isPortrait = UIDevice.isPortrait
         
         let tailX = isPortrait ? origin.x : 0
         let tailY = isPortrait ? self.bounds.height : 0
         tailLayer?.frame = CGRect(x: tailX, y: tailY, width: longSide, height: longSide / 2)
         tailLayer?.contents = UIImage.Theme.tail.image.cgImage
         tailLayer?.contentsGravity = kCAGravityResizeAspect
+        
+        if !isPortrait {
+            turnTailRightAngle(with: origin)
+        }
         
         beginTailPosition = getBeginTailPosition(from: origin, isPortrait: isPortrait)
         endTailPosition = getEndTailPosition(from: origin, isPortrait: isPortrait)
@@ -104,11 +108,9 @@ extension SpeechBubble {
     }
     
     private func calculateLongSide() -> CGFloat {
-        var longSide: CGFloat = 100
+        var longSide: CGFloat = 80
         
-        if Device.isSize(height: .Inches_4_7) {
-            longSide = 80
-        } else if Device.isSize(height: .Inches_4) {
+        if Device.isSizeOrSmaller(height: .Inches_4)  {
             longSide = 70
         }
         return longSide

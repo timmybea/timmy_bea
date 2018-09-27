@@ -84,7 +84,7 @@ extension StackView {
         guard let career = self.career else { return }
         
         logoImageView.loadImage(from: career.imageName, with: .alwaysTemplate) { }
-        let isPortrait = UIApplication.isPortrait
+        let isPortrait = UIDevice.isPortrait
         
         let logoX = isPortrait ? CGFloat.pad : (CGFloat.pad * 3.0)
         let logoY: CGFloat = isPortrait ? CGFloat.pad * 2 : CGFloat.pad
@@ -114,7 +114,7 @@ extension StackView {
                                     y: textY,
                                     width: self.bounds.width - (2 * CGFloat.pad),
                                     height: self.bounds.height - textY - 40.0)
-        mainTextView.isScrollEnabled = false
+        mainTextView.isScrollEnabled = true
         mainTextView.attributedText = createAttributedString()
         mainTextView.alpha = 0
     }

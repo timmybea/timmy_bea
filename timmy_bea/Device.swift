@@ -97,9 +97,13 @@ struct Device {
         case Inches_5_5 = 736
     }
     
-    
-    static func isIphoneX() -> Bool {
-        return max(UIScreen.main.nativeBounds.height, UIScreen.main.nativeBounds.width) == 2436
+    static func isIPhoneXOrLater() -> Bool {
+        if self.isPhone() {
+            let screenHeight = UIScreen.main.nativeBounds.height
+            return screenHeight == 1792 || screenHeight == 2436 || screenHeight == 2688
+        } else {
+            return false
+        }
     }
     
     static func isSize(height: Heights) -> Bool {

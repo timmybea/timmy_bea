@@ -15,6 +15,7 @@ enum ContactOption {
     case linkedIn
     case github
     case cancel
+    case medium
     
     var name: String {
         switch self {
@@ -23,6 +24,7 @@ enum ContactOption {
         case .linkedIn: return "LinkedIn"
         case .github:   return "Github"
         case .cancel:   return "Cancel"
+        case .medium:   return "Medium"
         }
     }
     
@@ -33,12 +35,24 @@ enum ContactOption {
         case .linkedIn: return UIImage.Theme.linkedIn.image
         case .github:   return UIImage.Theme.github.image
         case .cancel:   return UIImage.Theme.cancel.image
+        case .medium: return UIImage.Theme.medium.image
+        }
+    }
+    
+    var url: URL? {
+        switch self {
+        case .linkedIn: return URL(string: "https://www.linkedin.com/in/tim-beals-a058b218/")
+        case .github: return URL(string: "https://github.com/timmybea")
+        case .medium: return URL(string: "https://medium.com/@timbeals")
+        default:
+            return nil
         }
     }
     
     static func allContactOptions() -> [ContactOption] {
         return [ContactOption.mobile,
                 ContactOption.email,
+                ContactOption.medium,
                 ContactOption.linkedIn,
                 ContactOption.github,
                 ContactOption.cancel]

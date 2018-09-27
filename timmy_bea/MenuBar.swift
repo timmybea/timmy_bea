@@ -71,6 +71,7 @@ extension MenuBar {
         self.backgroundColor = UIColor.Theme.customWhite.color
         
         addSubview(collectionView)
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: self.topAnchor),

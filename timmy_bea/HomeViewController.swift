@@ -23,14 +23,24 @@ class HomeViewController: UIViewController {
     lazy var menuBar: MenuBar = {
         return MenuBar.create(in: self)
     }()
-        
+    
+    let navBG: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.Theme.customWhite.color
+        return view
+    }()
+    
     private var titleLabel = UILabel.createLabelWith(text: NavigationItem.skills.heading, color: UIColor.white, font: UIFont.Theme.navText.font)
 
     private let footerLabel = UILabel.createLabelWith(text: "Tim Beals • iOS Developer", color: UIColor.Theme.customDarkBlue.color, font: UIFont.Theme.subHeader.font)
+
+    private var footerConstraints = [NSLayoutConstraint]()
     
-    private var footerHorizontal = [NSLayoutConstraint]()
-    
-    private var footerVertical = [NSLayoutConstraint]()
+    var footerPad : CGFloat {
+        guard UIDevice.isPortrait else { return 0 }
+        return Device.isIPhoneXOrLater() ? 30 : 8
+    }
     
     lazy var collectionView: UICollectionView = {
         return UICollectionView.horizontalPagingCollectionView(in: self)
@@ -84,8 +94,8 @@ extension HomeViewController {
     }
     
     private func setupNavBar() {
-        
-        self.navigationController?.navigationBar.backgroundColor = UIColor.Theme.customWhite.color
+
+        view.addSubview(navBG)
         navigationController?.view.addSubview(titleLabel)
         setTitleLabelPosition(withSize: view.frame.size)
         
@@ -100,36 +110,53 @@ extension HomeViewController {
         let labelY: CGFloat = 10 + UIScreen.safeAreaTop
         titleLabel.frame = CGRect(x: labelX, y: labelY, width: 250, height: 25)
     }
-
+    
     private func setupMenuBar(withSize size: CGSize) {
+        navBG.frame = CGRect(x: 0, y: UIScreen.safeAreaTop, width: size.width, height: UINavigationController.navBarHeight)
         menuBar.frame = CGRect(x: 0, y: UINavigationController.navBarHeight + UIScreen.safeAreaTop, width: size.width, height: 50)
     }
     
     private func setupFooterLabel() {
-        view.removeConstraints(footerHorizontal)
-        view.removeConstraints(footerVertical)
+        footerLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.removeConstraints(footerConstraints)
+
+        func activateConstraints() {
+            for constraint in footerConstraints {
+                constraint.isActive = true
+            }
+        }
         
         if UIDevice.current.orientation.isPortrait {
             footerLabel.textColor = UIColor.Theme.customPeach.color
             footerLabel.textAlignment = .center
-            footerHorizontal = NSLayoutConstraint.constraintsWithFormat(format: "H:|[v0]|", views: footerLabel)
-            footerVertical = NSLayoutConstraint.constraintsWithFormat(format: "V:[v0]-8-|", views: footerLabel)
+            
+            footerConstraints = [
+                footerLabel.leftAnchor.constraint(equalTo: view.leftAnchor),
+                footerLabel.rightAnchor.constraint(equalTo: view.rightAnchor),
+                footerLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -footerPad)
+            ]
+            activateConstraints()
         } else {
             footerLabel.textColor = UIColor.Theme.customDarkBlue.color
             footerLabel.textAlignment = .right
-            footerHorizontal = NSLayoutConstraint.constraintsWithFormat(format: "H:[v0]-24-|", views: footerLabel)
-            footerVertical = NSLayoutConstraint.constraintsWithFormat(format: "V:|-60-[v0]", views: footerLabel)
+            footerConstraints = [
+                footerLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24),
+                footerLabel.centerYAnchor.constraint(equalTo: menuBar.centerYAnchor)
+            ]
+            for constraint in footerConstraints {
+                constraint.isActive = true
+            }
         }
-        view.addConstraints(footerHorizontal)
-        view.addConstraints(footerVertical)
+        view.addConstraints(footerConstraints)
     }
 
     private func setCollectionViewFrame(withSize size: CGSize) {
-        
+        let topComponentsHeight = menuHeight + UINavigationController.navBarHeight + UIScreen.safeAreaTop
         collectionView.frame = CGRect(x: 0,
-                                      y: menuHeight + UINavigationController.navBarHeight + UIScreen.safeAreaTop,
+                                      y: topComponentsHeight,
                                       width: size.width,
-                                      height: size.height - menuHeight - UINavigationController.navBarHeight - UIScreen.safeAreaTop)
+                                      height: size.height - topComponentsHeight - CGFloat(footerPad))
     }
     
 }
@@ -201,30 +228,30 @@ extension HomeViewController : ContactsLauncherDelegate {
     }
     
     func pushToContact(contact: ContactOption) {
-        if contact == .email {
+        switch contact {
+        case .email:
             MFMailComposeViewController.launchNewMessage(in: self)
-        } else if contact == .linkedIn {
-            if let url = URL(string: "https://www.linkedin.com/in/tim-beals-a058b218/") {
-                UIApplication.shared.open(url)
+        case .github, .linkedIn, .medium:
+            if let url = contact.url {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
-        } else if contact == .github {
-            if let url = URL(string: "https://github.com/timmybea") {
-                UIApplication.shared.open(url)
-            }
-        } else if contact == .mobile {
+        case .mobile:
             callNumber(phoneNumber: "5148168809")
+        default:
+            return
         }
     }
     
     
     private func callNumber(phoneNumber:String) {
         
-        if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
-            
-            let application:UIApplication = UIApplication.shared
-            if (application.canOpenURL(phoneCallURL)) {
-                application.open(phoneCallURL, options: [:], completionHandler: nil)
-            }
+        let phoneCallURL = URL(string: "tel://\(phoneNumber)")!
+        
+        let application:UIApplication = UIApplication.shared
+        if (application.canOpenURL(phoneCallURL)) {
+            application.open(phoneCallURL, options: [:], completionHandler: nil)
+        } else {
+            UIAlertController.presentAlert(in: self, title: "Unable to make call", message: "Please try again later", options: [.ok], completion: nil)
         }
     }
     
@@ -246,7 +273,6 @@ extension HomeViewController {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
         setupFooterLabel()
         setupMenuBar(withSize: size)
         setCollectionViewFrame(withSize: size)

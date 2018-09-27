@@ -39,6 +39,7 @@ extension UIImage {
         case about
         case speechBubble
         case tail
+        case medium
         
         var name: String {
             switch self {
@@ -55,6 +56,7 @@ extension UIImage {
             case .about:                  return "about"
             case .speechBubble:          return "speech_bubble"
             case .tail:                 return "tail"
+            case .medium:               return "contact_medium"
             }
         }
         
@@ -220,8 +222,12 @@ extension UICollectionView {
         if let dir = direction {
             layout.scrollDirection = dir
         }
+        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = UIColor.clear
+        if direction == nil {
+            cv.isScrollEnabled = false
+        }
         cv.delegate = delegate
         cv.dataSource = delegate
         return cv
@@ -233,13 +239,16 @@ extension UICollectionView {
 extension UINavigationController {
     
     static var navBarHeight: CGFloat {
-        return UIDevice.current.orientation.isPortrait ? 44 : landscapeHeight
+        return UIDevice.current.orientation.isPortrait ? 44 : navBarHeightLandscape
     }
     
-    private static var landscapeHeight: CGFloat {
-        return Device.IS_5_5_INCHES() ? 44 : 32
+    private static var navBarHeightLandscape: CGFloat {
+        return Device.IS_5_5_INCHES_OR_LARGER() ? 44 : 32
     }
-    
+
+    private static var navBarHeightPortrait : CGFloat {
+        return 0
+    }
 }
 
 
@@ -264,18 +273,20 @@ extension UIScreen {
     
     static var statusHeight: CGFloat {
         if Device.isPhone() {
-            return UIDevice.current.orientation.isPortrait ? 20.0 : 0.0
+            return UIDevice.isPortrait ? 20.0 : 0.0
         } else {
             return 0.0
         }
     }
-
+    
     static var safeAreaTop: CGFloat {
-        if Device.isIphoneX() {
-            return UIDevice.current.orientation.isPortrait ? 44 : 0.0
+        let val: CGFloat
+        if Device.isIPhoneXOrLater() {
+             val = UIDevice.current.orientation.isPortrait ? 44 : 0.0
         } else {
-            return statusHeight
+            val = statusHeight
         }
+        return val
     }
 
 }
@@ -416,10 +427,10 @@ extension AVPlayer {
 }
 
 //MARK: UIApplication extension
-extension UIApplication {
+extension UIDevice {
     
     static var isPortrait: Bool {
-        return UIApplication.shared.statusBarOrientation.isPortrait
+        return UIDevice.current.orientation.isPortrait
     }
     
 }
