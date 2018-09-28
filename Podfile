@@ -7,5 +7,4 @@ target 'timmy_bea' do
 
   # Pods for timmy_bea
   pod 'lottie-ios', '~> 2.1'
-  pod 'Appz', '~> 3.1'
 end

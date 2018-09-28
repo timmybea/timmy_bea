@@ -201,15 +201,19 @@ extension UITextView {
     
     func reduceFontSize() {
         guard self.font != nil else { return }
+
+        let copy = self
         
         var size = self.font!.pointSize - 1
-    
-        while contentSizeExceedsFrame() {
-            let adjustFont = self.font!.withSize(size)
-            self.font = adjustFont
+        
+        while copy.contentSizeExceedsFrame() {
+            let adjustFont = copy.font!.withSize(size)
+            copy.font = adjustFont
             size -= 1
         }
-    
+        DispatchQueue.main.async {
+            self.font = copy.font
+        }
     }
 
     func contentSizeExceedsFrame() -> Bool {

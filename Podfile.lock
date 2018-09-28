@@ -1,20 +1,16 @@
 PODS:
-  - Appz (3.1.0)
   - lottie-ios (2.5.0)
 
 DEPENDENCIES:
-  - Appz (~> 3.1)
   - lottie-ios (~> 2.1)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - Appz
     - lottie-ios
 
 SPEC CHECKSUMS:
-  Appz: c1002aba0976956e0c0a5aa63adc25bf3ea985e3
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
 
-PODFILE CHECKSUM: dcbd2f92fb07ae1ee753feb9a6217a7b209709de
+PODFILE CHECKSUM: d2d0a7120bb56afd8b5b79ef8ffedecf2b55c5ab
 
 COCOAPODS: 1.6.0.beta.1
