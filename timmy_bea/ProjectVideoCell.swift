@@ -190,6 +190,9 @@ extension ProjectVideoCell {
             let y = titleLabel.frame.maxY + CGFloat.pad
             let height = self.bounds.height - y - gitHubButton.frame.height - CGFloat.pad - separatorView.frame.height
             longDescTextView.frame = CGRect(x: x, y: y, width: screenSize.width, height: height)
+            if longDescTextView.contentSizeExceedsFrame() {
+                longDescTextView.reduceFontSize()
+            }
         }
     }
 }

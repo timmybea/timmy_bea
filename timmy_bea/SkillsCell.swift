@@ -165,9 +165,14 @@ extension SkillsCell {
                                 y: view.frame.maxY,
                                 width: scrollView.bounds.width - 24,
                                 height: blueView.frame.height - view.frame.maxY - verticalPad)
+        
+        if textView.contentSizeExceedsFrame() {
+            textView.reduceFontSize()
+        }
+        
         return textView
     }
-    
+
     private func scrollToCorrectPage() {
         let x: CGFloat = CGFloat(pageTracker) * scrollView.frame.width
         scrollView.setContentOffset(CGPoint(x: x, y: 0), animated: false)

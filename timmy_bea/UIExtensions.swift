@@ -197,6 +197,27 @@ extension UITextView {
 }
 
 
+extension UITextView {
+    
+    func reduceFontSize() {
+        guard self.font != nil else { return }
+        
+        var size = self.font!.pointSize - 1
+    
+        while contentSizeExceedsFrame() {
+            let adjustFont = self.font!.withSize(size)
+            self.font = adjustFont
+            size -= 1
+        }
+    
+    }
+
+    func contentSizeExceedsFrame() -> Bool {
+        return bounds.height < contentSize.height
+    }
+    
+}
+
 //MARK: UICollectionView Extension
 protocol UICollectionViewDelegateAndDatasource : UICollectionViewDataSource, UICollectionViewDelegate {}
 

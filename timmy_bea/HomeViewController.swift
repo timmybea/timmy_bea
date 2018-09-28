@@ -236,7 +236,7 @@ extension HomeViewController : ContactsLauncherDelegate {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         case .mobile:
-            callNumber(phoneNumber: "5148168809")
+            callNumber(phoneNumber: "5418168809")
         default:
             return
         }

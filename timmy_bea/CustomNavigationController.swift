@@ -15,11 +15,11 @@ class CustomNavigationController: UINavigationController {
     }
     
     override var shouldAutorotate: Bool {
-        return (visibleViewController?.shouldAutorotate)!
+        return true
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return (visibleViewController?.supportedInterfaceOrientations)!
+        return [.portrait, .landscape]
     }
     
 }
