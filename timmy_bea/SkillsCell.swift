@@ -161,15 +161,24 @@ extension SkillsCell {
     private func createTextView(text: String, beneath view: UIView, index: Int) -> UITextView {
         let textView = UITextView.createUneditableTextView(with: text,
                                                            color: UIColor.Theme.customSand.color)
+//        textView.isScrollEnabled = false
         textView.frame = CGRect(x: (CGFloat(index) * scrollView.frame.width) + 12,
                                 y: view.frame.maxY,
                                 width: scrollView.bounds.width - 24,
-                                height: blueView.frame.height - view.frame.maxY - verticalPad)
+                                height: blueView.frame.height - view.frame.maxY - 8)
+//        textView.backgroundColor = UIColor.green
         
-        if textView.contentSizeExceedsFrame() {
-            textView.reduceFontSize()
-        }
+        textView.adjustFontSize()
         
+        
+//        if textView.contentSizeExceedsFrame(completion: { (exceeds) in
+//
+//            if exceeds {
+//                print("exceeds frame!")
+//                textView.reduceFontSize()
+//            }
+//
+//        })
         return textView
     }
 

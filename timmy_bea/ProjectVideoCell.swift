@@ -60,10 +60,8 @@ class ProjectVideoCell: UICollectionViewCell {
         return textView
     }()
     
-    lazy var gitHubButton: UIButton = {
+    lazy var projectButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(named: "git_pos")
-        button.setImage(image, for: .normal)
         button.tintColor = UIColor.Theme.customSand.color
         button.addTarget(self, action: #selector(launchGitHub(sender:)), for: .touchUpInside)
         return button
@@ -101,7 +99,7 @@ extension ProjectVideoCell {
         addSubview(completedLabel)
         addSubview(separatorView)
         addSubview(thumbnailImageView)
-        addSubview(gitHubButton)
+        addSubview(projectButton)
     }
     
     func setupCell(for project: Project) {
@@ -111,6 +109,10 @@ extension ProjectVideoCell {
         completedLabel.text = project.dateCompleted
         shortDescLabel.text = project.shortDescription
         longDescTextView.text = project.longDescription
+        
+//        button.setImage(, for: .normal)
+
+        projectButton.setImage(project.projectSource.image, for: .normal)
         thumbnailImageView.loadImage(from: project.videoThumbnailName, with: nil) {
             self.layoutIfNeeded()
         }
@@ -145,7 +147,7 @@ extension ProjectVideoCell {
     }
 
     private func layoutTitleLabel(for isPortrait: Bool) {
-        let x = isPortrait ? CGFloat.pad : thumbnailImageView.frame.maxX + CGFloat.pad
+        let x = isPortrait ? CGFloat.pad : thumbnailImageView.frame.maxX + CGFloat.pad + 4
         titleLabel.frame = CGRect(x: x, y: 0, width: getLabelWidth(), height: type(of: self).titleHeight)
     }
     
@@ -174,7 +176,8 @@ extension ProjectVideoCell {
         let dimension = type(of: self).buttonHeight
         let x = self.bounds.width - CGFloat.pad - dimension
         let y = self.bounds.height - separatorView.frame.height - CGFloat.pad - dimension
-        gitHubButton.frame = CGRect(x: x, y: y, width: dimension, height: dimension)
+        projectButton.imageView?.contentMode = .scaleAspectFit
+        projectButton.frame = CGRect(x: x, y: y, width: dimension, height: dimension)
     }
     
     private func layoutDescription(for isPortrait: Bool) {
@@ -186,13 +189,11 @@ extension ProjectVideoCell {
         } else {
             addSubview(longDescTextView)
             shortDescLabel.removeFromSuperview()
-            let x = titleLabel.frame.origin.x
+            let x = titleLabel.frame.origin.x - 4
             let y = titleLabel.frame.maxY + CGFloat.pad
-            let height = self.bounds.height - y - gitHubButton.frame.height - CGFloat.pad - separatorView.frame.height
-            longDescTextView.frame = CGRect(x: x, y: y, width: screenSize.width, height: height)
-            if longDescTextView.contentSizeExceedsFrame() {
-                longDescTextView.reduceFontSize()
-            }
+            let height = self.bounds.height - y - projectButton.frame.height - CGFloat.pad - separatorView.frame.height
+            longDescTextView.frame = CGRect(x: x, y: y, width: screenSize.width - CGFloat.pad, height: height)
+            longDescTextView.adjustFontSize()
         }
     }
 }

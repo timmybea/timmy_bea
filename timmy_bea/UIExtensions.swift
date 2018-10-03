@@ -40,6 +40,8 @@ extension UIImage {
         case speechBubble
         case tail
         case medium
+        case gitIcon
+        case appleIcon
         
         var name: String {
             switch self {
@@ -57,6 +59,8 @@ extension UIImage {
             case .speechBubble:          return "speech_bubble"
             case .tail:                 return "tail"
             case .medium:               return "contact_medium"
+            case .gitIcon:              return "git_icon"
+            case .appleIcon:            return "apple_icon"
             }
         }
         
@@ -199,28 +203,26 @@ extension UITextView {
 
 extension UITextView {
     
-    func reduceFontSize() {
-        guard self.font != nil else { return }
-
-        let copy = self
+    func adjustFontSize() {
         
-        var size = self.font!.pointSize - 1
-        
-        while copy.contentSizeExceedsFrame() {
-            let adjustFont = copy.font!.withSize(size)
-            copy.font = adjustFont
-            size -= 1
-        }
         DispatchQueue.main.async {
-            self.font = copy.font
+            guard let text = self.text else { return }
+            guard let font = self.font else { return }
+            guard let pointSize = self.font?.pointSize else { return }
+            print(text)
+            
+            let height = text.getHeight(withWidth: self.bounds.width, font: font)
+            
+            if height + 30 > self.bounds.height {
+                self.font = self.font?.withSize(pointSize - 1)
+                self.adjustFontSize()
+            }
         }
     }
 
-    func contentSizeExceedsFrame() -> Bool {
-        return bounds.height < contentSize.height
-    }
-    
 }
+
+
 
 //MARK: UICollectionView Extension
 protocol UICollectionViewDelegateAndDatasource : UICollectionViewDataSource, UICollectionViewDelegate {}
@@ -464,4 +466,22 @@ extension UIDevice {
 protocol Scrollable {
     var pageTracker: Int { get set }
     func scrollToItemAt(index: Int)
+}
+
+//MARK: String extensions
+extension String {
+    
+    func getHeight(withWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let actualSize = self.boundingRect(with: maxSize, options: [.usesLineFragmentOrigin], attributes: [NSAttributedStringKey.font: font], context: nil)
+        return actualSize.height
+    }
+    
+    
+    func getWidth(withHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
+        let actualSize = self.boundingRect(with: maxSize, options: [.usesLineFragmentOrigin], attributes: [NSAttributedStringKey.font: font], context: nil)
+        return actualSize.width
+    }
+    
 }
